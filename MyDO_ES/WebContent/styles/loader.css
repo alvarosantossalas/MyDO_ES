@@ -1,0 +1,32 @@
+.preloader {
+  width: 120px;
+  height: 120px;
+  border: 25px solid blue;
+  border-top: 25px solid lightblue;
+  border-radius: 50%;
+  animation-name: girar;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+    
+    margin: 0 auto;
+}
+
+#centro {
+    width: 20%;
+    margin: 0 auto;
+    margin-top: 18%;
+}
+
+#centro p {
+    margin: 0 auto;
+}
+
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  } to {
+    transform: rotate(360deg);
+  }
+}
+

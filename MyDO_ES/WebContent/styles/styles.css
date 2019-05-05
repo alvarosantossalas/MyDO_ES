@@ -1,0 +1,72 @@
+#info {
+    background: rgba(55,55,55,.3);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+#info .contenedor {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.info-music {
+    margin: 20px;
+}
+
+.info-music img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 7px solid #fff;
+}
+
+#tablero {
+    background-image: url(../images/parteabajo.PNG);
+    height: 60%;
+}
+
+.tarea_ejemplo {
+    border: solid; 
+    float: left;
+    margin-left: 40px;
+}
+
+#tarea_ejemplo_1 {
+    top: 125px;
+    left: 110px;
+}
+
+#tarea_ejemplo_2 {
+    top: -175px;
+    left: 740px;
+}
+
+#tarea_ejemplo_3 {
+    margin-left: 1300px;
+    margin-top: -400px;
+}
+
+#mas {
+    width: 150px;
+    margin-left: 495px;
+    margin-top: -65px;
+}
+
+#flecha {
+    width: 150px;
+    margin-top: -610px;
+    margin-left: 1100px;
+}
+
+
+
+#close_session img {
+    width: 35px;
+    margin-top: 4px;
+}
+
+.filtros {
+    display: inline-block;
+}

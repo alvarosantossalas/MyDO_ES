@@ -63,6 +63,8 @@ public class UserDAO {
 			ps.setString(8, user.getPhone());
 			ps.executeUpdate();
 			ps.close();
+		} catch (Exception ex1) {
+			System.out.println("El error está en UserDAO al insertar al usuario \n Error: " + ex1);
 		}
 
 		query = "INSERT INTO tfg_team(_id_team, _name, _image) VALUES (?,?,?);";
@@ -72,6 +74,8 @@ public class UserDAO {
 			ps2.setString(3, team.getImage());
 			ps2.executeUpdate();
 			ps2.close();
+		} catch (Exception ex2) {
+			System.out.println("El error está en UserDAO al insertar el equipo \n Error: " + ex2);
 		}
 
 		query = "INSERT INTO tfg_members_team (_id_members_team, _id_team, _id_user) VALUES (?,?,?);";
@@ -81,6 +85,8 @@ public class UserDAO {
 			ps3.setString(3, user.getId_user());
 			ps3.executeUpdate();
 			ps3.close();
+		} catch (Exception ex3) {
+			System.out.println("El error está en UserDAO al insertar la relación \n Error: " + ex3);
 		}
 	}
 
@@ -114,6 +120,22 @@ public class UserDAO {
 					result = new User(rs.getString("_id_user"), rs.getInt("_admin"), rs.getString("_username"),
 							rs.getString("_password"), rs.getString("_name"), rs.getString("_lastname"),
 							rs.getString("_email"), rs.getString("_phone"));
+				}
+			}
+		}
+		return result;
+	}
+	
+	// return name by username
+	public String selectNameByUsername(String username) throws SQLException {
+		query = "SELECT _name FROM tfg_user WHERE _username = ?;";
+		String result;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, username);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				if (rs.next()) {
+					result = rs.getString("_name");
 				}
 			}
 		}

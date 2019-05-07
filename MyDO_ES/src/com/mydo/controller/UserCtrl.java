@@ -15,7 +15,7 @@ public class UserCtrl {
 	
 	// insert a user object with team object relation
 	public void insertWithTeam(User user, Team team) throws SQLException {
-		UserDAO.getInstance().insertWithTeam(user, team);
+			UserDAO.getInstance().insertWithTeam(user, team);
 	}
 	
 	// update a user object
@@ -43,4 +43,7 @@ public class UserCtrl {
 		return UserDAO.getInstance().canLogin(username, password);
 	}
 	
+	public String selectNameByUsername(String username) throws SQLException {
+		return UserDAO.getInstance().selectNameByUsername(username);
+	}
 }

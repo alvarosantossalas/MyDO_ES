@@ -45,7 +45,9 @@
 
 	<div class="jumbotron text-light" style="background: url(images/partearriba.PNG);">
 		<div class="container">
-			<h1 class="display-4">¡Bienvenido de nuevo, Álvaro!</h1>
+			<%String name = (String)session.getAttribute("_name"); 
+			out.println("<h1 class='display-4')>¡Bienvenido de nuevo, "+name+"!</h1>");%>
+			
 		</div>
 	</div>
 	<div id="centro" class="container-fluid">
@@ -55,6 +57,7 @@
 		<div class="container text-center">
 			<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#exampleModalScrollable">Crear una tarea</button>
 			<button class="btn btn-info btn-lg">Ver mis proyectos</button>
+			<button class="btn btn-success btn-lg">Mi cuenta</button>
 		</div>
 		<br>
 

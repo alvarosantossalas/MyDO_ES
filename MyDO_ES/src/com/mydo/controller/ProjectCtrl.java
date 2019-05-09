@@ -7,6 +7,14 @@ import java.util.ArrayList;
 
 public class ProjectCtrl {
 
+	private static ProjectCtrl instance = null;
+	
+	public static ProjectCtrl getInstance() throws SQLException {
+		if (instance == null)
+			instance = new ProjectCtrl();
+		return instance;
+	}
+	
 	// insert project object
 	public void insert(Project project) throws SQLException {
 		ProjectDAO.getInstance().insert(project);

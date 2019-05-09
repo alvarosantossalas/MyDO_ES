@@ -7,6 +7,14 @@ import java.util.ArrayList;
 
 public class NotifyCtrl {
 
+	private static NotifyCtrl instance = null;
+	
+	public static NotifyCtrl getInstance() throws SQLException {
+		if (instance == null) 
+			instance = new NotifyCtrl();
+		return instance;
+	}
+	
 	// Insert notify object
 	public void insert(Notify notify) throws SQLException {
 		NotifyDAO.getInstance().insert(notify);

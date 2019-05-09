@@ -8,6 +8,14 @@ import java.util.ArrayList;
 
 public class UserCtrl {
 
+	private static UserCtrl instance = null;
+
+	public static UserCtrl getInstance() throws SQLException {
+		if (instance == null) 
+			instance = new UserCtrl();
+		return instance;
+	}
+	
 	// insert a user object without team object
 	public void insertWithoutTeam(User user) throws SQLException {
 		UserDAO.getInstance().insertWithoutTeam(user);
@@ -43,7 +51,14 @@ public class UserCtrl {
 		return UserDAO.getInstance().canLogin(username, password);
 	}
 	
+	public String selectIdByUsername(String username) throws SQLException {
+		return UserDAO.getInstance().selectIdByUsername(username);
+	}
+	
 	public String selectNameByUsername(String username) throws SQLException {
 		return UserDAO.getInstance().selectNameByUsername(username);
 	}
 }
+
+
+

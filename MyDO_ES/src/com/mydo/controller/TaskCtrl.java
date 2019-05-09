@@ -7,6 +7,14 @@ import java.util.ArrayList;
 
 public class TaskCtrl {
 
+	private static TaskCtrl instance = null;
+	
+	public static TaskCtrl getInstance() throws SQLException {
+		if (instance == null) 
+			instance = new TaskCtrl();
+		return instance;
+	}
+	
 	// insert task object
 	public void insert(Task task) throws SQLException {
 		TaskDAO.getInstance().insert(task);
@@ -34,7 +42,7 @@ public class TaskCtrl {
 	
 	// returns an int and admin if a project object is created or not
 	public int projectIsCreaterOrNot(String subject) throws SQLException {
-		return TaskDAO.getInstance().proyectIsCreatedOrNot(subject);
+		return TaskDAO.getInstance().projectIsCreatedOrNot(subject);
 	}
 	
 	// select id by name

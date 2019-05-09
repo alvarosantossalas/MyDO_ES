@@ -6,6 +6,14 @@ import java.sql.SQLException;
 
 public class SessionCtrl {
 
+	private static SessionCtrl instance = null;
+	
+	public static SessionCtrl getInstance() throws SQLException {
+		if (instance == null) 
+			instance = new SessionCtrl();
+		return instance;
+	}
+	
 	// open session
 	public void openSession(Session session) throws SQLException {
 		SessionDAO.getInstance().createSession(session);

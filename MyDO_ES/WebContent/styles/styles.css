@@ -30,34 +30,34 @@
 .tarea_ejemplo {
     border: solid; 
     float: left;
-    margin-left: 40px;
+    margin-left: 70px;
 }
 
 #tarea_ejemplo_1 {
-    top: 125px;
-    left: 110px;
+    top: 85px;
+    left: 170px;
 }
 
 #tarea_ejemplo_2 {
     top: -175px;
-    left: 740px;
+    left: 820px;
 }
 
 #tarea_ejemplo_3 {
-    margin-left: 1300px;
-    margin-top: -400px;
+    margin-left: 1425px;
+    margin-top: -380px;
 }
 
 #mas {
     width: 150px;
-    margin-left: 495px;
-    margin-top: -65px;
+    margin-left: 550px;
+    margin-top: -90px;
 }
 
 #flecha {
     width: 150px;
-    margin-top: -610px;
-    margin-left: 1100px;
+    margin-top: -590px;
+    margin-left: 1200px;
 }
 
 
@@ -69,4 +69,19 @@
 
 .filtros {
     display: inline-block;
+}
+
+#container-user-image {
+    background: rgba(55,55,55);
+}
+
+#marco-imagen img {
+    max-width: 350px;
+    min-width: 350px;
+    margin: 3px -13px 4px; 
+    
+    border: solid;
+    border-width: thick;
+    border-radius: 50px;
+    border-color: dodgerblue;
 }

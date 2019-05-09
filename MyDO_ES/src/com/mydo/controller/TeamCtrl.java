@@ -7,6 +7,14 @@ import java.util.ArrayList;
 
 public class TeamCtrl {
 
+	private static TeamCtrl instance = null;
+	
+	public static TeamCtrl getInstance() throws SQLException {
+		if (instance == null)
+			instance = new TeamCtrl();
+		return instance;
+	}
+	
 	// insert team object
 	public void insert(Team team) throws SQLException {
 		TeamDAO.getInstance().insert(team);

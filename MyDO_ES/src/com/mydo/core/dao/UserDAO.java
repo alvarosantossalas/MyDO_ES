@@ -126,6 +126,21 @@ public class UserDAO {
 		return result;
 	}
 	
+	// return id by username
+	public String selectIdByUsername(String username) throws SQLException {
+		query = "SELECT _id_user FROM tfg_user WHERE _username = ?;";
+		String result;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, username);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				if (rs.next()) 
+					result = rs.getString("_id_user");
+			}
+		}
+		return result;
+	}
+	
 	// return name by username
 	public String selectNameByUsername(String username) throws SQLException {
 		query = "SELECT _name FROM tfg_user WHERE _username = ?;";

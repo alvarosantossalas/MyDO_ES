@@ -129,7 +129,7 @@ public class TaskDAO {
 	}
 
 	// Returns an int and is admin if a Project object is created or not
-	public int proyectIsCreatedOrNot(String subject) throws SQLException {
+	public int projectIsCreatedOrNot(String subject) throws SQLException {
 		int result = 0;
 		query = "SELECT COUNT('_subject') FROM tfg_task WHERE _subject = '" + subject + "';";
 		try (PreparedStatement ps = con.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
@@ -169,7 +169,6 @@ public class TaskDAO {
 					result = new ArrayList<>();
 				}
 				result.add(rs.getString("_id_project"));
-				System.out.println("Proyecto: " + rs.getString("_id_project"));
 			}
 			rs.close();
 		}

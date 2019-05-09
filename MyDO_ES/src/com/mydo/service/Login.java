@@ -3,15 +3,18 @@ package com.mydo.service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.mydo.controller.SessionCtrl;
 import com.mydo.controller.UserCtrl;
-import com.mysql.fabric.Response;
+import com.mydo.core.model.Session;
 
 /**
  * Servlet implementation class Login
@@ -22,8 +25,9 @@ public class Login extends HttpServlet {
 
 	private static String username;
 	private static String password;
-	private static boolean enter;
 	private static PrintWriter out;
+
+	private HttpSession session;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -37,10 +41,13 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response, String id_user)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession httpSession = request.getSession(true);
+		httpSession.setAttribute("id_user", id_user);
+		PrintWriter pw = response.getWriter();
+		pw.println("Usuario en sessión: " + id_user);
+		pw.close();
 	}
 
 	/**
@@ -50,36 +57,45 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
 
-		try {
-			username = request.getParameter("_username");
-			password = request.getParameter("_password");
-			enter = false;
+		session = request.getSession(false);
+		if (session == null) {
+			session.invalidate();
+			System.out.println("La sesión ha sido invalidada en Login.java");
+		} else {
+			try {
+				username = request.getParameter("_username");
+				password = request.getParameter("_password");
 
-			if (username.isEmpty() || password.isEmpty()) {
-				System.out.println("No se ha introducido el username o la contraseña");
-				return;
-			} else {
-				UserCtrl userc = new UserCtrl();
-				if (userc.canLoginOrNot(username, password)) { // the user exists and has correctly set their
-																// credentials
-					enter = true;
-					UserCtrl uctrl = new UserCtrl();
-					request.getSession().setAttribute("_name", uctrl.selectNameByUsername(username));
-					response.sendRedirect("board.jsp");
-				} else { // User doesnt exist
-					response.setContentType("text/html;charset=UTF-8");
-					out = response.getWriter();
-					out.println("<script type:\"text/javascript\">");
-					out.println("setTimeout('location.href = charge_screen.jsp',1000");
-					out.println("</script>");
+				if (username.isEmpty() || password.isEmpty()) {
+					System.out.println("No se ha introducido el username o la contraseña");
+					return;
+				} else {
+
+					// the user exists and has correctly set their credentials
+					if (UserCtrl.getInstance().canLoginOrNot(username, password)) {
+						// doGet(request, response,
+						// UserCtrl.getInstance().selectIdByUsername(username));
+						// Create session and insert session in history
+						SessionCtrl.getInstance().openSession(new Session(
+								UserCtrl.getInstance().selectIdByUsername(username), new Date().toString()));
+						HttpSession httpSession = request.getSession(true);
+						httpSession.setAttribute("id_user", UserCtrl.getInstance().selectIdByUsername(username));
+						System.out
+								.println("ID USER EN SERVLET: " + UserCtrl.getInstance().selectIdByUsername(username));
+						// request.getSession().setAttribute("_name",
+						// UserCtrl.getInstance().selectNameByUsername(username));
+						response.sendRedirect("board.jsp");
+					} else { // User doesnt exist
+						response.setContentType("text/html;charset=UTF-8");
+						out = response.getWriter();
+						out.print("<script type:\text/javascript\"setTimeout('location.href=board.jsp', 1000</script>");
+					}
 				}
+			} catch (SQLException e) {
+				System.out.println("Error: " + e);
 			}
-		} catch (SQLException e) {
-			System.out.println("Error: " + e);
 		}
-
 	}
 
 }

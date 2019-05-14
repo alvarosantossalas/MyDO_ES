@@ -55,4 +55,8 @@ public class ProjectCtrl {
 		ProjectDAO.getInstance().createTasksInProject(id_project, id_task, id_team);
 	}
 	
+	public ArrayList<String> listAllProjectsForOneUser(String id_user) throws SQLException {
+		return ProjectDAO.getInstance().listAllProjectsForOneUser(id_user);
+	}
+	
 }

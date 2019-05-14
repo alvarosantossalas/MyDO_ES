@@ -156,6 +156,22 @@ public class UserDAO {
 		}
 		return result;
 	}
+	
+	// return password by id_user
+	public String selectPasswordById_user(String id) throws SQLException {
+		query = "SELECT _password FROM tfg_user WHERE _id_user = ?;";
+		String result;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				if (rs.next()) {
+					result = rs.getString("_password");
+				}
+			}
+		}
+		return result;
+	}
 
 	// Remove a User object in the database
 	public void remove(User user) throws SQLException {

@@ -35,7 +35,6 @@ public class CloseSession extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -53,9 +52,10 @@ public class CloseSession extends HttpServlet {
 			System.out.println("La sesión ha sido invalidada en CloseSession.jsp");
 		} else {
 			String id_user = (String) httpSession.getAttribute("id_user");
-			try {
+			try {				
 				SessionCtrl.getInstance().closeSession(id_user);
 				httpSession.invalidate();
+				response.sendRedirect("index.jsp");
 				System.out.println("La sesión se ha invalidado a través de post en CloseSession.java");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@page import="com.mydo.controller.UserCtrl"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="java.sql.SQLException"%>
@@ -39,20 +39,20 @@
 
 	<div class="jumbotron text-light" style="background: url(images/partearriba.PNG);">
 		<div class="container">
-			<p class="display-4 text-center">Â¡Bienvenido!</p>
+			<p class="display-4 text-center">¡Bienvenido!</p>
 		</div>
 	</div>
 
 	<div id="centro-registro" style="width: 50%; margin: 15px auto 15px;">
 		<form action="Login" method="POST">
 			<div class="alert alert-danger" role="alert">
-				Vaya... los datos que has introducidos no coinciden con ningÃºn usuario. Si quieres crear una cuenta <a href="registration.jsp" class="alert-link">hazlo aquÃ­</a>.
+				Vaya... los datos que has introducidos no coinciden con ningún usuario. Si quieres crear una cuenta <a href="registration.jsp" class="alert-link">hazlo aquí</a>.
 			</div>
 			<div class="form-group">
 				<label for="_username">Introduce tu nombre de usuario</label> <input type="text" class="form-control" id="_username" name="_username" placeholder="Nombre de usuario" required>
 			</div>
 			<div class="form-group">
-				<label for="_password">ContraseÃ±a</label> <input type="password" class="form-control" id="_password" name="_password" placeholder="ContraseÃ±a" required>
+				<label for="_password">Contraseña</label> <input type="password" class="form-control" id="_password" name="_password" placeholder="Contraseña" required>
 			</div>
 			<div class="form-group">
 				<div class="form-check">
@@ -86,7 +86,7 @@
 				<div class="col-sm-2">
 					<h5>Sobre nosotros</h5>
 					<ul>
-						<li><a href="#">InformaciÃ³n de la compaÃ±Ã­a</a></li>
+						<li><a href="#">Información de la compañía</a></li>
 						<li><a href="contact.jsp">Contactar</a></li>
 					</ul>
 				</div>
@@ -107,7 +107,7 @@
 			</div>
 		</div>
 		<div class="footer-copyright">
-			<p>Â© 2019 MyDO ES Co.</p>
+			<p>© 2019 MyDO ES Co.</p>
 		</div>
 	</footer>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

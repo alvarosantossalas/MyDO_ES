@@ -1,7 +1,6 @@
 <%@page import="com.mydo.controller.UserCtrl"%>
 <%@page import="com.mydo.core.model.User"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +33,7 @@
 	<%
 		String id_user_logado = (String) session.getAttribute("id_user");
 		if (id_user_logado != null) {
-			User user_logado = UserCtrl.getInstance().listById(id_user_logado);
+			User user_logado = UserCtrl.getInstance().checkDataForUser(id_user_logado);
 	%>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -65,9 +64,16 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm">
-					<p class="display-3">Álvaro Santos Salas</p>
-					<p class="h5">alvaro.santoscc@gmail.com</p>
-					<p class="h6">699 924 476</p>
+					<%
+						out.println("<p class='display-3'>" + UserCtrl.getInstance().selectNameSurname(user_logado.getId_user())
+									+ "</p>");
+					%>
+					<%
+						out.println("<p class='h5'>" + user_logado.getEmail() + "</p>");
+					%>
+					<%
+						out.println("<p class='h6'>" + user_logado.getPhone() + "</p>");
+					%>
 					<!-- Button trigger modal -->
 					<button type="button" class="btn btn-primary" data-toggle="modal"
 						data-target="#exampleModalScrollable">Modificar mis datos
@@ -87,23 +93,24 @@
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<div class="modal-body text-dark">
-									<form>
+								<form action="UpdateUserData" method="POST">
+									<div class="modal-body text-dark">
+
 										<div class="form-group">
 
 											<label for="_username_update">Nombre de usuario</label>
 											<%
 												out.println(
-															"<input type='text' class='form-control' id='_username_update' name='_username_update' placeholder='Nombre de usuario' value='"
-																	+ user_logado.getUsername() + "' required>");
+															"<input type='text' class='form-control disabled' id='_username_update' name='_username_update' placeholder='Nombre de usuario' value='"
+																	+ user_logado.getUsername() + "' disabled>");
 											%>
-
 										</div>
 										<div class="form-group">
 											<label for="_name_update">Nombre</label>
 											<%
-												out.println("<input type='text' class='form-control' id='_name_update' placeholder='Nombre' value='"
-															+ user_logado.getName() + "' required>");
+												out.println(
+															"<input type='text' class='form-control' id='_name_update' name='_name_update' placeholder='Nombre' value='"
+																	+ user_logado.getName() + "' required>");
 											%>
 										</div>
 										<div class="form-group">
@@ -155,12 +162,12 @@
 												<div class="form-group">
 													<label for="_password_actual">Contraseña actual</label> <input
 														type="password" class="form-control" id="_password_actual"
-														placeholder="Contraseña actal">
+														name="_password_actual" placeholder="Contraseña actual">
 												</div>
 												<div class="form-group">
 													<label for="_password_new">Nueva contraseña</label> <input
 														type="password" class="form-control" id="_password_new"
-														placeholder="Nueva contraseña">
+														name="_password_new" placeholder="Nueva contraseña">
 												</div>
 											</div>
 										</div>
@@ -168,14 +175,15 @@
 
 
 										<!-- idjhsoiadjioasjdi -->
-									</form>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-danger"
-										data-dismiss="modal">Cancelar</button>
-									<input type="submit" class="btn btn-success"
-										value="Guardar cambios">
-								</div>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger"
+											data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-success"
+											value="Guardar cambios">
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -196,14 +204,17 @@
 	<div id="centro" class="container text-center">
 		<!-- CENTRO -->
 
+		<div class="container"></div>
 		<div class="btn-group" role="group">
 			<button class="btn btn-primary">Mis equipos</button>
 			<button class="btn btn-primary">Mis proyectos</button>
 			<button class="btn btn-primary disabled">Administración</button>
 			<form action="CloseSession" method="POST">
-				<input type="submit" class="btn btn-danger" value="Cerrar sesión">
+				<input type="submit" class="btn btn-danger rounded-right" value="Cerrar sesión">
 			</form>
+
 		</div>
+
 		<br> <br>
 		<div class="container-fluid border border-secondary rounded"
 			id="container-equipos">

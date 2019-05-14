@@ -1,10 +1,4 @@
-<%-- 
-    Document   : registration
-    Created on : 02-may-2019, 12:03:05
-    Author     : alvaro.santos
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,15 +74,15 @@
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="_password_1">ContraseÃ±a</label> <input type="password"
+					<label for="_password_1">Contraseña</label> <input type="password"
 						class="form-control" id="_password_1" name="_password_1"
-						placeholder="ContraseÃ±a" autocomplete="off" required>
+						placeholder="Contraseña" autocomplete="off" required>
 				</div>
 
 				<div class="form-group col-md-6">
-					<label for="_password_2">Repite contraseÃ±a</label> <input
+					<label for="_password_2">Repite contraseña</label> <input
 						type="password" class="form-control" id="_password_2"
-						name="_password_2" placeholder="Repite contraseÃ±a"
+						name="_password_2" placeholder="Repite contraseña"
 						autocomplete="off" required>
 				</div>
 			</div>
@@ -107,17 +101,17 @@
 			<!-- EMPIEZA AQUIIIIIII -->
 			<div class="form-row">
 				<div class="form-group col-md-8">
-					<label for="_email">Correo electrÃ³nico</label> <input type="email"
-						class="form-control" id="_email" name="_email" placeholder="Correo electrÃ³nico"
+					<label for="_email">Correo electrónico</label> <input type="email"
+						class="form-control" id="_email" name="_email" placeholder="Correo electrónico"
 						autocomplete="off" required>
 				</div>
 				<div class="form-group col-md-4">
-					<label for="_phone">TelÃ©fono</label> <input type="text"
+					<label for="_phone">Teléfono</label> <input type="text"
 						class="form-control" id="_phone" name="_phone"
-						placeholder="TelÃ©fono" autocomplete="off" required>
+						placeholder="Teléfono" autocomplete="off" required>
 				</div>
 			</div>
-			<!-- Termina aquÃ­iiiiii -->
+			<!-- Termina aquíiiiiii -->
 			<div class="form-group">
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="gridCheck"
@@ -127,7 +121,7 @@
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="gridCheck"
 						checked> <label class="form-check-label" for="gridCheck">
-						Acepto los <a href="#">tÃ©rminos y condiciones</a>
+						Acepto los <a href="#">términos y condiciones</a>
 					</label>
 				</div>
 			</div>
@@ -155,7 +149,7 @@
 				<div class="col-sm-2">
 					<h5>Sobre nosotros</h5>
 					<ul>
-						<li><a href="#">InformaciÃ³n de la compaÃ±Ã­a</a></li>
+						<li><a href="#">Información de la compañía</a></li>
 						<li><a href="contact.jsp">Contactar</a></li>
 					</ul>
 				</div>
@@ -178,7 +172,7 @@
 			</div>
 		</div>
 		<div class="footer-copyright">
-			<p>Â© 2019 MyDO ES Co.</p>
+			<p>© 2019 MyDO ES Co.</p>
 		</div>
 	</footer>
 	<script

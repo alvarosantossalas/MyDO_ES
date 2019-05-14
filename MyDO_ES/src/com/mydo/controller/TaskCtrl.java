@@ -61,4 +61,12 @@ public class TaskCtrl {
 		return TaskDAO.getInstance().listAllNamesForConcreteProjects(id);
 	}
 	
+	public void insertTaskAndTeamRelationShip(String id_team, String id_task) throws SQLException {
+		TaskDAO.getInstance().insertTaskAndTeamRelationShip(id_team, id_task);
+	}
+	
+	public ArrayList<Task> listAllTasksForOneUser(String id_user) throws SQLException {
+		return TaskDAO.getInstance().listAllTasksForOneUser(id_user);
+	}
+	
 }

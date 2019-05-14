@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mydo.core.dao.UserDAO;
 import com.mydo.core.model.Team;
 import com.mydo.core.model.User;
-
 import com.mydo.controller.UserCtrl;
 
 /**
@@ -60,6 +58,7 @@ public class UserRegistration extends HttpServlet {
 				UserCtrl userControl = new UserCtrl();
 				userControl.insertWithTeam(new User(username, password, name, lastname, email, phone),
 						new Team(username + "_team", username + "_image"));
+				response.sendRedirect("login.jsp");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -78,7 +77,7 @@ public class UserRegistration extends HttpServlet {
 		lastname = request.getParameter("_lastname");
 		email = request.getParameter("_email");
 		phone = request.getParameter("_phone");
-
+		
 		if (username.equals("") || password.equals("") || name.equals("") || lastname.equals("") || email.equals("")
 				|| phone.equals("")) {
 			result = false;

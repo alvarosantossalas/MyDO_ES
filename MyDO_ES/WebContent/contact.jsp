@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -48,20 +48,20 @@
 
         <div class="jumbotron text-light" style="background: url(images/partearriba.PNG);">
             <div class="container">
-                <h1 class="display-4">Â¿Quieres conocernos?</h1>
-                <p class="lead">Madrid Talent Meeting Point, Â¿Te apuntas?</p>
-                <a class="btn btn-primary btn-lg" href="#" role="button">Leer mÃ¡s</a>
+                <h1 class="display-4">¿Quieres conocernos?</h1>
+                <p class="lead">Madrid Talent Meeting Point, ¿Te apuntas?</p>
+                <a class="btn btn-primary btn-lg" href="#" role="button">Leer más</a>
             </div>
         </div>
         <div id="centro">
-            <p class="display-4 text-center">Â¿Quienes somos?</p>
-            <p class="text-center">MyDO es una propuesta que se lanzÃ³ como startup en enero de 2019. <br>
-                Aun que de momento somos un equipo realmente pequeÃ±o,  <br> disponemos  de las ganas  y actitud necesarias para triunfar.</p>   
+            <p class="display-4 text-center">¿Quienes somos?</p>
+            <p class="text-center">MyDO es una propuesta que se lanzó como startup en enero de 2019. <br>
+                Aun que de momento somos un equipo realmente pequeño,  <br> disponemos  de las ganas  y actitud necesarias para triunfar.</p>   
 
-            <button class="btn btn-primary" style="margin-left: 47%;">Conocer mÃ¡s</button>
+            <button class="btn btn-primary" style="margin-left: 47%;">Conocer más</button>
 
-            <p class="display-4 text-center">Â¿Quieres trabajar con nosotros?</p>
-            <p class="text-center">Para ello deberÃ¡s crear tu cuenta si aÃºn no la tienes. En la secciÃ³n "Mi cuenta" encontrarÃ¡s un apartado <br> 
+            <p class="display-4 text-center">¿Quieres trabajar con nosotros?</p>
+            <p class="text-center">Para ello deberás crear tu cuenta si aún no la tienes. En la sección "Mi cuenta" encontrarás un apartado <br> 
                 dedicado para ello. Estaremos encantados de conocerte : )</p>
 
 
@@ -77,7 +77,7 @@
 
         </div>
         <section id="info" style="background: url(images/fondo.jpg);">
-            <p class="display-4">No importa quien seas, MyDO estÃ¡ diseÃ±ado para ti</p>
+            <p class="display-4">No importa quien seas, MyDO está diseñado para ti</p>
 
         </section>
         <footer id="myFooter">
@@ -97,7 +97,7 @@
                     <div class="col-sm-2">
                         <h5>Sobre nosotros</h5>
                         <ul>
-                            <li><a href="#">InformaciÃ³n de la compaÃ±Ã­a</a></li>
+                            <li><a href="#">Información de la compañía</a></li>
                             <li><a href="contact.jsp">Contactar</a></li>
                         </ul>
                     </div>
@@ -120,7 +120,7 @@
                 </div>
             </div>
             <div class="footer-copyright">
-                <p>Â© 2019 MyDO ES Co. </p>
+                <p>© 2019 MyDO ES Co. </p>
             </div>
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -12,7 +12,7 @@ public class Project {
 	public Project() {
 	}
 
-	public Project(String name, int status, String subject) {
+	public Project(String name, String subject) {
 		this.id_project = "project_" + UUID.randomUUID().toString();
 		this.name = name;
 		this.status = 1; // by default

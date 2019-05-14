@@ -12,13 +12,13 @@ public class Task {
 	private int estimated_time; // in hours
 	private int finalized;
 	private String status;
-	private String created_by;
-	private String id_team;
+	private String id_team; // created_by
 
 	public Task() {
 	}
 
-	public Task(String name, String subject, String description, String type, int estimated_time, String id_team) {
+	public Task(String name, String subject, String description, String type, int estimated_time, String status,
+			String id_team) {
 		super();
 		this.id_task = "task_" + UUID.randomUUID().toString();
 		this.name = name;
@@ -27,13 +27,12 @@ public class Task {
 		this.type = type;
 		this.estimated_time = estimated_time;
 		this.finalized = 0;
-		this.status = "Nueva"; // by default this task will be "Nueva"
+		this.status = status; // by default this task will be "Nueva"
 		this.id_team = id_team;
-		this.created_by = id_task;
 	}
 
 	public Task(String id_task, String name, String subject, String description, String type, int estimated_time,
-			int finalized, String status, String created_by, String id_team) {
+			int finalized, String status, String id_team) {
 		super();
 		this.id_task = id_task;
 		this.name = name;
@@ -43,8 +42,7 @@ public class Task {
 		this.estimated_time = estimated_time;
 		this.finalized = finalized;
 		this.status = status;
-		this.created_by = created_by;
-		this.id_team = id_team;
+		this.id_team = id_team; // created by
 	}
 
 	public String getId_task() {
@@ -109,14 +107,6 @@ public class Task {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public String getCreated_by() {
-		return created_by;
-	}
-
-	public void setCreated_by(String created_by) {
-		this.created_by = created_by;
 	}
 
 	public String getId_team() {

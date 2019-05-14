@@ -1,9 +1,10 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@page import="com.mydo.controller.TeamCtrl"%>
 <%@page import="com.mydo.controller.TaskCtrl"%>
 <%@page import="com.mydo.controller.ProjectCtrl"%>
 <%@page import="com.mydo.controller.UserCtrl"%>
 <%@page import="com.mydo.core.model.User"%>
+<%@page import="com.mydo.core.model.Task"%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
@@ -35,9 +36,9 @@
 </head>
 <body>
 	<%
-		String id_user_logado = (String) session.getAttribute("id_user");
-		if (id_user_logado != null) {
-			User user_logado = UserCtrl.getInstance().listById(id_user_logado);
+		if ((String) session.getAttribute("id_user") != null) {
+			String id_user_logado = (String) session.getAttribute("id_user");
+			User user_logado = UserCtrl.getInstance().checkDataForUser(id_user_logado);
 	%>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -65,12 +66,12 @@
 		style="background: url(images/partearriba.PNG);">
 		<div class="container">
 			<%
-				out.println("<h1 class='display-4')>Â¡Bienvenido de nuevo, " + user_logado.getName() + "!</h1>");
+				out.println("<h1 class='display-4')>¡Bienvenido de nuevo, " + user_logado.getName() + "!</h1>");
 			%>
 		</div>
 	</div>
 	<div id="centro" class="container-fluid">
-		<p class="display-4 text-center">Un poco de organizaciÃ³n...</p>
+		<p class="display-4 text-center">Un poco de organización...</p>
 		<hr class="hr">
 
 		<div class="container text-center">
@@ -110,7 +111,7 @@
 						<input type="checkbox" checked> <label
 							class="form-check-label">De tipo recordatorio</label> <br> <input
 							type="checkbox"> <label class="form-check-label">Creadas
-							por tÃ­ Ãºnicamente</label> <br> <select
+							por tí únicamente</label> <br> <select
 							class="custom-select custom-select-sm">
 							<option selected>Tarea creada por:</option>
 							<option value="1">One</option>
@@ -129,9 +130,11 @@
 					aria-label="Toggle navigation">
 					Filtrar por <span class="navbar-toggler-icon"></span>
 				</button>
-				<button class="btn btn-danger text-dark bg-light" type="button">
+				<form action="DeleteTask">
+				<a><button class="btn btn-danger text-dark bg-light" type="button">
 					Eliminar seleccionado <img src="icons/icon-trash_32px.png">
-				</button>
+				</button></a>
+				</form>
 			</nav>
 		</div>
 
@@ -140,120 +143,50 @@
 				<tr>
 					<th scope="col"></th>
 					<th scope="col"></th>
-					<th scope="col">TÃ­tulo</th>
+					<th scope="col">Título</th>
 					<th scope="col">Asunto</th>
-					<th scope="col">DescripciÃ³n</th>
+					<th scope="col">Descripción</th>
 					<th scope="col">Tipo de tarea</th>
 					<th scope="col">Tiempo empleado / Tiempo estimado</th>
 					<th scope="col">Equipo responsable</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="btn-primary">
-					<th scope="row"><button class="btn">
-							<img src="icons/icon-behind_24px.png">
-						</button></th>
-					<th scope="row"><input type="checkbox" class="custom-control"></th>
-					<td>Tarea 1</td>
-					<td>Asunto 1</td>
-					<td>Eso es una breve descripciÃ³n de lo que podemos acerca de
-						lo que no tenemos pero necesitamos</td>
-					<td>Trabajo</td>
-					<td>15.00 / 40 . 00</td>
-					<td>Equipo 1</td>
-				</tr>
-				<tr class="btn-danger">
-					<th scope="row"><button class="btn">
-							<img src="icons/icon-behind_24px.png">
-						</button></th>
-					<th scope="row"><input type="checkbox" class="custom-control"></th>
-					<td>Tarea 2</td>
-					<td>Asunto 2</td>
-					<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Mauris aliquet malesuada feugiat. Curabitur fermentum bibendum
-						nulla, non dictum ipsum tincidunt <br> non. Quisque convallis
-						pharetra tempor. Donec id pretium leo. Pellentesque luctus massa
-						non elit viverra pellentesque. Cras vitae neque molestie, rhoncus
-						<br> ipsum sit amet, lobortis dui. Fusce in urna sem. Vivamus
-						vehicula dignissim augue et scelerisque. Etiam quam nisi, molestie
-						ac dolor in, tincidunt tincidunt arcu. <br> Praesent sed
-						justo finibus, <br> fringilla velit quis, porta erat. Donec
-						blandit metus ut arcu iaculis iaculis. Cras nec dolor fringilla
-						justo ullamcorper auctor.
-					</td>
-					<td>Trabajo</td>
-					<td>45.00 / 35.00</td>
-					<td>Equipo 2</td>
-				</tr>
-				<tr class="btn-success">
-					<th scope="row"><button class="btn">
-							<img src="icons/icon-behind_24px.png">
-						</button></th>
-					<th scope="row"><input type="checkbox" class="custom-control"></th>
-					<td>Tarea 3</td>
-					<td>Asunto 3</td>
-					<td>Esto es una breve descripciÃ³n de lo que podemos acerca de
-						lo que no tenemos pero necesitamos</td>
-					<td>Trabajo</td>
-					<td>35.00 / 45.00</td>
-					<td>Equipo 3</td>
-				</tr>
-				<tr class="btn-primary">
-					<th scope="row"><button class="btn">
-							<img src="icons/icon-behind_24px.png">
-						</button></th>
-					<th scope="row"><input type="checkbox" class="custom-control"></th>
-					<td>Tarea 1</td>
-					<td>Asunto 1</td>
-					<td>Eso es una breve descripciÃ³n de lo que podemos acerca de
-						lo que no tenemos pero necesitamos</td>
-					<td>Trabajo</td>
-					<td>15.00 / 40 . 00</td>
-					<td>Equipo 1</td>
-				</tr>
-				<tr class="btn-danger">
-					<th scope="row"><button class="btn">
-							<img src="icons/icon-behind_24px.png">
-						</button></th>
-					<th scope="row"><input type="checkbox" class="custom-control"></th>
-					<td>Tarea 2</td>
-					<td>Asunto 2</td>
-					<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Mauris aliquet malesuada feugiat. Curabitur fermentum bibendum
-						nulla, non dictum ipsum tincidunt non. <br> Quisque convallis
-						pharetra tempor. Donec id pretium leo. Pellentesque luctus massa
-						non elit viverra pellentesque. Cras vitae neque molestie, rhoncus
-						ipsum sit amet, <br> lobortis dui. Fusce in urna sem. Vivamus
-						vehicula dignissim augue et scelerisque. Etiam quam nisi, molestie
-						ac dolor in, tincidunt tincidunt arcu. Praesent sed justo finibus,
-						<br> fringilla velit quis, porta erat. Donec blandit metus ut
-						arcu iaculis iaculis. Cras nec dolor fringilla justo ullamcorper
-						auctor.
-					</td>
-					<td>Trabajo</td>
-					<td>45.00 / 35.00</td>
-					<td>Equipo 2</td>
-				</tr>
-				<tr class="btn-success">
-					<th scope="row"><button class="btn">
-							<img src="icons/icon-behind_24px.png">
-						</button></th>
-					<th scope="row"><input type="checkbox" class="custom-control"></th>
-					<td>Tarea 3</td>
-					<td>Asunto 3</td>
-					<td>Esto es una breve descripciÃ³n de lo que podemos acerca de
-						lo que no tenemos pero necesitamos</td>
-					<td>Trabajo</td>
-					<td>35.00 / 45.00</td>
-					<td>Equipo 3</td>
-				</tr>
+				<%
+					if (TaskCtrl.getInstance().listAllTasksForOneUser(id_user_logado) != null) {
+							ArrayList<Task> listTasks = TaskCtrl.getInstance().listAllTasksForOneUser(id_user_logado);
+							if (listTasks.isEmpty()) {
+								System.out.println("No existen tareas");
+							} else {
+								for (int i = 0; i < listTasks.size(); i++) {
+									out.print("<tr class='" + listTasks.get(i).getStatus() + "'>");
+									out.print(
+											"<th scope='row'><a href='http://localhost:8080/MyDO_ES/profile.jsp' target='_blank'><button target='_blank' class='btn'><img src='icons/icon-behind_24px.png'></button></a></th>");
+									out.print("<th scope='row'><a href='DeleteTask?id_task="+listTasks.get(i).getId_task()+"'><button class='btn'><img src='icons/icon-trash_24px.png'></button></a></th>");
+									
+									out.print("<td>" + listTasks.get(i).getName() + "</td>");
+									out.print("<td>" + listTasks.get(i).getSubject() + "</td>");
+									out.print("<td style='widht: 50px;'>" + listTasks.get(i).getDescription() + "</td>");
+									out.print("<td>" + listTasks.get(i).getType() + "</td>");
+									out.print("<td>" + listTasks.get(i).getEstimated_time() + "</td>");
+									String team_name = TeamCtrl.getInstance().selectNameTeamById(listTasks.get(i).getId_team());
+									out.print("<td>" + team_name + "</td>");
+								}
+							}
+						} else {
+
+							out.print("<th class='btn-primary text-center display-4' colspan='8'>No existen tareas</th>");
+						}
+				%>
+
+
 			</tbody>
 		</table>
 	</div>
 	<br>
 	<section id="info" style="background: url(images/pruebaabajo.PNG);">
-		<p class="display-4">No importa quien seas, MyDO estÃ¡ diseÃ±ado
-			para tÃ­</p>
+		<p class="display-4">No importa quien seas, MyDO está diseñado
+			para tí</p>
 	</section>
 	<footer id="myFooter">
 		<div class="container">
@@ -274,7 +207,7 @@
 				<div class="col-sm-2">
 					<h5>Sobre nosotros</h5>
 					<ul>
-						<li><a href="#">InformaciÃ³n de la compaÃ±Ã­a</a></li>
+						<li><a href="#">Información de la compañía</a></li>
 						<li><a href="contact.jsp">Contactar</a></li>
 					</ul>
 				</div>
@@ -297,7 +230,7 @@
 			</div>
 		</div>
 		<div class="footer-copyright">
-			<p>Â© 2019 MyDO ES Co.</p>
+			<p>© 2019 MyDO ES Co.</p>
 		</div>
 	</footer>
 
@@ -316,30 +249,31 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
-					<form action="../createTask" method="POST">
+				<form action="CreateTask" method="POST">
+					<div class="modal-body">
+
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="_name">Nombre</label> <input type="text"
 									class="form-control" id="_name" name="_name"
-									placeholder="Nombre">
+									placeholder="Nombre" required>
 							</div>
 							<div class="form-group col-md-6">
 								<label for="_subject">Asunto</label> <input type="text"
 									class="form-control" id="_subject" name="_subject"
-									placeholder="Asunto">
+									placeholder="Asunto" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="_description">DescripciÃ³n</label>
+							<label for="_description">Descripción</label>
 							<textarea class="form-control" id="_description"
-								name="_description" rows="10"></textarea>
+								name="_description" rows="10" required></textarea>
 						</div>
 
 						<div class="form-row">
-							<div class="form-group col-md-8">
+							<div class="form-group col-md-4">
 								<label for="_type">Tipo</label> <select id="_type" name="_type"
-									class="form-control">
+									class="form-control" required>
 									<option>Selecciona...</option>
 									<option value="trabajo">Trabajo</option>
 									<option value="estudios">Estudios</option>
@@ -349,28 +283,35 @@
 								</select>
 							</div>
 							<div class="form-group col-md-4">
+								<label for="_status">Prioridad</label> <select id="_status"
+									name="_status" class="form-control" required>
+									<option>Selecciona...</option>
+									<option value="btn-warning">Alta</option>
+									<option value="btn-primary">Normal</option>
+									<option value="btn-secondary">Baja</option>
+								</select>
+							</div>
+							<div class="form-group col-md-4">
 								<label for="_estimated_time">Tiempo estimado</label> <input
 									type="number" class="form-control" id="_estimated_time"
-									name="_estimated_time" placeholder="00.00">
+									name="_estimated_time" placeholder="00" required>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="_team">Selecciona un equipo</label> <select
-								id="_team" name="_team" class="form-control">
+								id="_team" name="_team" class="form-control" required>
 								<option selected>Tus equipos...</option>
 								<%
-									/**
-								if (user_logado.getId_user() != null) {
-									// suponemos que user_95d2fa5b-5680-466f-9ace-97042ca89004 es el usuario logado
-									ArrayList<String> team_list = TeamCtrl.getInstance().listAllTeamsForOneUser(user_logado.getId_user());
-									for (int i = 0; i < team_list.size(); i++) {
-										out.print("<option value='" + team_list.get(i) + "'>" + team_list.get(i) + "</option>");
-									}
-								} else {
-									out.print("<option value=''>No se han encontrado resultados</option>");
-								}
-									**/
+									if (TeamCtrl.getInstance().listAllTeamsForOneUser(user_logado.getId_user()) != null) {
+											ArrayList<String> team_list = TeamCtrl.getInstance()
+													.listAllTeamsForOneUser(user_logado.getId_user());
+											for (int i = 0; i < team_list.size(); i++) {
+												out.print("<option value='" + team_list.get(i) + "'>" + team_list.get(i) + "</option>");
+											}
+										} else {
+											out.print("<option value=''>No se han encontrado resultados</option>");
+										}
 								%>
 							</select>
 						</div>
@@ -393,19 +334,15 @@
 								proyecto existente</label> <select name="_project_selected"
 								class="form-control">
 								<option selected>Tus proyectos...</option>
-								<% /**
-									// Suponemos que team_195af45c-f3de-4675-ac28-2ba2042ad7c3 es el equipo seleccionado.
-										// Esto habrÃ¡ que trabajarlo con jQuery
-										if (user_logado.getId_user() != null) {
-											ArrayList<String> project_list = TaskCtrl.getInstance().listAllProjectsForATeam(user_logado.getId_user());
-											for (int i = 0; i < project_list.size(); i++) {
-												out.print("<option value='" + project_list.get(i) + "'>" + project_list.get(i) + "</option>");
+								<%
+									if (ProjectCtrl.getInstance().listAllProjectsForOneUser(id_user_logado) != null) {
+											ArrayList<String> listProject = ProjectCtrl.getInstance().listAllProjectsForOneUser(id_user_logado);
+											for (int i = 0; i < listProject.size(); i++) {
+												out.print("<option value=" + listProject.get(i) + ">" + listProject.get(i) + "</option>");
 											}
 										} else {
-											out.println("<option value=''>No se han encontrado resultados</option>");
+											out.print("<option value=''>No se han encontrado resultados</option>");
 										}
-										
-										**/
 								%>
 							</select>
 
@@ -414,22 +351,22 @@
 							<input class="form-check-input" type="radio" name="_project"
 								id="_project3" value="_no_create_project"> <label
 								class="form-check-label" for="_projecy3"><b>Crear
-									esta tarea sin ningÃºn proyecto asociado</b></label>
+									esta tarea sin ningún proyecto asociado</b></label>
 						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-					<input type="submit" class="btn btn-success"
-						value="Guardar cambios">
-				</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+						<input type="submit" class="btn btn-success"
+							value="Guardar cambios">
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 	<%
 		} else {
 			session.invalidate();
-			System.out.println("La sesiÃ³n ha sido invalidada en board.jsp");
+			System.out.println("La sesión ha sido invalidada en board.jsp");
 			response.sendRedirect("error403.html");
 		}
 	%>

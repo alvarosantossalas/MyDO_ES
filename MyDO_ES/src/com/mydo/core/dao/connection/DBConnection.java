@@ -12,12 +12,13 @@ public class DBConnection {
 	private static String host = "localhost";
 	private static String port = "3306";
 	private static String database = "MyDO_Application";
+	private static String charset = "?useUnicode=true&characterEncoding=utf-8";
 	
 	// user credentials
 	private static String user = "root";
 	private static String password = "";
 	
-	private static final String JDBC_URL = dialect + "://" + host + ":" + port + "/" + database; // for the database connection
+	private static final String JDBC_URL = dialect + "://" + host + ":" + port + "/" + database + charset; // for the database connection
 	private static Connection instance = null;
 	
 	private DBConnection() {}

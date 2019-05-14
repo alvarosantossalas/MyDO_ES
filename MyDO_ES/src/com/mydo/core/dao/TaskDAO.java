@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class TaskDAO {
 
@@ -32,7 +33,7 @@ public class TaskDAO {
 
 	// Insert simple Task object in the database
 	public void insert(Task task) throws SQLException {
-		query = "INSERT INTO tfg_task (_id_task, _name, _subject, _description, _type, _estimated_time, _finalized, _status, _created_by, _id_team) VALUES (?,?,?,?,?,?,?,?,?,?);";
+		query = "INSERT INTO tfg_task (_id_task, _name, _subject, _description, _type, _estimated_time, _finalized, _status, _creation_date, _id_team) VALUES (?,?,?,?,?,?,?,?, NOW(),?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, task.getId_task());
 			ps.setString(2, task.getName());
@@ -42,14 +43,14 @@ public class TaskDAO {
 			ps.setInt(6, task.getEstimated_time());
 			ps.setInt(7, task.getFinalized());
 			ps.setString(8, task.getStatus());
-			ps.setString(9, task.getCreated_by());
-			ps.setString(10, task.getId_team());
+			ps.setString(9, task.getId_team());
 			ps.executeUpdate();
 			ps.close();
+			// CURDATE()
 		}
 	}
 
-	// This method list all the existing Task objects in the database
+	// list all the existing Task objects in the database
 	public ArrayList<Task> listAll() throws SQLException {
 		query = "SELECT * FROM tfg_task;";
 		ArrayList<Task> result;
@@ -61,8 +62,7 @@ public class TaskDAO {
 				}
 				result.add(new Task(rs.getString("_id_task"), rs.getString("_name"), rs.getString("_subject"),
 						rs.getString("_description"), rs.getString("_type"), rs.getInt("_estimated_time"),
-						rs.getInt("_finalized"), rs.getString("_status"), rs.getString("_created_by"),
-						rs.getString("_id_team")));
+						rs.getInt("_finalized"), rs.getString("_status"), rs.getString("_id_team")));
 			}
 		}
 		return result;
@@ -79,8 +79,7 @@ public class TaskDAO {
 				if (rs.next()) {
 					result = new Task(rs.getString("_id_task"), rs.getString("_name"), rs.getString("_subject"),
 							rs.getString("_description"), rs.getString("_type"), rs.getInt("_estimated_time"),
-							rs.getInt("_finalized"), rs.getString("_status"), rs.getString("_created_by"),
-							rs.getString("_id_team"));
+							rs.getInt("_finalized"), rs.getString("_status"), rs.getString("_id_team"));
 				}
 			}
 		}
@@ -110,7 +109,7 @@ public class TaskDAO {
 			return;
 		}
 
-		query = "UPDATE tfg_task SET _id_task=?, _name=?, _subject=?, _description=?, _type=?, _estimated_time=?, _finalized=?, _status=?, _created_by=?, _id_team=? WHERE _id_task=?;";
+		query = "UPDATE tfg_task SET _id_task=?, _name=?, _subject=?, _description=?, _type=?, _estimated_time=?, _finalized=?, _status=?, _id_team=? WHERE _id_task=?;";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, task.getId_task());
 			ps.setString(2, task.getName());
@@ -120,9 +119,8 @@ public class TaskDAO {
 			ps.setInt(6, task.getEstimated_time());
 			ps.setInt(7, task.getFinalized());
 			ps.setString(8, task.getStatus());
-			ps.setString(9, task.getCreated_by());
-			ps.setString(10, task.getId_team());
-			ps.setString(11, task.getId_task());
+			ps.setString(9, task.getId_team());
+			ps.setString(10, task.getId_task());
 			ps.executeUpdate();
 			ps.close();
 		}
@@ -198,4 +196,36 @@ public class TaskDAO {
 		return result;
 	}
 
+	public void insertTaskAndTeamRelationShip(String id_team, String id_task) throws SQLException {
+		query = "INSERT INTO tfg_team_task (_id_team_task, _id_team, _id_task) VALUES (?, ?, ?);";
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, UUID.randomUUID().toString());
+			ps.setString(2, id_team);
+			ps.setString(3, id_task);
+		}
+	}
+	
+	public ArrayList<Task> listAllTasksForOneUser(String id_user) throws SQLException {
+		query = "SELECT * FROM tfg_task WHERE _id_team IN (SELECT _id_team FROM tfg_members_team WHERE _id_user = ?) ORDER BY _creation_date DESC;";
+		ArrayList<Task> result = null;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id_user);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				while (rs.next()) {
+					if (result == null) {
+						result = new ArrayList<>();
+					}
+					result.add(new Task(rs.getString("_id_task"), rs.getString("_name"), rs.getString("_subject"), rs.getString("_description"), rs.getString("_type"), rs.getInt("_estimated_time"),
+							rs.getInt("_finalized"), rs.getString("_status"), rs.getString("_id_team")));
+				}
+			}
+		}
+		return result;
+	}
+	
+
+	
+	
+	
 }

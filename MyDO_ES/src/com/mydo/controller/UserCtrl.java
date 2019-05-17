@@ -69,6 +69,10 @@ public class UserCtrl {
 		return UserDAO.getInstance().selectPasswordById_user(id);
 	}
 	
+	public String selectNameById_user(String id) throws SQLException {
+		return UserDAO.getInstance().selectUsernameByIdUser(id);
+	}
+
 	public User checkDataForUser(String id) throws SQLException {
 		User result = listById(id);
 		if (result.getUsername() == null) {

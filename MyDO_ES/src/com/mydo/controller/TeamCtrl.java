@@ -2,6 +2,8 @@ package com.mydo.controller;
 
 import com.mydo.core.model.Team;
 import com.mydo.core.dao.TeamDAO;
+import com.mydo.core.dao.UserDAO;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -58,6 +60,14 @@ public class TeamCtrl {
 	// list all names for team objects that have one user in common
 	public ArrayList<String> listAllTeamsForOneUser(String id) throws SQLException {
 		return TeamDAO.getInstance().listAllTeamsForOneUser(id);
+	}
+	
+	public ArrayList<String> listAllUsersForATeam(String id_team) throws SQLException {
+		return TeamDAO.getInstance().listAllUsersForATeam(id_team);
+	}
+	
+	public String selectAdminByIdTeam(String id) throws SQLException {
+		return UserDAO.getInstance().selectAdminByIdTeam(id);
 	}
 	
 }

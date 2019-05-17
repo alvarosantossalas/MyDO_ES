@@ -37,7 +37,8 @@ public class TaskCtrl {
 	
 	// list task object by id task
 	public Task listById(String id) throws SQLException {
-		return TaskDAO.getInstance().listById(id);
+		Task result = TaskDAO.getInstance().listById(id);
+		return result;
 	}
 	
 	// returns an int and admin if a project object is created or not
@@ -67,6 +68,11 @@ public class TaskCtrl {
 	
 	public ArrayList<Task> listAllTasksForOneUser(String id_user) throws SQLException {
 		return TaskDAO.getInstance().listAllTasksForOneUser(id_user);
+	}
+	
+	public int selectPercentageOfProgress(String id) throws SQLException {
+		Task task = listById(id);
+		return (100 * task.getConsumed_time() / task.getEstimated_time());
 	}
 	
 }

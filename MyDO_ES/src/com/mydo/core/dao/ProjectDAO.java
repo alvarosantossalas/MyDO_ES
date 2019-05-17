@@ -129,6 +129,8 @@ public class ProjectDAO {
 		}
 		return result;
 	}
+	
+	// Select _
 
 	// Return all project names
 	public ArrayList<String> listAllNames() throws SQLException {

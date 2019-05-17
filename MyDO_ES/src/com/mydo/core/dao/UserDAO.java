@@ -67,11 +67,12 @@ public class UserDAO {
 			System.out.println("El error está en UserDAO al insertar al usuario \n Error: " + ex1);
 		}
 
-		query = "INSERT INTO tfg_team(_id_team, _name, _image) VALUES (?,?,?);";
+		query = "INSERT INTO tfg_team(_id_team, _name, _image, _admin) VALUES (?,?,?,?);";
 		try (PreparedStatement ps2 = con.prepareStatement(query)) {
 			ps2.setString(1, team.getId_team());
 			ps2.setString(2, team.getName());
 			ps2.setString(3, team.getImage());
+			ps2.setString(4, user.getId_user());
 			ps2.executeUpdate();
 			ps2.close();
 		} catch (Exception ex2) {
@@ -157,6 +158,22 @@ public class UserDAO {
 		return result;
 	}
 	
+	//
+	public String selectAdminByIdTeam(String id) throws SQLException {
+		query = "SELECT _admin FROM tfg_team WHERE _id_team = ?";
+		String result;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				if (rs.next()) {
+					result = rs.getString("_admin");
+				}
+			}
+		}
+		return result;
+	}
+	
 	// return password by id_user
 	public String selectPasswordById_user(String id) throws SQLException {
 		query = "SELECT _password FROM tfg_user WHERE _id_user = ?;";
@@ -167,6 +184,21 @@ public class UserDAO {
 				result = null;
 				if (rs.next()) {
 					result = rs.getString("_password");
+				}
+			}
+		}
+		return result;
+	}
+	
+	public String selectUsernameByIdUser(String id) throws SQLException {
+		query = "SELECT _username FROM tfg_user WHERE _id_user = ?;";
+		String result;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				if (rs.next()) {
+					result = rs.getString("_username");
 				}
 			}
 		}

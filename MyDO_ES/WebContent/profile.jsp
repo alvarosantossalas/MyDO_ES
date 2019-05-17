@@ -1,3 +1,6 @@
+<%@page import="com.mydo.utilities.Profile_listTeams"%>
+<%@page import="com.mydo.controller.TeamCtrl"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.mydo.controller.UserCtrl"%>
 <%@page import="com.mydo.core.model.User"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
@@ -67,12 +70,8 @@
 					<%
 						out.println("<p class='display-3'>" + UserCtrl.getInstance().selectNameSurname(user_logado.getId_user())
 									+ "</p>");
-					%>
-					<%
-						out.println("<p class='h5'>" + user_logado.getEmail() + "</p>");
-					%>
-					<%
-						out.println("<p class='h6'>" + user_logado.getPhone() + "</p>");
+							out.println("<p class='h5'>" + user_logado.getEmail() + "</p>");
+							out.println("<p class='h6'>" + user_logado.getPhone() + "</p>");
 					%>
 					<!-- Button trigger modal -->
 					<button type="button" class="btn btn-primary" data-toggle="modal"
@@ -210,16 +209,17 @@
 			<button class="btn btn-primary">Mis proyectos</button>
 			<button class="btn btn-primary disabled">Administración</button>
 			<form action="CloseSession" method="POST">
-				<input type="submit" class="btn btn-danger rounded-right" value="Cerrar sesión">
+				<input type="submit" class="btn btn-danger rounded-right"
+					value="Cerrar sesión">
 			</form>
 
 		</div>
 
 		<br> <br>
-		<div class="container-fluid border border-secondary rounded"
+		<div class="container-fluid"
 			id="container-equipos">
 			<p class="display-4 text-left">Mis equipos</p>
-			<table class="table">
+			<table class="table text-left">
 				<thead class="thead-dark">
 					<tr>
 						<th scope="col">#</th>
@@ -229,37 +229,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td>Larry</td>
-						<td>the Bird</td>
-						<td>@twitter , @twitter, @twitter, @twitter, @twitter,
-							@twitter, @twitter, @twitter, @twitter, @twitter, @twitter,
-							@twitter, @twitter, @twitter, @twitter, @twitter, @twitter,
-							@twitter, @twitter, @twitter, @twitter, @twitter, @twitter,
-							@twitter, @twitter @twitter @twitter @twitter @twitter@twitter
-							@twitter @twitter @twitter @twitter @twitter
-							@twitter@twitter@twitter@twitter@twitter@twitter@twitter@twitter
-							@twitter @twitter@twitter@twitter
-							@twitter@twitter@twitter@twitter @twitter
-							@twitter@twitter@twitter@twitter@twitter@twitter@twitter@twitter@twitter@twitter@twitter@twitter@twihhdi</td>
-					</tr>
+					<%
+						out.println(Profile_listTeams.getInstance().fillListTeams(id_user_logado));
+					%>
 				</tbody>
 			</table>
 		</div>
-		<div class="container-fluid border border-secondary rounded"
+		<div class="container-fluid"
 			id="container-proyectos">
 			<p class="display-4 text-left">Mis proyectos</p>
 			<table class="table">
@@ -354,7 +330,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="container-fluid border border-secondary rounded"
+		<div class="container-fluid"
 			id="container-administracion">
 			<p class="display-4 text-left">Administración</p>
 		</div>

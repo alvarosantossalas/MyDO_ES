@@ -190,5 +190,53 @@ public class TeamDAO {
 		}
 		return result;
 	}
+	
+	/*
+	 * 	public ArrayList<String> listAllTeamsForOneUser(String id_user) throws SQLException {
+		query = "SELECT _id_team FROM tfg_members_team WHERE _id_user = ?;";
+		ArrayList<String> temp;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id_user);
+			try (ResultSet rs = ps.executeQuery()) {
+				temp = null;
+				while (rs.next()) {
+					if (temp == null) {
+						temp = new ArrayList<>();
+					}
+					temp.add(rs.getString("_id_team"));
+				}
+			}
+		}
+	 */
 
+	public ArrayList<String> listAllUsersForATeam(String id_team) throws SQLException {
+		query = "select _id_user from tfg_members_team where _id_team = ?";
+		ArrayList<String> result;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id_team);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				while (rs.next()) {
+					if (result == null) {
+						result = new ArrayList<>();
+					}
+					result.add(rs.getString("_id_user"));
+				}
+			}
+		}
+		return result;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+

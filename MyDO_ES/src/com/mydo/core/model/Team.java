@@ -7,22 +7,23 @@ public class Team {
 	private String id_team;
 	private String name;
 	private String image;
+	private String admin; // usuario que administra el equipo
 
 	public Team() {
 	}
 
-	public Team(String name, String image) {
-		super();
+	public Team(String name, String image, String admin) {
 		this.id_team = "team_" + UUID.randomUUID().toString();
 		this.name = name;
 		this.image = image;
+		this.admin = admin;
 	}
 
-	public Team(String id_team, String name, String image) {
-		super();
+	public Team(String id_team, String name, String image, String admin) {
 		this.id_team = id_team;
 		this.name = name;
 		this.image = image;
+		this.admin = admin;
 	}
 
 	public String getId_team() {
@@ -47,6 +48,14 @@ public class Team {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public String getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(String admin) {
+		this.admin = admin;
 	}
 
 }

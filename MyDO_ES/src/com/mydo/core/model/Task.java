@@ -10,6 +10,7 @@ public class Task {
 	private String description;
 	private String type;
 	private int estimated_time; // in hours
+	private int consumed_time;
 	private int finalized;
 	private String status;
 	private String id_team; // created_by
@@ -17,7 +18,7 @@ public class Task {
 	public Task() {
 	}
 
-	public Task(String name, String subject, String description, String type, int estimated_time, String status,
+	public Task(String name, String subject, String description, String type, int estimated_time, int consumed_time, String status,
 			String id_team) {
 		super();
 		this.id_task = "task_" + UUID.randomUUID().toString();
@@ -25,13 +26,14 @@ public class Task {
 		this.subject = subject;
 		this.description = description;
 		this.type = type;
+		this.consumed_time = consumed_time;
 		this.estimated_time = estimated_time;
 		this.finalized = 0;
 		this.status = status; // by default this task will be "Nueva"
 		this.id_team = id_team;
 	}
 
-	public Task(String id_task, String name, String subject, String description, String type, int estimated_time,
+	public Task(String id_task, String name, String subject, String description, String type, int estimated_time, int consumed_time,
 			int finalized, String status, String id_team) {
 		super();
 		this.id_task = id_task;
@@ -39,6 +41,7 @@ public class Task {
 		this.subject = subject;
 		this.description = description;
 		this.type = type;
+		this.consumed_time = consumed_time;
 		this.estimated_time = estimated_time;
 		this.finalized = finalized;
 		this.status = status;
@@ -83,6 +86,14 @@ public class Task {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public int getConsumed_time() {
+		return consumed_time;
+	}
+	
+	public void setConsumed_time(int consumed_time) {
+		this.consumed_time = consumed_time;
 	}
 
 	public int getEstimated_time() {

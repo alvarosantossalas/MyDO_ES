@@ -55,9 +55,7 @@ public class UserRegistration extends HttpServlet {
 
 		if (checkInputs(request)) {
 			try {
-				UserCtrl userControl = new UserCtrl();
-				userControl.insertWithTeam(new User(username, password, name, lastname, email, phone),
-						new Team(username + "_team", username + "_image"));
+				UserCtrl.getInstance().insertWithTeam(new User(username, password, name, lastname, email, phone), new Team(username + "_team", username + "_image", ""));
 				response.sendRedirect("login.jsp");
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -77,7 +75,7 @@ public class UserRegistration extends HttpServlet {
 		lastname = request.getParameter("_lastname");
 		email = request.getParameter("_email");
 		phone = request.getParameter("_phone");
-		
+
 		if (username.equals("") || password.equals("") || name.equals("") || lastname.equals("") || email.equals("")
 				|| phone.equals("")) {
 			result = false;

@@ -131,9 +131,10 @@
 					Filtrar por <span class="navbar-toggler-icon"></span>
 				</button>
 				<form action="DeleteTask">
-				<a><button class="btn btn-danger text-dark bg-light" type="button">
-					Eliminar seleccionado <img src="icons/icon-trash_32px.png">
-				</button></a>
+					<a><button class="btn btn-danger text-dark bg-light"
+							type="button">
+							Eliminar seleccionado <img src="icons/icon-trash_32px.png">
+						</button></a>
 				</form>
 			</nav>
 		</div>
@@ -160,13 +161,15 @@
 							} else {
 								for (int i = 0; i < listTasks.size(); i++) {
 									out.print("<tr class='" + listTasks.get(i).getStatus() + "'>");
-									out.print(
-											"<th scope='row'><a href='http://localhost:8080/MyDO_ES/profile.jsp' target='_blank'><button target='_blank' class='btn'><img src='icons/icon-behind_24px.png'></button></a></th>");
-									out.print("<th scope='row'><a href='DeleteTask?id_task="+listTasks.get(i).getId_task()+"'><button class='btn'><img src='icons/icon-trash_24px.png'></button></a></th>");
-									
+									out.print("<th scope='row'><a href='http://localhost:8080/MyDO_ES/task.jsp?id_task="
+											+ listTasks.get(i).getId_task()
+											+ "'><button target='_blank' class='btn'><img src='icons/icon-settings_24px.png'></button></a></th>");
+									out.print("<th scope='row'><a href='DeleteTask?id_task=" + listTasks.get(i).getId_task()
+											+ "'><button class='btn'><img src='icons/icon-trash_24px.png'></button></a></th>");
+
 									out.print("<td>" + listTasks.get(i).getName() + "</td>");
 									out.print("<td>" + listTasks.get(i).getSubject() + "</td>");
-									out.print("<td style='widht: 50px;'>" + listTasks.get(i).getDescription() + "</td>");
+									out.print("<td>" + listTasks.get(i).getDescription() + "</td>");
 									out.print("<td>" + listTasks.get(i).getType() + "</td>");
 									out.print("<td>" + listTasks.get(i).getEstimated_time() + "</td>");
 									String team_name = TeamCtrl.getInstance().selectNameTeamById(listTasks.get(i).getId_team());
@@ -268,97 +271,98 @@
 							<label for="_description">Descripción</label>
 							<textarea class="form-control" id="_description"
 								name="_description" rows="10" required></textarea>
-						</div>
 
-						<div class="form-row">
-							<div class="form-group col-md-4">
-								<label for="_type">Tipo</label> <select id="_type" name="_type"
-									class="form-control" required>
-									<option>Selecciona...</option>
-									<option value="trabajo">Trabajo</option>
-									<option value="estudios">Estudios</option>
-									<option value="personal">Personal</option>
-									<option value="importante">Importante</option>
-									<option value="recordatorio">Recordatorio</option>
+
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label for="_type">Tipo</label> <select id="_type" name="_type"
+										class="form-control" required>
+										<option>Selecciona...</option>
+										<option value="trabajo">Trabajo</option>
+										<option value="estudios">Estudios</option>
+										<option value="personal">Personal</option>
+										<option value="importante">Importante</option>
+										<option value="recordatorio">Recordatorio</option>
+									</select>
+								</div>
+								<div class="form-group col-md-4">
+									<label for="_status">Prioridad</label> <select id="_status"
+										name="_status" class="form-control" required>
+										<option>Selecciona...</option>
+										<option value="btn-warning">Alta</option>
+										<option value="btn-primary">Normal</option>
+										<option value="btn-secondary">Baja</option>
+									</select>
+								</div>
+								<div class="form-group col-md-4">
+									<label for="_estimated_time">Tiempo estimado</label> <input
+										type="number" class="form-control" id="_estimated_time"
+										name="_estimated_time" placeholder="00" required>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="_team">Selecciona un equipo</label> <select
+									id="_team" name="_team" class="form-control" required>
+									<option selected>Tus equipos...</option>
+									<%
+										if (TeamCtrl.getInstance().listAllTeamsForOneUser(user_logado.getId_user()) != null) {
+												ArrayList<String> team_list = TeamCtrl.getInstance()
+														.listAllTeamsForOneUser(user_logado.getId_user());
+												for (int i = 0; i < team_list.size(); i++) {
+													out.print("<option value='" + team_list.get(i) + "'>" + team_list.get(i) + "</option>");
+												}
+											} else {
+												out.print("<option value=''>No se han encontrado resultados</option>");
+											}
+									%>
 								</select>
 							</div>
-							<div class="form-group col-md-4">
-								<label for="_status">Prioridad</label> <select id="_status"
-									name="_status" class="form-control" required>
-									<option>Selecciona...</option>
-									<option value="btn-warning">Alta</option>
-									<option value="btn-primary">Normal</option>
-									<option value="btn-secondary">Baja</option>
+							<hr>
+
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="_project"
+									id="_project1" value="create_new_project" checked> <label
+									class="form-check-label" for="_project1">Crear proyecto</label>
+								<input type="text" class="form-control" id="_name_project"
+									name="_name_project"
+									placeholder="Introduce el nombre de tu nuevo proyecto..."
+									autocomplete="off">
+
+								<hr>
+
+								<input class="form-check-input" type="radio" name="_project"
+									id="_project2" value="select_existing_project"> <label
+									class="form-check-label" for="_project2">Selecciona un
+									proyecto existente</label> <select name="_project_selected"
+									class="form-control">
+									<option selected>Tus proyectos...</option>
+									<%
+										if (ProjectCtrl.getInstance().listAllProjectsForOneUser(id_user_logado) != null) {
+												ArrayList<String> listProject = ProjectCtrl.getInstance().listAllProjectsForOneUser(id_user_logado);
+												for (int i = 0; i < listProject.size(); i++) {
+													out.print("<option value=" + listProject.get(i) + ">" + listProject.get(i) + "</option>");
+													System.out.println("Proyecto en el select: " + listProject.get(i));
+												}
+											} else {
+												out.print("<option value=''>No se han encontrado resultados</option>");
+											}
+									%>
 								</select>
+
+								<hr>
+
+								<input class="form-check-input" type="radio" name="_project"
+									id="_project3" value="_no_create_project"> <label
+									class="form-check-label" for="_projecy3"><b>Crear
+										esta tarea sin ningún proyecto asociado</b></label>
 							</div>
-							<div class="form-group col-md-4">
-								<label for="_estimated_time">Tiempo estimado</label> <input
-									type="number" class="form-control" id="_estimated_time"
-									name="_estimated_time" placeholder="00" required>
-							</div>
 						</div>
-
-						<div class="form-group">
-							<label for="_team">Selecciona un equipo</label> <select
-								id="_team" name="_team" class="form-control" required>
-								<option selected>Tus equipos...</option>
-								<%
-									if (TeamCtrl.getInstance().listAllTeamsForOneUser(user_logado.getId_user()) != null) {
-											ArrayList<String> team_list = TeamCtrl.getInstance()
-													.listAllTeamsForOneUser(user_logado.getId_user());
-											for (int i = 0; i < team_list.size(); i++) {
-												out.print("<option value='" + team_list.get(i) + "'>" + team_list.get(i) + "</option>");
-											}
-										} else {
-											out.print("<option value=''>No se han encontrado resultados</option>");
-										}
-								%>
-							</select>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+							<input type="submit" class="btn btn-success"
+								value="Guardar cambios">
 						</div>
-						<hr>
-
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="_project"
-								id="_project1" value="create_new_project" checked> <label
-								class="form-check-label" for="_project1">Crear proyecto</label>
-							<input type="text" class="form-control" id="_name_project"
-								name="_name_project"
-								placeholder="Introduce el nombre de tu nuevo proyecto..."
-								autocomplete="off">
-
-							<hr>
-
-							<input class="form-check-input" type="radio" name="_project"
-								id="_project2" value="select_existing_project"> <label
-								class="form-check-label" for="_project2">Selecciona un
-								proyecto existente</label> <select name="_project_selected"
-								class="form-control">
-								<option selected>Tus proyectos...</option>
-								<%
-									if (ProjectCtrl.getInstance().listAllProjectsForOneUser(id_user_logado) != null) {
-											ArrayList<String> listProject = ProjectCtrl.getInstance().listAllProjectsForOneUser(id_user_logado);
-											for (int i = 0; i < listProject.size(); i++) {
-												out.print("<option value=" + listProject.get(i) + ">" + listProject.get(i) + "</option>");
-											}
-										} else {
-											out.print("<option value=''>No se han encontrado resultados</option>");
-										}
-								%>
-							</select>
-
-							<hr>
-
-							<input class="form-check-input" type="radio" name="_project"
-								id="_project3" value="_no_create_project"> <label
-								class="form-check-label" for="_projecy3"><b>Crear
-									esta tarea sin ningún proyecto asociado</b></label>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-						<input type="submit" class="btn btn-success"
-							value="Guardar cambios">
-					</div>
 				</form>
 			</div>
 		</div>

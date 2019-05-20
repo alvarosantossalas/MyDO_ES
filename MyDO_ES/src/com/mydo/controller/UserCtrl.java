@@ -64,11 +64,11 @@ public class UserCtrl {
 		User user = listById(id);
 		return user.getName() + " " + user.getLastname();
 	}
-	
+
 	public String selectPasswordById_user(String id) throws SQLException {
 		return UserDAO.getInstance().selectPasswordById_user(id);
 	}
-	
+
 	public String selectNameById_user(String id) throws SQLException {
 		return UserDAO.getInstance().selectUsernameByIdUser(id);
 	}
@@ -89,6 +89,34 @@ public class UserCtrl {
 		return result;
 	}
 
+	public String showPersonalData(User user) throws SQLException {
+		return "<p class='display-3'>" + selectNameSurname(user.getId_user()) + "</p>" + "<p class='h5'>"
+				+ user.getEmail() + "</p>" + "<p class='h6'>" + user.getPhone() + "</p>";
+	}
+
+	public String inputTypeTextForUsername(User user) {
+		return "<input type='text' class='form-control disabled' id='_username_update' name='_username_update' placeholder='Nombre de usuario' value='"
+				+ user.getUsername() + "' disabled>";
+	}
+
+	public String inputTypeTextForName(User user) {
+		return "<input type='text' class='form-control' id='_name_update' name='_name_update' placeholder='Nombre' value='"
+				+ user.getName() + "' required>";
+	}
+
+	public String inputTypeTextForLastname(User user) {
+		return "<input type='text' class='form-control' id='_lastname_update' name='_lastname_update' placeholder='Apellidos' value='"
+				+ user.getLastname() + "' required>";
+	}
+
+	public String inputTypeTextForEmail(User user) {
+		return "<input type='text' class='form-control' id='_email_update' name='_email_update' placeholder='Correo electrónico' value='"
+				+ user.getEmail() + "' required>";
+	}
+
+	public String inputTypeTextForPhone(User user) {
+		return "<input type='text' class='form-control' id='_phone_update' name='_phone_update' placeholder='Teléfono' value='"
+				+ user.getPhone() + "' required>";
+	}
+
 }
-
-

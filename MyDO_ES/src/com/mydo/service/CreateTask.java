@@ -65,6 +65,8 @@ public class CreateTask extends HttpServlet {
 			estimated_time = Integer.parseInt(request.getParameter("_estimated_time"));
 			status = request.getParameter("_status");
 			team = request.getParameter("_team");
+			
+			String id_user = request.getParameter("id_user");
 
 			// select the id_team by the name that the user select in form
 			String id_team = TeamCtrl.getInstance().selectIdTeamByName(team);
@@ -77,7 +79,7 @@ public class CreateTask extends HttpServlet {
 					String name_project = request.getParameter("_name_project");
 					Task task = new Task(name, subject, description, type, estimated_time, 0, status, id_team);
 					TaskCtrl.getInstance().insert(task);
-					Project proj = new Project(name_project, subject);
+					Project proj = new Project(name_project, subject, id_user);
 					ProjectCtrl.getInstance().insert(proj);
 					TaskCtrl.getInstance().insertTaskAndTeamRelationShip(task.getId_team(), task.getId_task());
 					ProjectCtrl.getInstance().createRelationShip(proj.getId_project(), task.getId_task(), task.getId_team());
@@ -93,9 +95,7 @@ public class CreateTask extends HttpServlet {
 					System.out.println("Proyecto seleccionado: " + project_selected);
 					Task task = new Task(name, subject, description, type, estimated_time, 0, status, id_team);
 					TaskCtrl.getInstance().insert(task);
-					String id_project = ProjectCtrl.getInstance().selectIdProjectByName(project_selected);
-					System.out.println("Estamos insertando este id de proyecto: " + id_project);
-					ProjectCtrl.getInstance().createRelationShip(id_project, task.getId_task(), id_team);
+					ProjectCtrl.getInstance().createRelationShip(project_selected, task.getId_task(), id_team);
 					TaskCtrl.getInstance().insertTaskAndTeamRelationShip(task.getId_team(), task.getId_task());
 				} catch (Exception e) {
 					System.out.println("Error en 2");

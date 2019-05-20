@@ -19,5 +19,5 @@ function addClassForInputs() {
         
     $("#_password_1").addClass("is-invalid");
     $("#_password_1").val('');
-    $("#_password_1").attr("placeholder", "Las contraseñas no coinciden...").placeholder();
+    $("#_password_1").attr("placeholder", "Las claves que has introducido no coinciden").placeholder();
 }

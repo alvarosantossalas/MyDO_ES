@@ -8,22 +8,25 @@ public class Project {
 	private String name;
 	private int status;
 	private String subject;
+	private String project_manager;
 
 	public Project() {
 	}
 
-	public Project(String name, String subject) {
+	public Project(String name, String subject, String project_manager) {
 		this.id_project = "project_" + UUID.randomUUID().toString();
 		this.name = name;
 		this.status = 1; // by default
 		this.subject = subject;
+		this.project_manager = project_manager;
 	}
 
-	public Project(String id_project, String name, int status, String subject) {
+	public Project(String id_project, String name, int status, String subject, String project_manager) {
 		this.id_project = id_project;
 		this.name = name;
 		this.status = status;
 		this.subject = subject;
+		this.project_manager = project_manager;
 	}
 
 	public String getId_project() {
@@ -56,6 +59,14 @@ public class Project {
 
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+
+	public String getProject_manager() {
+		return project_manager;
+	}
+
+	public void setProject_manager(String project_manager) {
+		this.project_manager = project_manager;
 	}
 
 }

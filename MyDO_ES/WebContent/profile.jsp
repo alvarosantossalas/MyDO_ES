@@ -1,3 +1,7 @@
+<%@page import="com.mydo.utilities.structure.Head"%>
+<%@page import="com.mydo.utilities.structure.FooterWith"%>
+<%@page import="com.mydo.utilities.structure.HeaderWith"%>
+<%@page import="com.mydo.utilities.Profile_listProjects"%>
 <%@page import="com.mydo.utilities.Profile_listTeams"%>
 <%@page import="com.mydo.controller.TeamCtrl"%>
 <%@page import="java.util.ArrayList"%>
@@ -7,78 +11,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>MyDO_ES</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-	crossorigin="anonymous"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-	crossorigin="anonymous"></script>
-<link
-	href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
-	rel="stylesheet">
-<link rel="stylesheet" href="styles/footer.css">
-<link rel="stylesheet" href="styles/styles.css">
+<%
+	out.println(Head.getInstance().returnHead());
+%>
 </head>
 <body>
 	<%
 		String id_user_logado = (String) session.getAttribute("id_user");
 		if (id_user_logado != null) {
 			User user_logado = UserCtrl.getInstance().checkDataForUser(id_user_logado);
+			out.println(HeaderWith.getInstance().returnHeaderWithLogin());
 	%>
-	<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">LOGO MyDO Application</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarNav" aria-controls="navbarNav"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link"
-						href="board.jsp">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="my_tasks.jsp">Tareas</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="my_projects.jsp">Proyectos</a></li>
-					<li class="nav-item"><a class="nav-link" href="profile.jsp">Mi
-							cuenta</a></li>
-				</ul>
-			</div>
-
-		</nav>
-	</header>
-
 	<div class="jumbotron text-light"
 		style="background: url(images/fondo.jpg);">
-
 		<div class="container">
 			<div class="row">
 				<div class="col-sm">
-					<%
-						out.println("<p class='display-3'>" + UserCtrl.getInstance().selectNameSurname(user_logado.getId_user())
-									+ "</p>");
-							out.println("<p class='h5'>" + user_logado.getEmail() + "</p>");
-							out.println("<p class='h6'>" + user_logado.getPhone() + "</p>");
-					%>
+					<% out.println(UserCtrl.getInstance().showPersonalData(user_logado)); %>
 					<!-- Button trigger modal -->
 					<button type="button" class="btn btn-primary" data-toggle="modal"
 						data-target="#exampleModalScrollable">Modificar mis datos
 						personales</button>
-
-					<!-- Modal -->
 					<div class="modal fade" id="exampleModalScrollable" tabindex="-1"
 						role="dialog" aria-labelledby="exampleModalScrollableTitle"
 						aria-hidden="true">
@@ -92,50 +45,29 @@
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<form action="UpdateUserData" method="POST">
+								<form action="UpdateUserData" method="POST"
+									enctype="multipart/form-data">
 									<div class="modal-body text-dark">
-
 										<div class="form-group">
-
 											<label for="_username_update">Nombre de usuario</label>
-											<%
-												out.println(
-															"<input type='text' class='form-control disabled' id='_username_update' name='_username_update' placeholder='Nombre de usuario' value='"
-																	+ user_logado.getUsername() + "' disabled>");
-											%>
+											<% out.println(UserCtrl.getInstance().inputTypeTextForUsername(user_logado)); %>
 										</div>
 										<div class="form-group">
 											<label for="_name_update">Nombre</label>
-											<%
-												out.println(
-															"<input type='text' class='form-control' id='_name_update' name='_name_update' placeholder='Nombre' value='"
-																	+ user_logado.getName() + "' required>");
-											%>
+											<% out.println(UserCtrl.getInstance().inputTypeTextForName(user_logado)); %>
 										</div>
 										<div class="form-group">
 											<label for="_lastname_update">Apellidos</label>
-											<%
-												out.println(
-															"<input type='text' class='form-control' id='_lastname_update' name='_lastname_update' placeholder='Apellidos' value='"
-																	+ user_logado.getLastname() + "' required>");
-											%>
+											<% out.println(UserCtrl.getInstance().inputTypeTextForLastname(user_logado)); %>
 										</div>
 										<div class="form-row">
 											<div class="form-group col-md-9">
 												<label for="_email_update">Correo electrónico</label>
-												<%
-													out.println(
-																"<input type='text' class='form-control' id='_email_update' name='_email_update' placeholder='Correo electrónico' value='"
-																		+ user_logado.getEmail() + "' required>");
-												%>
+												<% out.println(UserCtrl.getInstance().inputTypeTextForEmail(user_logado)); %>
 											</div>
 											<div class="form-group col-md-3">
 												<label for="_phone_update">Teléfono</label>
-												<%
-													out.println(
-																"<input type='text' class='form-control' id='_phone_update' name='_phone_update' placeholder='Teléfono' value='"
-																		+ user_logado.getPhone() + "' required>");
-												%>
+												<% out.println(UserCtrl.getInstance().inputTypeTextForEmail(user_logado)); %>
 											</div>
 										</div>
 										<label>Cambiar mi foto de perfil</label>
@@ -147,11 +79,6 @@
 													tu mejor foto : )</label>
 											</div>
 										</div>
-
-
-
-										<!-- lidhjsdhjoisahhdi -->
-
 										<div class="rounded bg-light" aria-live="polite"
 											aria-atomic="true"
 											style="position: relative; min-height: 200px; top: 20px;">
@@ -170,11 +97,6 @@
 												</div>
 											</div>
 										</div>
-
-
-
-										<!-- idjhsoiadjioasjdi -->
-
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-danger"
@@ -186,7 +108,6 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 				<div class="col-sm">
 					<div id="marco-imagen" class="container text-center">
@@ -195,14 +116,8 @@
 				</div>
 			</div>
 		</div>
-
-
 	</div>
-
-
 	<div id="centro" class="container text-center">
-		<!-- CENTRO -->
-
 		<div class="container"></div>
 		<div class="btn-group" role="group">
 			<button class="btn btn-primary">Mis equipos</button>
@@ -212,12 +127,9 @@
 				<input type="submit" class="btn btn-danger rounded-right"
 					value="Cerrar sesión">
 			</form>
-
 		</div>
-
 		<br> <br>
-		<div class="container-fluid"
-			id="container-equipos">
+		<div class="container-fluid" id="container-equipos">
 			<p class="display-4 text-left">Mis equipos</p>
 			<table class="table text-left">
 				<thead class="thead-dark">
@@ -229,18 +141,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					<%
-						out.println(Profile_listTeams.getInstance().fillListTeams(id_user_logado));
-					%>
+					<% out.println(Profile_listTeams.getInstance().fillListTeams(id_user_logado)); %>
 				</tbody>
 			</table>
 		</div>
-		<div class="container-fluid"
-			id="container-proyectos">
+		<div class="container-fluid" id="container-proyectos">
 			<p class="display-4 text-left">Mis proyectos</p>
 			<table class="table">
 				<thead class="thead-dark">
-					<tr>
+					<tr class="text-left">
 						<th scope="col">#</th>
 						<th scope="col">Proyecto</th>
 						<th scope="col">Project Manager</th>
@@ -249,145 +158,21 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td>Mark</td>
-						<td><a href="#">Otto</a></td>
-						<td>@mdo</td>
-						<td class="text-left">
-							<button class="btn btn-warning">Tarea 3</button>
-							<button class="btn btn-primary">Tarea 4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-warning">Tarea 3</button>
-							<button class="btn btn-primary">Tarea 4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-warning">Tarea 3</button>
-							<button class="btn btn-primary">Tarea 4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-warning" style="margin-top: 2px">Tarea
-								3</button>
-							<button class="btn btn-primary">Tarea 4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-warning">Tarea 3</button>
-							<button class="btn btn-primary">Tarea 4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-success">Tarea 1</button>
-							<button class="btn btn-success">Tarea 2</button>
-							<button class="btn btn-warning">Tarea 3</button>
-							<button class="btn btn-primary" style="margin-top: 2px">Tarea
-								4</button>
-							<button class="btn btn-success">Tarea 5</button>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>Jacob</td>
-						<td><a href="#">Thornton</a></td>
-						<td>@fat</td>
-						<td class="text-left">
-							<button class="btn btn-primary">Tarea 4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-success">Tarea 1</button>
-							<button class="btn btn-success">Tarea 2</button>
-							<button class="btn btn-warning">Tarea 3</button>
-							<button class="btn btn-primary" style="margin-top: 2px">Tarea
-								4</button>
-							<button class="btn btn-success">Tarea 5</button>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td>Larry</td>
-						<td><a href="#">the Bird</a></td>
-						<td>@twitter</td>
-						<td class="text-left">
-							<button class="btn btn-primary">Tarea 4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-success">Tarea 1</button>
-							<button class="btn btn-success">Tarea 2</button>
-							<button class="btn btn-warning">Tarea 3</button>
-							<button class="btn btn-primary" style="margin-top: 2px">Tarea
-								4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-primary">Tarea 4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-success">Tarea 1</button>
-							<button class="btn btn-success">Tarea 2</button>
-							<button class="btn btn-warning">Tarea 3</button>
-							<button class="btn btn-primary" style="margin-top: 2px">Tarea
-								4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-primary">Tarea 4</button>
-							<button class="btn btn-success">Tarea 5</button>
-							<button class="btn btn-success">Tarea 1</button>
-							<button class="btn btn-success">Tarea 2</button>
-							<button class="btn btn-warning">Tarea 3</button>
-							<button class="btn btn-primary" style="margin-top: 2px">Tarea
-								4</button>
-							<button class="btn btn-success">Tarea 5</button>
-						</td>
-					</tr>
+					<% out.println(Profile_listProjects.getInstance().fillListProjects(id_user_logado)); %>
 				</tbody>
 			</table>
 		</div>
-		<div class="container-fluid"
-			id="container-administracion">
+		<div class="container-fluid" id="container-administracion">
 			<p class="display-4 text-left">Administración</p>
 		</div>
-
-		<!-- FIN CENTRO -->
 	</div>
 	<br>
 	<section id="info" style="background: url(images/pruebaabajo.PNG);">
 		<p class="display-4">No importa quien seas, MyDO está diseñado
 			para tí</p>
 	</section>
-	<footer id="myFooter">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-3">
-					<h2 class="logo">
-						<a href="#"> LOGO </a>
-					</h2>
-				</div>
-				<div class="col-sm-2">
-					<h5>Comenzemos</h5>
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Registrarse</a></li>
-						<li><a href="#">Descargas</a></li>
-					</ul>
-				</div>
-				<div class="col-sm-2">
-					<h5>Sobre nosotros</h5>
-					<ul>
-						<li><a href="#">Información de la compañía</a></li>
-						<li><a href="#">Contactar</a></li>
-					</ul>
-				</div>
-				<div class="col-sm-2">
-					<h5>Soporte</h5>
-					<ul>
-						<li><a href="#">FAQ</a></li>
-						<li><a href="#">Ayuda</a></li>
-						<li><a href="#">Foros</a></li>
-					</ul>
-				</div>
-				<div class="col-sm-3">
-					<div class="social-networks">
-						<a href="#" class="twitter"><i class="fa fa-twitter"></i></a> <a
-							href="#" class="facebook"><i class="fa fa-facebook"></i></a> <a
-							href="#" class="google"><i class="fa fa-google-plus"></i></a>
-					</div>
-					<button type="button" class="btn btn-default">Contactar</button>
-				</div>
-			</div>
-		</div>
-		<div class="footer-copyright">
-			<p>© 2019 MyDO ES Co.</p>
-		</div>
-	</footer>
-	<%
+	<% out.println(FooterWith.getInstance().returnFooterWithLogin()); 
+	
 		} else {
 			session.invalidate();
 			System.out.println("La sesión ha sido validada en profile.jsp");

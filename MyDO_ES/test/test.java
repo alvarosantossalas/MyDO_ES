@@ -1,8 +1,6 @@
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import com.mydo.controller.TaskCtrl;
-import com.mydo.core.dao.ProjectDAO;
 import com.mydo.core.model.Task;
 
 public class test {

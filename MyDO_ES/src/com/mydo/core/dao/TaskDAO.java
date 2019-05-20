@@ -228,5 +228,44 @@ public class TaskDAO {
 		}
 		return result;
 	}
+	
+	public String selectUsernameByIdUser(String id) throws SQLException {
+		query = "SELECT _username FROM tfg_user WHERE _id_user = ?;";
+		String result;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				if (rs.next()) {
+					result = rs.getString("_username");
+				}
+			}
+		}
+		return result;
+	}
+	
+	public String selectTaskNameByIdTask(String id) throws SQLException {
+		query = "SELECT _name FROM tfg_task WHERE _id_task = ?;";
+		String result; 
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				if (rs.next()) {
+					result = rs.getString("_name");
+				}
+			}
+		}
+		return result;
+	}
 
 }
+
+
+
+
+
+
+
+
+

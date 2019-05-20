@@ -1,6 +1,8 @@
 package com.mydo.controller;
 
+import com.mydo.core.model.Task;
 import com.mydo.core.model.Team;
+import com.mydo.core.model.User;
 import com.mydo.core.dao.TeamDAO;
 import com.mydo.core.dao.UserDAO;
 
@@ -69,5 +71,52 @@ public class TeamCtrl {
 	public String selectAdminByIdTeam(String id) throws SQLException {
 		return UserDAO.getInstance().selectAdminByIdTeam(id);
 	}
+	
+	public String showTeamsForThisUser(User user) throws SQLException {
+		String str = "";
+		if (TeamCtrl.getInstance().listAllTeamsForOneUser(user.getId_user()) != null) {
+			ArrayList<String> team_list = listAllTeamsForOneUser(user.getId_user());
+			for (int i = 0; i < team_list.size(); i++) {
+				str += "<option value='" + team_list.get(i) + "'>" + team_list.get(i) + "</option>";
+			}
+		} else {
+			str += "<option>No se han encontrado resultados</option>";
+		}
+		return str;
+	}
+	
+	public String showResponsibleTeamForATask(String id_user, Task selected_task) throws SQLException {
+		String str = "";
+		if (listAllTeamsForOneUser(id_user) != null) {
+			ArrayList<String> team_list = listAllTeamsForOneUser(id_user);
+			for (int i = 0; i < team_list.size(); i++) {
+				String current_id_team = selectIdTeamByName(team_list.get(i));
+				if (!current_id_team.equals(selected_task.getId_team())) {
+					str += "<option value='"+team_list.get(i)+"'>"+team_list.get(i)+"</option>";
+				} else {
+					str += "<option value='"+team_list.get(i)+"' selected>" + team_list.get(i) + "</option>";
+				}
+			}
+		}
+		return str;
+	}
+	
+	/*
+ * 								if (TeamCtrl.getInstance().listAllTeamsForOneUser(id_user_logado) != null) {
+									ArrayList<String> team_list = TeamCtrl.getInstance().listAllTeamsForOneUser(id_user_logado);
+									for (int i = 0; i < team_list.size(); i++) {
+										// Por cada nombre que recorre sacaremos su id
+										String current_id_team = TeamCtrl.getInstance().selectIdTeamByName(team_list.get(i));
+										// Si el id que recorremos es igual al id que buscamos...
+										if (!current_id_team.equals(selected_task.getId_team())) {
+											out.println("<option value='" + team_list.get(i) + "'>" + team_list.get(i) + "</option>");
+										} else {
+											out.println("<option value='" + team_list.get(i) + "' selected>" + team_list.get(i)
+													+ "</option>");
+										}
+									}
+								}
+	 */
+	
 	
 }

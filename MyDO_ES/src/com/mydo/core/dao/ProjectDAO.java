@@ -33,12 +33,13 @@ public class ProjectDAO {
 
 	// Insert project with related Task object in the database
 	public void insert(Project project) throws SQLException {
-		query = "INSERT INTO tfg_project (_id_project, _name, _status, _subject) VALUES (?,?,?,?);";
+		query = "INSERT INTO tfg_project (_id_project, _name, _status, _subject, _project_manager) VALUES (?,?,?,?,?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, project.getId_project());
 			ps.setString(2, project.getName());
 			ps.setInt(3, project.getStatus());
 			ps.setString(4, project.getSubject());
+			ps.setString(5, project.getProject_manager());
 			ps.executeUpdate();
 			ps.close();
 		}
@@ -56,7 +57,7 @@ public class ProjectDAO {
 					result = new ArrayList<>();
 				}
 				result.add(new Project(rs.getString("_id_project"), rs.getString("_name"), rs.getInt("_status"),
-						rs.getString("_subject")));
+						rs.getString("_subject"), rs.getString("_project_manager")));
 			}
 			rs.close();
 		}
@@ -73,7 +74,7 @@ public class ProjectDAO {
 				result = null;
 				if (rs.next()) {
 					result = new Project(rs.getString("_id_project"), rs.getString("_name"), rs.getInt("_status"),
-							rs.getString("_subject"));
+							rs.getString("_subject"), rs.getString("_project_manager"));
 				}
 			}
 		}
@@ -102,13 +103,14 @@ public class ProjectDAO {
 		if ("".equals(project.getId_project())) {
 			return;
 		}
-		query = "UPDATE tfg_project SET _id_project=?, _name=?, _status=?, _subject=? WHERE _id_project=?;";
+		query = "UPDATE tfg_project SET _id_project=?, _name=?, _status=?, _subject=?, _project_manager=? WHERE _id_project=?;";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, project.getId_project());
 			ps.setString(2, project.getName());
 			ps.setInt(3, project.getStatus());
 			ps.setString(4, project.getSubject());
-			ps.setString(5, project.getId_project());
+			ps.setString(5, project.getProject_manager());
+			ps.setString(6, project.getId_project());
 			ps.executeUpdate();
 			ps.close();
 		}
@@ -124,6 +126,21 @@ public class ProjectDAO {
 				result = null;
 				if (rs.next()) {
 					result = rs.getString("_id_project");
+				}
+			}
+		}
+		return result;
+	}
+	
+	public String selectNameByIdProject(String id_project) throws SQLException {
+		query = "SELECT _name FROM tfg_project WHERE _id_project = ?;";
+		String result;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id_project);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				if (rs.next()) {
+					result = rs.getString("_name");
 				}
 			}
 		}
@@ -186,6 +203,71 @@ public class ProjectDAO {
 		}
 		return result;
 	}
+	
+	// Returns an int and is admin if a Project object is created or not
+	public int countHowManyTasks(String id_project) throws SQLException {
+		int result = 0;
+		query = "SELECT COUNT('_id_task') FROM tfg_tasks_in_projects WHERE _id_project = '" + id_project + "';";
+		try (PreparedStatement ps = con.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		}
+		return result;
+	}
+	
+	public ArrayList<String> listAllTasksForOneProject(String id_project) throws SQLException {
+		query = "SELECT _id_task FROM tfg_tasks_in_projects WHERE _id_project = ?;";
+		ArrayList<String> result = null;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id_project);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				while (rs.next()) {
+					if (result == null) {
+						result = new ArrayList<>();
+					}
+					result.add(rs.getString("_id_task"));
+				}
+			}
+		}
+		return result;
+	}
+	
+	public String selectProjectManagerForProjectById(String id_project) throws SQLException {
+		query = "SELECT _project_manager FROM tfg_project WHERE _id_project = ?;";
+		String result = null;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id_project);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				if (rs.next()) {
+					result = rs.getString("_project_manager");
+				}
+			}
+		}
+		return result;
+	}
+	
+	/*
+	 * 	public ArrayList<String> listAllProjectsForOneUser(String id_user) throws SQLException {
+		query = "SELECT _name FROM tfg_project WHERE _id_project IN (SELECT _id_project FROM tfg_tasks_in_projects WHERE _id_team IN (SELECT _id_team FROM tfg_members_team WHERE _id_user = ?));";
+		ArrayList<String> result = null;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id_user);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				while (rs.next()) {
+					if (result == null) {
+						result = new ArrayList<>();
+					}
+					result.add(rs.getString("_name"));
+				}
+			}
+		}
+		return result;
+	}
+	 */
 
 }
 

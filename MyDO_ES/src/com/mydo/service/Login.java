@@ -87,9 +87,18 @@ public class Login extends HttpServlet {
 						// UserCtrl.getInstance().selectNameByUsername(username));
 						response.sendRedirect("board.jsp");
 					} else { // User doesnt exist
-						response.setContentType("text/html;charset=UTF-8");
 						out = response.getWriter();
-						out.print("<script type:\text/javascript\"setTimeout('location.href=board.jsp', 1000</script>");
+						out.print("<head>"
+								+ "<title>MyDO Application</title>"
+								+ "<script src='https://unpkg.com/sweetalert/dist/sweetalert.min.js'></script>"
+								+ "</head>"
+								+ "<body style='background-image: url(images/fondo.jpg);'>"
+								+ "<script>"
+								+ "swal('¡Vaya...! Usuario o contraseña incorrectos','','error')"
+								+ ".then((value) => {"
+								+ "document.location.href='login.jsp';});"
+								+ "</script>"
+								+ "</body>");
 					}
 				}
 			} catch (SQLException e) {

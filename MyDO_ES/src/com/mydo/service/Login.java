@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.mydo.controller.SessionCtrl;
 import com.mydo.controller.UserCtrl;
 import com.mydo.core.model.Session;
+import com.mydo.core.model.User;
 
 /**
  * Servlet implementation class Login
@@ -74,15 +75,17 @@ public class Login extends HttpServlet {
 
 					// the user exists and has correctly set their credentials
 					if (UserCtrl.getInstance().canLoginOrNot(username, password)) {
-						// doGet(request, response,
 						// UserCtrl.getInstance().selectIdByUsername(username));
 						// Create session and insert session in history
 						SessionCtrl.getInstance().openSession(new Session(
 								UserCtrl.getInstance().selectIdByUsername(username), new Date().toString()));
-						HttpSession httpSession = request.getSession(true);
-						httpSession.setAttribute("id_user", UserCtrl.getInstance().selectIdByUsername(username));
+						// rescatamos el objecto usuario
+						User us_logado = UserCtrl.getInstance().listById(UserCtrl.getInstance().selectIdByUsername(username));
+						// Create session
+						HttpSession session = request.getSession();
+						session.setAttribute("us_logado", us_logado);
 						System.out
-								.println("ID USER EN SERVLET: " + UserCtrl.getInstance().selectIdByUsername(username));
+								.println("ID USER EN SERVLET: " + us_logado.getId_user());
 						// request.getSession().setAttribute("_name",
 						// UserCtrl.getInstance().selectNameByUsername(username));
 						response.sendRedirect("board.jsp");

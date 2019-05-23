@@ -17,17 +17,20 @@
 </head>
 <body>
 	<%
-		String id_user_logado = (String) session.getAttribute("id_user");
-		if (id_user_logado != null) {
-			User user_logado = UserCtrl.getInstance().checkDataForUser(id_user_logado);
-			out.println(HeaderWith.getInstance().returnHeaderWithLogin());
+	if ((User) session.getAttribute("us_logado") != null) {
+		User us_logado = (User) session.getAttribute("us_logado");
+		//String id_user_logado = (String) session.getAttribute("id_user");
+		us_logado = UserCtrl.getInstance().checkDataForUser(us_logado);
+		out.println(HeaderWith.getInstance().returnHeaderWithLogin());
 	%>
 	<div class="jumbotron text-light"
 		style="background: url(images/fondo.jpg);">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm">
-					<% out.println(UserCtrl.getInstance().showPersonalData(user_logado)); %>
+					<%
+						out.println(UserCtrl.getInstance().showPersonalData(us_logado));
+					%>
 					<!-- Button trigger modal -->
 					<button type="button" class="btn btn-primary" data-toggle="modal"
 						data-target="#exampleModalScrollable">Modificar mis datos
@@ -50,24 +53,24 @@
 									<div class="modal-body text-dark">
 										<div class="form-group">
 											<label for="_username_update">Nombre de usuario</label>
-											<% out.println(UserCtrl.getInstance().inputTypeTextForUsername(user_logado)); %>
+											<% out.println(UserCtrl.getInstance().inputTypeTextForUsername(us_logado)); %>
 										</div>
 										<div class="form-group">
 											<label for="_name_update">Nombre</label>
-											<% out.println(UserCtrl.getInstance().inputTypeTextForName(user_logado)); %>
+											<% out.println(UserCtrl.getInstance().inputTypeTextForName(us_logado)); %>
 										</div>
 										<div class="form-group">
 											<label for="_lastname_update">Apellidos</label>
-											<% out.println(UserCtrl.getInstance().inputTypeTextForLastname(user_logado)); %>
+											<% out.println(UserCtrl.getInstance().inputTypeTextForLastname(us_logado)); %>
 										</div>
 										<div class="form-row">
 											<div class="form-group col-md-9">
 												<label for="_email_update">Correo electrónico</label>
-												<% out.println(UserCtrl.getInstance().inputTypeTextForEmail(user_logado)); %>
+												<% out.println(UserCtrl.getInstance().inputTypeTextForEmail(us_logado)); %>
 											</div>
 											<div class="form-group col-md-3">
 												<label for="_phone_update">Teléfono</label>
-												<% out.println(UserCtrl.getInstance().inputTypeTextForEmail(user_logado)); %>
+												<% out.println(UserCtrl.getInstance().inputTypeTextForEmail(us_logado)); %>
 											</div>
 										</div>
 										<label>Cambiar mi foto de perfil</label>
@@ -120,9 +123,9 @@
 	<div id="centro" class="container text-center">
 		<div class="container"></div>
 		<div class="btn-group" role="group">
-			<button class="btn btn-primary">Mis equipos</button>
-			<button class="btn btn-primary">Mis proyectos</button>
-			<button class="btn btn-primary disabled">Administración</button>
+			<a href="#myteams" class="btn btn-primary">Mis equipos</a>
+			<a href="#myprojects" class="btn btn-primary">Mis proyectos</a>
+			<a href="#administration" class="btn btn-primary">Administración</a>
 			<form action="CloseSession" method="POST">
 				<input type="submit" class="btn btn-danger rounded-right"
 					value="Cerrar sesión">
@@ -130,7 +133,7 @@
 		</div>
 		<br> <br>
 		<div class="container-fluid" id="container-equipos">
-			<p class="display-4 text-left">Mis equipos</p>
+			<p class="display-4 text-left"><a name="myteams">Mis equipos</a></p>
 			<table class="table text-left">
 				<thead class="thead-dark">
 					<tr>
@@ -141,12 +144,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% out.println(Profile_listTeams.getInstance().fillListTeams(id_user_logado)); %>
+					<% out.println(Profile_listTeams.getInstance().fillListTeams(us_logado.getId_user())); %>
 				</tbody>
 			</table>
 		</div>
 		<div class="container-fluid" id="container-proyectos">
-			<p class="display-4 text-left">Mis proyectos</p>
+			<p class="display-4 text-left"><a name="myprojects">Mis proyectos</a></p>
 			<table class="table">
 				<thead class="thead-dark">
 					<tr class="text-left">
@@ -158,12 +161,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% out.println(Profile_listProjects.getInstance().fillListProjects(id_user_logado)); %>
+					<% out.println(Profile_listProjects.getInstance().fillListProjects(us_logado.getId_user())); %>
 				</tbody>
 			</table>
 		</div>
 		<div class="container-fluid" id="container-administracion">
-			<p class="display-4 text-left">Administración</p>
+			<p class="display-4 text-left"><a name="administration">Administración</a></p>
 		</div>
 	</div>
 	<br>

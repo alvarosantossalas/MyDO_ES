@@ -19,13 +19,14 @@
 </head>
 <body>
 	<%
-		if ((String) session.getAttribute("id_user") != null) {
-			String id_user_logado = (String) session.getAttribute("id_user");
-			System.out.println("ID user_logado en task: " + id_user_logado);
-
+	
+		if ((User) session.getAttribute("us_logado") != null) {
+			User us_logado = (User) session.getAttribute("us_logado");
+			us_logado = UserCtrl.getInstance().checkDataForUser(us_logado);
 			String id_task = request.getParameter("id_task");
 			Task selected_task = TaskCtrl.getInstance().listById(id_task);
 			out.println(HeaderWith.getInstance().returnHeaderWithLogin());
+
 	%>
 	<div class="jumbotron text-light"
 		style="background: url(images/partearriba.PNG);">
@@ -53,7 +54,7 @@
 					<dt class="col-sm-2 text-truncate">Equipo responsable:</dt>
 					<dd class="col-sm-2">
 						<select class="form-control" name="_team">
-							<% out.println(TeamCtrl.getInstance().showResponsibleTeamForATask(id_user_logado, selected_task)); %>
+							<% out.println(TeamCtrl.getInstance().showResponsibleTeamForATask(us_logado.getId_user(), selected_task)); %>
 						</select>
 					</dd>
 					<dt class="col-sm-1">Estado</dt>
@@ -74,10 +75,10 @@
 						<div class="progress" style="height: 38px;">
 							<% out.println(TaskCtrl.getInstance().showSecondPartOfPercentageInTask(id_task)); %>
 						</div>
-					</dd>
+					</dd> 
 					<br><br><br><br>
 					<dt class="col-sm-2">En proyecto:</dt>
-					<% out.println(ProjectCtrl.getInstance().showProjectsWhereTaskExistIn(id_user_logado)); %>
+					<% out.println(ProjectCtrl.getInstance().showProjectsWhereTaskExistIn(us_logado.getId_user())); %>
 					<br><br><br>
 				</dl>
 			</div>

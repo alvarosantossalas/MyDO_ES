@@ -73,25 +73,34 @@ public class UserCtrl {
 		return UserDAO.getInstance().selectUsernameByIdUser(id);
 	}
 
-	public User checkDataForUser(String id) throws SQLException {
-		User result = listById(id);
-		if (result.getUsername() == null) {
-			result.setUsername("No tenemos registrado tu nombre de usuario...");
-		} else if (result.getName() == null) {
-			result.setName("No tenemos registrado tu nombre...");
-		} else if (result.getLastname() == null) {
-			result.setLastname("No tenemos registrados tus apellidos...");
-		} else if (result.getEmail() == null) {
-			result.setEmail("No tenemos registrado tu email...");
-		} else if (result.getPhone() == null) {
-			result.setPhone("No tenemos registrado tu teléfono...");
+	public void removeUserFromTeam(String id_user, String id_team) throws SQLException {
+		UserDAO.getInstance().removeUserFromTeam(id_user, id_team);
+	}
+
+	public User checkDataForUser(User user) throws SQLException {
+		if (user.getUsername() == null) {
+			user.setUsername("No tenemos registrado tu nombre de usuario...");
+		} else if (user.getName() == null) {
+			user.setName("No tenemos registrado tu nombre...");
+		} else if (user.getLastname() == null) {
+			user.setLastname("No tenemos registrados tus apellidos...");
+		} else if (user.getEmail() == null) {
+			user.setEmail("No tenemos registrado tu email...");
+		} else if (user.getPhone() == null) {
+			user.setPhone("No tenemos registrado tu teléfono...");
 		}
-		return result;
+		return user;
 	}
 
 	public String showPersonalData(User user) throws SQLException {
 		return "<p class='display-3'>" + selectNameSurname(user.getId_user()) + "</p>" + "<p class='h5'>"
 				+ user.getEmail() + "</p>" + "<p class='h6'>" + user.getPhone() + "</p>";
+	}
+
+	public String showPersonalDataForExternalUser(User user) throws SQLException {
+		return "<p class='display-3'>" + selectNameSurname(user.getId_user()) + "</p>"
+				+ "<p class='h5'>Nombre de usuario: " + user.getUsername() + "</p>" + "<p class='h5'>Email: "
+				+ user.getEmail() + "</p>" + "<p class='h5'>Phone: " + user.getPhone() + "</p>";
 	}
 
 	public String inputTypeTextForUsername(User user) {

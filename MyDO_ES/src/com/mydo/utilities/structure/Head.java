@@ -13,7 +13,7 @@ public class Head {
 	}
 
 	public String returnHead() {
-		return "<meta http-equiv='Content-type' content='text/html; charset=UTF-8>"
+		return "<meta http-equiv='Content-type' content='text/html; charset=UTF-8'>"
 				+ "<title>MyDO Es</title>"
 				+ "<script src='https://unpkg.com/sweetalert/dist/sweetalert.min.js'></script>"
 				+ "<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>"

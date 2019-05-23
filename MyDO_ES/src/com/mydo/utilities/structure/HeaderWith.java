@@ -19,7 +19,8 @@ public class HeaderWith {
 				+ "<span class='navbar-toggler-icon'></span>" + "</button>"
 				+ "<div class='collapse navbar-collapse' id='navbarNav'>" + "<ul class='navbar-nav'>"
 				+ "<li class='nav-item active'>" + "<a class='nav-link' href='board.jsp'>Tablero</a>" + "</li>"
-				+ "<li class='nav-item'>" + "<a class='nav-link' href='project.jsp'>Proyectos</a>" + "</li>"
+				+ "<li class='nav-item'>" + "<a class='nav-link' href='profile.jsp#myprojects'>Proyectos</a>" + "</li>"
+				+ "<li class='nav-item'>" + "<a class='nav-link' href='profile.jsp#myteams'>Equipos</a>" + "</li>"
 				+ "<li class='nav-item'>" + "<a class='nav-link' href='profile.jsp'>Mi cuenta</a>" + "</li>" + "</ul>"
 				+ "</div>" + "</nav>" + "</header>";
 	}

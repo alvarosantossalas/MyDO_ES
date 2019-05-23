@@ -259,5 +259,15 @@ public class UserDAO {
 		}
 		return result;
 	}
+	
+	public void removeUserFromTeam(String id_user, String id_team) throws SQLException {
+		query = "DELETE FROM tfg_members_team WHERE _id_user = ? AND _id_team = ?;";
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id_user);
+			ps.setString(2, id_team);
+			ps.executeUpdate();
+			ps.close();
+		}
+	}
 
 }

@@ -249,30 +249,4 @@ public class ProjectDAO {
 		return result;
 	}
 	
-	/*
-	 * 	public ArrayList<String> listAllProjectsForOneUser(String id_user) throws SQLException {
-		query = "SELECT _name FROM tfg_project WHERE _id_project IN (SELECT _id_project FROM tfg_tasks_in_projects WHERE _id_team IN (SELECT _id_team FROM tfg_members_team WHERE _id_user = ?));";
-		ArrayList<String> result = null;
-		try (PreparedStatement ps = con.prepareStatement(query)) {
-			ps.setString(1, id_user);
-			try (ResultSet rs = ps.executeQuery()) {
-				result = null;
-				while (rs.next()) {
-					if (result == null) {
-						result = new ArrayList<>();
-					}
-					result.add(rs.getString("_name"));
-				}
-			}
-		}
-		return result;
-	}
-	 */
-
 }
-
-
-
-
-
-

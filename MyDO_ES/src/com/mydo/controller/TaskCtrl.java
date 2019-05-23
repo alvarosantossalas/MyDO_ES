@@ -197,7 +197,8 @@ public class TaskCtrl {
 	}
 	
 	public String inputTypeTextForConsumedTime(Task task) {
-		return "Tiempo consumido: <input type='number' class='form-control' value='" + task.getConsumed_time() + "' name='_estimated_time' required>";
+		System.out.println("Tiempo consumido: " + task.getConsumed_time());
+		return "Tiempo consumido: <input type='number' class='form-control' value='" + task.getConsumed_time() + "' name='_consumed_time' required>";
 	}
 	
 	public String inputTypeTextForEstimatedTime(Task task) {

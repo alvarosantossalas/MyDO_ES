@@ -1,3 +1,4 @@
+<%@page import="com.mydo.controller.SessionCtrl"%>
 <%@page import="com.mydo.utilities.structure.Head"%>
 <%@page import="com.mydo.utilities.structure.FooterWith"%>
 <%@page import="com.mydo.utilities.structure.HeaderWith"%>
@@ -20,9 +21,10 @@
 </head>
 <body>
 	<%
-		if ((String) session.getAttribute("id_user") != null) {
-			String id_user_logado = (String) session.getAttribute("id_user");
-			User user_logado = UserCtrl.getInstance().checkDataForUser(id_user_logado);
+		if ((User) session.getAttribute("us_logado") != null) {
+			User us_logado = (User) session.getAttribute("us_logado");
+			//String id_user_logado = (String) session.getAttribute("id_user");
+			us_logado = UserCtrl.getInstance().checkDataForUser(us_logado);
 			out.println(HeaderWith.getInstance().returnHeaderWithLogin());
 	%>
 
@@ -88,7 +90,7 @@
 				<form action="DeleteTask">
 					<a><button class="btn btn-danger text-dark bg-light"
 							type="button">
-							Eliminar seleccionado <img src="icons/icon-trash_32px.png">
+							Iniciar guía rápida <img src="icons/icon-manual_32px.png">
 						</button></a>
 				</form>
 			</nav>
@@ -108,7 +110,7 @@
 			</thead>
 			<tbody>
 				<%
-					out.println(TaskCtrl.getInstance().showTaskInBoard(id_user_logado));
+					out.println(TaskCtrl.getInstance().showTaskInBoard(us_logado.getId_user()));
 				%>
 			</tbody>
 		</table>
@@ -137,7 +139,7 @@
 					</button>
 				</div>
 				<%
-					out.println("<form action='CreateTask?id_user=" + id_user_logado + "' method='POST'>");
+					out.println("<form action='CreateTask?id_user=" + us_logado.getId_user() + "' method='POST'>");
 				%>
 				<div class="modal-body">
 					<div class="form-row">
@@ -188,7 +190,7 @@
 								id="_team" name="_team" class="form-control" required>
 								<option selected>Tus equipos...</option>
 								<%
-									out.println(TeamCtrl.getInstance().showTeamsForThisUser(user_logado));
+									out.println(TeamCtrl.getInstance().showTeamsForThisUser(us_logado));
 								%>
 							</select>
 						</div>
@@ -209,7 +211,7 @@
 								class="form-control">
 								<option selected>Tus proyectos...</option>
 								<%
-									out.println(ProjectCtrl.getInstance().showProjectsForUser(id_user_logado));
+									out.println(ProjectCtrl.getInstance().showProjectsForUser(us_logado.getId_user()));
 								%>
 							</select>
 							<hr>
@@ -228,16 +230,17 @@
 				</div>
 			</div>
 		</div>
-		<%
-			} else {
-				session.invalidate();
-				System.out.println("La sesión ha sido invalidada en board.jsp");
-				response.sendRedirect("error403.html");
-			}
-		%>
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script
-			src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</div>
+	<%
+		} else {
+			session.invalidate();
+			System.out.println("La sesión ha sido invalidada en board.jsp");
+			response.sendRedirect("error403.html");
+		}
+	%>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

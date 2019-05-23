@@ -28,7 +28,12 @@ public class Profile_listProjects {
 		ArrayList<String> ids = turnOnAllTheIdsInList(names);
 		for (int i = 0; i < names.size(); i++) {
 			project_name = names.get(i);
-			str += "<tr class='text-left'><th scope='row'>" + (i + 1) + "</th>" + "<td>" + project_name + "</td>";
+			str += "<tr class='text-left'>"
+					+ "<td>"
+					+ "<button class='btn btn-outline-primary'><img src='icons/icon-admin_32px.png'></button> "
+					+ "<button class='btn btn-outline-danger'><img src='icons/icon-trash_32px.png'></button>"
+					+ "</td>" 
+					+ "<td>" + project_name + "</td>";
 			project_manager = UserCtrl.getInstance().selectNameSurname(ProjectCtrl.getInstance().selectProjectManagerForProjectById(ids.get(i)));
 			str += "<td>" + project_manager + "</td>";
 			n_tasks = ProjectCtrl.getInstance().countHowManyTasks(ids.get(i));

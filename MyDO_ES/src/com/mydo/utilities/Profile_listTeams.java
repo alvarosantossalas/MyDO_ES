@@ -16,6 +16,39 @@ public class Profile_listTeams {
 		return instance;
 	}
 	
+	public String fillListTeamsForAdmin(String id_user_ext) throws SQLException {
+		ArrayList<String> names = TeamCtrl.getInstance().listAllTeamsForOneUser(id_user_ext);
+		String team_name;
+		String admin;
+		ArrayList<String> members;
+		String str="<input type='hidden' name='id_user' value='"+id_user_ext+"'>";
+		ArrayList<String> ids = turnOnAllTheIdsInList(names);
+		
+		for (int i = 0; i < names.size(); i++) {
+			team_name = names.get(i);
+			admin = UserCtrl.getInstance().selectNameSurname(TeamCtrl.getInstance().selectAdminByIdTeam(ids.get(i)));
+			members = TeamCtrl.getInstance().listAllUsersForATeam(ids.get(i));
+			str += "<tr>"
+					+ "<td>"
+					+ "<button type='submit' class='btn btn-outline-primary'><img src='icons/icon-admin_32px.png'></button> "
+					+ "<button type='submit' class='btn btn-outline-danger'><img src='icons/icon-trash_32px.png'></button>"
+					+ "</td>"
+					+ "<td>" + team_name + "</td>"
+ 					+ "<td>" + admin + "</td>"
+					+ "<td class='text-left'>"
+					+ "<input type='hidden' name='team_name' value='" +team_name+"'>";
+			for (int x = 0; x < members.size(); x++) {
+				if (admin.equals(UserCtrl.getInstance().selectNameSurname(members.get(x)))) {
+					str += "<a href='profile-ext.jsp?id_user_ext="+members.get(x)+"' class='btn btn-primary' style='margin-left: 5px;'>" + UserCtrl.getInstance().selectNameSurname(members.get(x)) + "</a>";
+				} else {
+					str += "<a href='profile-ext.jsp?id_user_ext="+members.get(x)+"' class='btn btn-outline-primary' style='margin-left: 5px;'>" + UserCtrl.getInstance().selectNameSurname(members.get(x)) + "</a>";
+				}
+			}
+			str += "</td></tr>";
+		}
+		return str;
+	}
+	
 	public String fillListTeams(String id_user_logado) throws SQLException {
 		
 		ArrayList<String> names = TeamCtrl.getInstance().listAllTeamsForOneUser(id_user_logado);
@@ -35,9 +68,9 @@ public class Profile_listTeams {
 			str += "<td class='text-left'>";
 			for (int x = 0; x < members.size(); x++) {
 				if (admin.equals(UserCtrl.getInstance().selectNameSurname(members.get(x)))) {
-					str += "<a href='#' class='btn btn-primary' style='margin-left: 5px;'>" + UserCtrl.getInstance().selectNameSurname(members.get(x)) + "</a>";
+					str += "<a href='profile-ext.jsp?id_user_ext="+members.get(x)+"' class='btn btn-primary' style='margin-left: 5px;'>" + UserCtrl.getInstance().selectNameSurname(members.get(x)) + "</a>";
 				} else {
-					str += "<a href='#' class='btn btn-outline-primary' style='margin-left: 5px;'>" + UserCtrl.getInstance().selectNameSurname(members.get(x)) + "</a>";
+					str += "<a href='profile-ext.jsp?id_user_ext="+members.get(x)+"' class='btn btn-outline-primary' style='margin-left: 5px;'>" + UserCtrl.getInstance().selectNameSurname(members.get(x)) + "</a>";
 				}
 			}
 			str += "</td></tr>";

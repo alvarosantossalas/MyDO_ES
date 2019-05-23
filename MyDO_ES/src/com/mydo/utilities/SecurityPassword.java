@@ -13,7 +13,7 @@ import javax.crypto.Cipher;
 
 public class SecurityPassword {
 
-	public static String Encriptar(String texto) {
+	public static String encryptPassword(String texto) {
 
 		String secretKey = "qualityinfosolutions"; // llave para encriptar datos
 		String base64EncryptedString = "";
@@ -38,7 +38,7 @@ public class SecurityPassword {
 		return base64EncryptedString;
 	}
 
-	public static String Desencriptar(String textoEncriptado) throws Exception {
+	public static String decryptPassword(String textoEncriptado) throws Exception {
 
 		String secretKey = "qualityinfosolutions"; // llave para encriptar datos
 		String base64EncryptedString = "";

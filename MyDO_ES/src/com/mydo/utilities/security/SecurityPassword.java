@@ -1,4 +1,4 @@
-package com.mydo.utilities;
+package com.mydo.utilities.security;
 
 import java.security.MessageDigest;
 import java.util.Arrays;

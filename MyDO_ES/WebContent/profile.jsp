@@ -1,15 +1,12 @@
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@page import="com.mydo.controller.SessionCtrl"%>
 <%@page import="com.mydo.utilities.structure.Structure" %>
-<%@page import="com.mydo.utilities.structure.Head"%>
-<%@page import="com.mydo.utilities.structure.FooterWith"%>
-<%@page import="com.mydo.utilities.structure.HeaderWith"%>
 <%@page import="com.mydo.utilities.Profile_listProjects"%>
 <%@page import="com.mydo.utilities.Profile_listTeams"%>
 <%@page import="com.mydo.controller.TeamCtrl"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.mydo.controller.UserCtrl"%>
 <%@page import="com.mydo.core.model.User"%>
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +20,7 @@
 		User us_logado = (User) session.getAttribute("us_logado");
 		//String id_user_logado = (String) session.getAttribute("id_user");
 		us_logado = UserCtrl.getInstance().checkDataForUser(us_logado);
-		out.println(HeaderWith.getInstance().returnHeaderWithLogin());
+		out.println(Structure.getInstance().returnHeaderWithLogin());
 	%>
 	<div class="jumbotron text-light"
 		style="background: url(images/fondo.jpg);">
@@ -187,7 +184,7 @@
 		} else {
 			session.invalidate();
 			System.out.println("La sesión ha sido validada en profile.jsp");
-			response.sendRedirect("error403.html");
+			response.sendRedirect("error403.jsp");
 		}
 	%>
 	<script

@@ -1,12 +1,9 @@
-<%@page import="com.mydo.utilities.structure.Head"%>
-<%@page import="com.mydo.utilities.structure.Structure" %>
-<%@page import="com.mydo.utilities.structure.FooterWithout"%>
-<%@page import="com.mydo.utilities.structure.HeaderWithout"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page import="com.mydo.utilities.structure.Structure" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <% out.println(Head.getInstance().returnHead()); %>
+        <% out.println(Structure.getInstance().returnHead()); %>
     </head>
     <body>
 

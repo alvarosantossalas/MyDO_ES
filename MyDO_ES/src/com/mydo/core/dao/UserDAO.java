@@ -1,7 +1,7 @@
 package com.mydo.core.dao;
 
 import com.mydo.core.model.User;
-import com.mydo.utilities.SecurityPassword;
+import com.mydo.utilities.security.SecurityPassword;
 import com.mydo.core.model.Team;
 import com.mydo.core.dao.connection.DBConnection;
 import java.sql.Connection;

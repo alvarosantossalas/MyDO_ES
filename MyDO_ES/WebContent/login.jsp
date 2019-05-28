@@ -1,8 +1,5 @@
-<%@page import="com.mydo.utilities.structure.Head"%>
-<%@page import="com.mydo.utilities.structure.Structure" %>
-<%@page import="com.mydo.utilities.structure.FooterWithout"%>
-<%@page import="com.mydo.utilities.structure.HeaderWithout"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page import="com.mydo.utilities.structure.Structure" %>
 <%@page import="com.mydo.controller.UserCtrl"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="java.sql.SQLException"%>
@@ -13,7 +10,7 @@
 </head>
 <body>
 	
-	<% out.println(HeaderWithout.getInstance().returnHeaderWithoutLogin()); %>
+	<% out.println(Structure.getInstance().returnHeaderWithoutLogin()); %>
 
 	<div class="jumbotron text-light"
 		style="background: url(images/partearriba.PNG);">

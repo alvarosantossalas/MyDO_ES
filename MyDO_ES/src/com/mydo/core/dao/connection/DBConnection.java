@@ -23,7 +23,11 @@ public class DBConnection {
 	
 	private DBConnection() {}
 	
-	// use the user credentials for the database connection
+	/**
+	 * Crea una conexión con la base de datos usando los credenciales de usuario para MySQL
+	 * @return
+	 * @throws SQLException
+	 */
 	public static Connection getConnection() throws SQLException {
 		if (instance == null) {
 			Properties props = new Properties();

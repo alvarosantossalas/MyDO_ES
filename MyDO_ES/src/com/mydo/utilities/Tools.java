@@ -51,6 +51,7 @@ public class Tools {
 			lista.add(msg);
 			request.setAttribute("listaResultados", lista);
 		} else {
+			@SuppressWarnings("unchecked")
 			ArrayList<String> lista = (ArrayList<String>) request.getAttribute("listaResultados");
 			lista.add(msg);
 			request.setAttribute("listaResultados", lista);

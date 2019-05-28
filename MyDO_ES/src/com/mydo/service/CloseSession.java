@@ -26,7 +26,7 @@ public class CloseSession extends HttpServlet {
 	public CloseSession() {
 		super();
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 

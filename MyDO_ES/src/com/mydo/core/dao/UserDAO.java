@@ -1,6 +1,7 @@
 package com.mydo.core.dao;
 
 import com.mydo.core.model.User;
+import com.mydo.utilities.SecurityPassword;
 import com.mydo.core.model.Team;
 import com.mydo.core.dao.connection.DBConnection;
 import java.sql.Connection;
@@ -12,19 +13,24 @@ import java.util.UUID;
 
 public class UserDAO {
 
-	// Variable that will be used throughout the program to manage queries in the
-	// database
 	private static String query;
 
 	private Connection con = null;
 	private static UserDAO instance = null;
 
-	// Method that returns the connection to the database
+	/**
+	 * Retorna una conexión con la base de datos
+	 * @throws SQLException
+	 */
 	private UserDAO() throws SQLException {
 		con = DBConnection.getConnection();
 	}
 
-	// Create an instance of the class UserDao
+	/**
+	 * Retorna una instancia de la clase
+	 * @return
+	 * @throws SQLException
+	 */
 	public static UserDAO getInstance() throws SQLException {
 		if (instance == null) {
 			instance = new UserDAO();
@@ -32,14 +38,18 @@ public class UserDAO {
 		return instance;
 	}
 
-	// Insert a User object without Team object
-	public void insertWithoutTeam(User user) throws SQLException {
+	/**
+	 * Inserta un usuario sin ningún equipo en la base de datos
+	 * @param user
+	 * @throws Exception
+	 */
+	public void insertWithoutTeam(User user) throws Exception {
 		query = "INSERT INTO tfg_user (_id_user, _admin, _username, _password, _name, _lastname, _email, _phone) VALUES (?,?,?,?,?,?,?,?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, user.getId_user());
 			ps.setInt(2, user.getAdmin());
 			ps.setString(3, user.getUsername());
-			ps.setString(4, user.getPassword());
+			ps.setString(4, SecurityPassword.encryptPassword(user.getPassword()));
 			ps.setString(5, user.getName());
 			ps.setString(6, user.getLastname());
 			ps.setString(7, user.getEmail());
@@ -49,14 +59,19 @@ public class UserDAO {
 		}
 	}
 
-	// Insert a User object with Team Object relation
+	/**
+	 * Inserta un usuario y lo relaciona con un equipo en la base de datos
+	 * @param user
+	 * @param team
+	 * @throws SQLException
+	 */
 	public void insertWithTeam(User user, Team team) throws SQLException {
 		query = "INSERT INTO tfg_user (_id_user, _admin, _username, _password, _name, _lastname, _email, _phone) VALUES (?,?,?,?,?,?,?,?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, user.getId_user());
 			ps.setInt(2, user.getAdmin());
 			ps.setString(3, user.getUsername());
-			ps.setString(4, user.getPassword());
+			ps.setString(4, SecurityPassword.encryptPassword(user.getPassword()));
 			ps.setString(5, user.getName());
 			ps.setString(6, user.getLastname());
 			ps.setString(7, user.getEmail());
@@ -91,8 +106,12 @@ public class UserDAO {
 		}
 	}
 
-	// List all the User objects that exists in the database
-	public ArrayList<User> listAll() throws SQLException {
+	/**
+	 * Retorna todos los usuarios que existen en la base de datos
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<User> listAll() throws Exception {
 		query = "SELECT * FROM tfg_user;";
 		ArrayList<User> result;
 		try (PreparedStatement ps = con.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
@@ -101,16 +120,22 @@ public class UserDAO {
 				if (result == null) {
 					result = new ArrayList<>();
 				}
+				String decrypted_password = SecurityPassword.decryptPassword(rs.getString("_password"));
 				result.add(new User(rs.getString("_id_user"), rs.getInt("_admin"), rs.getString("_username"),
-						rs.getString("_password"), rs.getString("_name"), rs.getString("_lastname"),
+						decrypted_password, rs.getString("_name"), rs.getString("_lastname"),
 						rs.getString("_email"), rs.getString("_phone")));
 			}
 		}
 		return result;
 	}
 
-	// List User object by id_user
-	public User listById(String id_user) throws SQLException {
+	/**
+	 * Retorna un usuario filtrando por _id_user
+	 * @param id_user
+	 * @return
+	 * @throws Exception
+	 */
+	public User listById(String id_user) throws Exception {
 		query = "SELECT * FROM tfg_user WHERE _id_user = ?;";
 		User result;
 		try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -118,8 +143,9 @@ public class UserDAO {
 			try (ResultSet rs = ps.executeQuery()) {
 				result = null;
 				if (rs.next()) {
+					String decrypted_password = SecurityPassword.decryptPassword(rs.getString("_password"));
 					result = new User(rs.getString("_id_user"), rs.getInt("_admin"), rs.getString("_username"),
-							rs.getString("_password"), rs.getString("_name"), rs.getString("_lastname"),
+							decrypted_password, rs.getString("_name"), rs.getString("_lastname"),
 							rs.getString("_email"), rs.getString("_phone"));
 				}
 			}
@@ -127,7 +153,12 @@ public class UserDAO {
 		return result;
 	}
 	
-	// return id by username
+	/**
+	 * Retorna un _id_user filtrando por _username
+	 * @param username
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectIdByUsername(String username) throws SQLException {
 		query = "SELECT _id_user FROM tfg_user WHERE _username = ?;";
 		String result;
@@ -142,7 +173,12 @@ public class UserDAO {
 		return result;
 	}
 	
-	// return name by username
+	/**
+	 * Retorna un _name filtrando por _username
+	 * @param username
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectNameByUsername(String username) throws SQLException {
 		query = "SELECT _name FROM tfg_user WHERE _username = ?;";
 		String result;
@@ -158,7 +194,12 @@ public class UserDAO {
 		return result;
 	}
 	
-	//
+	/**
+	 * Retorna el usuario administrador de un equipo
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectAdminByIdTeam(String id) throws SQLException {
 		query = "SELECT _admin FROM tfg_team WHERE _id_team = ?";
 		String result;
@@ -174,8 +215,13 @@ public class UserDAO {
 		return result;
 	}
 	
-	// return password by id_user
-	public String selectPasswordById_user(String id) throws SQLException {
+	/**
+	 * Retorna _password filtrando por _id_user
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public String selectPasswordById_user(String id) throws Exception {
 		query = "SELECT _password FROM tfg_user WHERE _id_user = ?;";
 		String result;
 		try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -183,13 +229,19 @@ public class UserDAO {
 			try (ResultSet rs = ps.executeQuery()) {
 				result = null;
 				if (rs.next()) {
-					result = rs.getString("_password");
+					result = SecurityPassword.decryptPassword(rs.getString("_password"));
 				}
 			}
 		}
 		return result;
 	}
 	
+	/**
+	 * Retorna _username filtrando por _id_user
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectUsernameByIdUser(String id) throws SQLException {
 		query = "SELECT _username FROM tfg_user WHERE _id_user = ?;";
 		String result;
@@ -205,12 +257,20 @@ public class UserDAO {
 		return result;
 	}
 
-	// Remove a User object in the database
+	/**
+	 * Elimina un usuario de la base de datos
+	 * @param user
+	 * @throws SQLException
+	 */
 	public void remove(User user) throws SQLException {
 		remove(user.getId_user());
 	}
 
-	// Remove a User object in the database by id_user
+	/**
+	 * Elimina un usuario de la base de datos filtrando por _id_user
+	 * @param id_user
+	 * @throws SQLException
+	 */
 	public void remove(String id_user) throws SQLException {
 		if ("".equals(id_user)) {
 			return;
@@ -222,8 +282,12 @@ public class UserDAO {
 		}
 	}
 
-	// Update a User object in the database
-	public void update(User user) throws SQLException {
+	/**
+	 * Actualiza un usuario en la base de datos
+	 * @param user
+	 * @throws Exception
+	 */
+	public void update(User user) throws Exception {
 		if ("".equals(user.getId_user())) {
 			return;
 		}
@@ -243,23 +307,40 @@ public class UserDAO {
 		}
 	}
 
-	// This method check if User object exist in the database
-	public boolean canLogin(String username, String password) throws SQLException {
-		query = "SELECT _username, _password FROM tfg_user WHERE _username = ? AND _password = ?;";
+	/**
+	 * Comprueba las credenciales introducidas por el usuario y las compara con las registradas en la base de datos
+	 * @param username
+	 * @param password
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean login(String username, String password) throws Exception {
+		
+		query = "SELECT _username, _password FROM tfg_user WHERE _username = ?;";
+		User user;
 		boolean result;
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, username);
-			ps.setString(2, password);
 			try (ResultSet rs = ps.executeQuery()) {
 				result = false;
 				if (rs.next()) {
-					result = true;
+					user = new User(rs.getString("_username"), rs.getString("_password"));
+					String decrypted_password = SecurityPassword.decryptPassword(user.getPassword());
+					if (decrypted_password.equals(password)) {
+						result = true;
+					}
 				}
 			}
 		}
 		return result;
 	}
 	
+	/**
+	 * Elimina a un usuario de un quipo
+	 * @param id_user
+	 * @param id_team
+	 * @throws SQLException
+	 */
 	public void removeUserFromTeam(String id_user, String id_team) throws SQLException {
 		query = "DELETE FROM tfg_members_team WHERE _id_user = ? AND _id_team = ?;";
 		try (PreparedStatement ps = con.prepareStatement(query)) {

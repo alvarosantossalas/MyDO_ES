@@ -1,6 +1,8 @@
 package com.mydo.service;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +19,7 @@ import com.mydo.core.model.Task;
 @WebServlet("/UpdateTask")
 public class UpdateTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	PrintWriter out;
 	private String id_task;
     private String subject;   
     private String description;
@@ -25,6 +28,8 @@ public class UpdateTask extends HttpServlet {
     private String team;
     private int consumed_time;
     private int estimated_time;
+    
+    private static Task current_task;
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -39,7 +44,7 @@ public class UpdateTask extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+
 	}
 
 	/**
@@ -47,7 +52,7 @@ public class UpdateTask extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+	
 		try {
 			
 			id_task = request.getParameter("_id_task");
@@ -60,17 +65,7 @@ public class UpdateTask extends HttpServlet {
 			estimated_time = Integer.parseInt(request.getParameter("_estimated_time"));
 			String id_team = TeamCtrl.getInstance().selectIdTeamByName(team);
 			
-			System.out.println("\n");
-			System.out.println("ID de la tarea: " + id_task);
-			System.out.println("Subject: " + subject);
-			System.out.println("Descripción: " + description);
-			System.out.println("Tipo: " + type);
-			System.out.println("Nombre del equipo: " + team);
-			System.out.println("ID del equipo: " + id_team);
-			System.out.println("Tiempo consumido: " + consumed_time);
-			System.out.println("Tiempo estimado: " + estimated_time);
-			
-			Task current_task = TaskCtrl.getInstance().listById(id_task);
+			current_task = TaskCtrl.getInstance().listById(id_task);
 			current_task.setSubject(subject);
 			current_task.setDescription(description);
 			current_task.setType(type);
@@ -80,8 +75,18 @@ public class UpdateTask extends HttpServlet {
 			current_task.setId_team(id_team);
 			
 			TaskCtrl.getInstance().update(current_task);
-			
-			response.sendRedirect("task.jsp?id_task="+id_task);
+			out = response.getWriter();
+			out.print("<head>"
+					+ "<title>MyDO Application</title>"
+					+ "<script src='https://unpkg.com/sweetalert/dist/sweetalert.min.js'></script>"
+					+ "</head>"
+					+ "<body style='background-image: url(images/fondo.jpg);'>"
+					+ "<script>"
+					+ "swal('¡Tarea actualizada!','','success')"
+					+ ".then((value) => {"
+					+ "document.location.href='task.jsp?id_task="+id_task+"';});"
+					+ "</script>"
+					+ "</body>");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

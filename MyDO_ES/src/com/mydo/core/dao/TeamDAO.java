@@ -10,18 +10,24 @@ import java.util.ArrayList;
 
 public class TeamDAO {
 
-	// Variable that will be used throughout the program to manage queries in the database
 	private static String query;
 
 	private Connection con = null;
 	private static TeamDAO instance = null;
 
-	// Method that returns the connection to the database
+	/**
+	 * Retorna una conexión con la base de datos
+	 * @throws SQLException
+	 */
 	private TeamDAO() throws SQLException {
 		con = DBConnection.getConnection();
 	}
 
-	// Create an instance of the class TeamDao
+	/**
+	 * Retorna una instancia de la clase
+	 * @return
+	 * @throws SQLException
+	 */
 	public static TeamDAO getInstance() throws SQLException {
 		if (instance == null) {
 			instance = new TeamDAO();
@@ -29,7 +35,11 @@ public class TeamDAO {
 		return instance;
 	}
 
-	// Insert Team object in the database
+	/**
+	 * Inserta un equipo en la base de datos
+	 * @param team
+	 * @throws SQLException
+	 */
 	public void insert(Team team) throws SQLException {
 		query = "INSERT INTO tfg_team (_id_team, _name, _image) VALUES (?,?,?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -41,7 +51,11 @@ public class TeamDAO {
 		}
 	}
 
-	// This method list all the existing Team object in the database
+	/**
+	 * Retorna todos los equipos existentes en la base de datos
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Team> listAll() throws SQLException {
 		query = "SELECT * FROM tfg_team;";
 		ArrayList<Team> result;
@@ -57,7 +71,12 @@ public class TeamDAO {
 		return result;
 	}
 
-	// List Team object by id_team
+	/**
+	 * Retorna un equipo filtrando por _id_team
+	 * @param id_team
+	 * @return
+	 * @throws SQLException
+	 */
 	public Team listById(String id_team) throws SQLException {
 		query = "SELECT * FROM tfg_team WHERE _id_team = ?;";
 		Team result;
@@ -73,12 +92,20 @@ public class TeamDAO {
 		return result;
 	}
 
-	// Remove Team object in the database
+	/**
+	 * Elimina un equipo de la base de datos
+	 * @param team
+	 * @throws SQLException
+	 */
 	public void remove(Team team) throws SQLException {
 		remove(team.getId_team());
 	}
 
-	// Remove Team object in the database by id_team
+	/**
+	 * Elimina un equipo de la base de datos filtrando por _id_team
+	 * @param id_team
+	 * @throws SQLException
+	 */
 	public void remove(String id_team) throws SQLException {
 		if ("".equals(id_team)) {
 			return;
@@ -90,7 +117,11 @@ public class TeamDAO {
 		}
 	}
 
-	// Update a Team object in the database
+	/**
+	 * Actualiza un equipo en la base de datos
+	 * @param team
+	 * @throws SQLException
+	 */
 	public void update(Team team) throws SQLException {
 		if ("".equals(team.getId_team())) {
 			return;
@@ -104,7 +135,12 @@ public class TeamDAO {
 		ps.executeUpdate();
 	}
 
-	// Select id_team by name
+	/**
+	 * Retorna el id de un equipo filtrando por _name
+	 * @param teamName
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectIdTeamByName(String teamName) throws SQLException {
 		query = "SELECT _id_team FROM tfg_team WHERE _name = ?;";
 		String result;
@@ -120,7 +156,11 @@ public class TeamDAO {
 		return result;
 	}
 
-	// List all names for Team objects
+	/**
+	 * Retorna todos los nombres de los equipos existentes en la base de datos
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllNames() throws SQLException {
 		query = "SELECT _name FROM tfg_team;";
 		ArrayList<String> result;
@@ -138,7 +178,12 @@ public class TeamDAO {
 		return result;
 	}
 
-	// List all Team objects for one user
+	/**
+	 * Retorna el id_team de todos los equipos en los que está un usuario
+	 * @param id_user
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllTeamsForOneUser(String id_user) throws SQLException {
 		query = "SELECT _id_team FROM tfg_members_team WHERE _id_user = ?;";
 		ArrayList<String> temp;
@@ -175,7 +220,12 @@ public class TeamDAO {
 		return result;
 	}
 
-	// Select name by id_team
+	/**
+	 * Retorna el _nombre de un equipo filtrando por _id_team
+	 * @param id_team
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectNameTeamById(String id_team) throws SQLException {
 		query = "SELECT _name FROM tfg_team WHERE _id_team = ?;";
 		String result;
@@ -191,6 +241,12 @@ public class TeamDAO {
 		return result;
 	}
 
+	/**
+	 * Retorna todos los usuarios que pertenecen a un equipo
+	 * @param id_team
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllUsersForATeam(String id_team) throws SQLException {
 		query = "select _id_user from tfg_members_team where _id_team = ?";
 		ArrayList<String> result;

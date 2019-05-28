@@ -8,19 +8,24 @@ import java.sql.SQLException;
 
 public class SessionDAO {
 
-	// variable that will be used throughout the program to manage queries in the
-	// database
 	private static String query;
 
 	private Connection con = null;
 	private static SessionDAO instance = null;
 
-	// method that returns the database connection
+	/**
+	 * Retorna una conexión con la base de datos
+	 * @throws SQLException
+	 */
 	private SessionDAO() throws SQLException {
 		con = DBConnection.getConnection();
 	}
 
-	// create an instance of the class SessionDao
+	/**
+	 * Retorna una instancia de la clase
+	 * @return
+	 * @throws SQLException
+	 */
 	public static SessionDAO getInstance() throws SQLException {
 		if (instance == null) {
 			instance = new SessionDAO();
@@ -28,7 +33,11 @@ public class SessionDAO {
 		return instance;
 	}
 
-	// create a Session object
+	/**
+	 * Inserta una objeto sesión en la base de datos
+	 * @param session
+	 * @throws SQLException
+	 */
 	public void createSession(Session session) throws SQLException {
 		query = "INSERT INTO tfg_login (_id_user, _date) VALUES (?,?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -40,7 +49,11 @@ public class SessionDAO {
 		insertInHistory(session);
 	}
 
-	// insert a Session object in Historys
+	/**
+	 * Inserta un objecto sesión en el historial
+	 * @param session
+	 * @throws SQLException
+	 */
 	public void insertInHistory(Session session) throws SQLException {
 		query = "INSERT INTO tfg_history (_id_user, _date) VALUES (?,?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -51,7 +64,11 @@ public class SessionDAO {
 		}
 	}
 
-	// remove Session
+	/**
+	 * Elimina un objecto sesión de la base de datos
+	 * @param id_user
+	 * @throws SQLException
+	 */
 	public void closeSession(String id_user) throws SQLException {
 		query = "DELETE FROM tfg_login WHERE _id_user = ?;";
 		try (PreparedStatement ps = con.prepareStatement(query)) {

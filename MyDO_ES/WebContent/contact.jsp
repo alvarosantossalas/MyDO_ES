@@ -1,4 +1,5 @@
 <%@page import="com.mydo.utilities.structure.Head"%>
+<%@page import="com.mydo.utilities.structure.Structure" %>
 <%@page import="com.mydo.utilities.structure.FooterWithout"%>
 <%@page import="com.mydo.utilities.structure.HeaderWithout"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
@@ -9,7 +10,7 @@
     </head>
     <body>
 
-	<% out.println(HeaderWithout.getInstance().returnHeaderWithoutLogin()); %>
+	<% out.println(Structure.getInstance().returnHeaderWithoutLogin()); %>
 
         <div class="jumbotron text-light" style="background: url(images/partearriba.PNG);">
             <div class="container">
@@ -45,7 +46,7 @@
             <p class="display-4">No importa quien seas, MyDO está diseñado para ti</p>
 
         </section>
-		<% out.println(FooterWithout.getInstance().returnFooterWithoutLogin()); %>
+		<% out.println(Structure.getInstance().returnFooterWithoutLogin()); %>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 

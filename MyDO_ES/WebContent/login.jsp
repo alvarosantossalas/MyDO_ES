@@ -1,4 +1,5 @@
 <%@page import="com.mydo.utilities.structure.Head"%>
+<%@page import="com.mydo.utilities.structure.Structure" %>
 <%@page import="com.mydo.utilities.structure.FooterWithout"%>
 <%@page import="com.mydo.utilities.structure.HeaderWithout"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
@@ -8,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<% out.println(Head.getInstance().returnHead()); %>
+<% out.println(Structure.getInstance().returnHead()); %>
 </head>
 <body>
 	
@@ -48,7 +49,7 @@
 	<section id="info" style="background: url(images/pruebaabajo.PNG);">
 		<br> <br> <br> <br>
 	</section>
-	<% out.println(FooterWithout.getInstance().returnFooterWithoutLogin()); %>
+	<% out.println(Structure.getInstance().returnFooterWithoutLogin()); %>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script

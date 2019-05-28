@@ -36,26 +36,16 @@ public class UserRegistration extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 
 		if (checkInputs(request)) {
 			try {
-				UserCtrl.getInstance().insertWithTeam(new User(username, password, name, lastname, email, phone), new Team(username + "_team", username + "_image", ""));
+				UserCtrl.getInstance().insertWithTeam(new User(username, password, name, lastname, email, phone),
+						new Team(username + "_team", username + "_image", ""));
 				response.sendRedirect("login.jsp");
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -68,7 +58,6 @@ public class UserRegistration extends HttpServlet {
 
 	private boolean checkInputs(HttpServletRequest request) {
 		boolean result = true;
-
 		username = request.getParameter("_username");
 		password = request.getParameter("_password_1");
 		name = request.getParameter("_name");

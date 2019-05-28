@@ -11,19 +11,24 @@ import java.util.UUID;
 
 public class TaskDAO {
 
-	// Variable that will be user throughout the program to manage queries in the
-	// database
 	private static String query;
 
 	private Connection con = null;
 	private static TaskDAO instance = null;
 
-	// Method that returns the connection to the database
+	/**
+	 * Retorna una conexión con la base de datos
+	 * @throws SQLException
+	 */
 	private TaskDAO() throws SQLException {
 		con = DBConnection.getConnection();
 	}
 
-	// Create an instance of the class TaskDao
+	/**
+	 * Retorna una instancia de la clase
+	 * @return
+	 * @throws SQLException
+	 */
 	public static TaskDAO getInstance() throws SQLException {
 		if (instance == null) {
 			instance = new TaskDAO();
@@ -31,7 +36,11 @@ public class TaskDAO {
 		return instance;
 	}
 
-	// Insert simple Task object in the database
+	/**
+	 * Inserta una tarea en la base de datos
+	 * @param task
+	 * @throws SQLException
+	 */
 	public void insert(Task task) throws SQLException {
 		query = "INSERT INTO tfg_task (_id_task, _name, _subject, _description, _type, _estimated_time, _consumed_time, _finalized, _status, _creation_date, _id_team) VALUES (?,?,?,?,?,?,?,?,?, NOW(),?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -51,7 +60,11 @@ public class TaskDAO {
 		}
 	}
 
-	// list all the existing Task objects in the database
+	/**
+	 * Retorna todas las tareas existentes de la base de datos 
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Task> listAll() throws SQLException {
 		query = "SELECT * FROM tfg_task;";
 		ArrayList<Task> result;
@@ -70,7 +83,12 @@ public class TaskDAO {
 		return result;
 	}
 
-	// List Task object by id_task
+	/**
+	 * Retorna una tarea filtrando por _id_task
+	 * @param id_task
+	 * @return
+	 * @throws SQLException
+	 */
 	public Task listById(String id_task) throws SQLException {
 		query = "SELECT * FROM tfg_task WHERE _id_task = ?;";
 		Task result;
@@ -89,12 +107,20 @@ public class TaskDAO {
 		return result;
 	}
 
-	// Remove Task object in the database
+	/**
+	 * Elimina una tarea de la base de datos
+	 * @param task
+	 * @throws SQLException
+	 */
 	public void remove(Task task) throws SQLException {
 		remove(task.getId_task());
 	}
 
-	// Remove Task object in the database by id_task
+	/**
+	 * Elimina una tarea de la base de datos filtrando por _id_task
+	 * @param id_task
+	 * @throws SQLException
+	 */
 	public void remove(String id_task) throws SQLException {
 		if ("".equals(id_task)) {
 			return;
@@ -106,7 +132,11 @@ public class TaskDAO {
 		}
 	}
 
-	// Update Task object in the database
+	/**
+	 * Actualiza una tarea en la base de datos
+	 * @param task
+	 * @throws SQLException
+	 */
 	public void update(Task task) throws SQLException {
 		if ("".equals(task.getId_task())) {
 			return;
@@ -130,7 +160,12 @@ public class TaskDAO {
 		}
 	}
 
-	// Returns an int and is admin if a Project object is created or not
+	/**
+	 * Retorna un entero dependiendo de la cantidad de tareas que existan con el mismo campo _subject
+	 * @param subject
+	 * @return
+	 * @throws SQLException
+	 */
 	public int projectIsCreatedOrNot(String subject) throws SQLException {
 		int result = 0;
 		query = "SELECT COUNT('_subject') FROM tfg_task WHERE _subject = '" + subject + "';";
@@ -142,7 +177,12 @@ public class TaskDAO {
 		return result;
 	}
 
-	// Select id_task by name
+	/**
+	 * Retorna el _id_task de una tarea filtrando por _name
+	 * @param taskName
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectIdTaskByName(String taskName) throws SQLException {
 		query = "SELECT _id_task FROM tfg_task WHERE _name = ?;";
 		String result;
@@ -158,8 +198,12 @@ public class TaskDAO {
 		return result;
 	}
 
-	// List of all Project objects related to a team to show them
-	// to the user when creating a task
+	/**
+	 * Retorna todos los projectos relacionados con un equipo en concreto
+	 * @param id_team
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllProjectsForATeam(String id_team) throws SQLException {
 		query = "SELECT _id_project FROM tfg_tasks_in_projects WHERE _id_team = '" + id_team + "';";
 		ArrayList<String> result;
@@ -177,7 +221,12 @@ public class TaskDAO {
 		return result;
 	}
 
-	// List all names for a concrete Project object
+	/**
+	 * Lista todos los nombres para un _id_project concreto
+	 * @param id_team
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllNamesForConcreteProjects(String id_team) throws SQLException {
 		ArrayList<String> projects = listAllProjectsForATeam(id_team);
 		ArrayList<String> result = null;
@@ -200,6 +249,12 @@ public class TaskDAO {
 		return result;
 	}
 
+	/**
+	 * Crea una relación entre una tarea y un equipo
+	 * @param id_team
+	 * @param id_task
+	 * @throws SQLException
+	 */
 	public void insertTaskAndTeamRelationShip(String id_team, String id_task) throws SQLException {
 		query = "INSERT INTO tfg_team_task (_id_team_task, _id_team, _id_task) VALUES (?, ?, ?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -209,6 +264,12 @@ public class TaskDAO {
 		}
 	}
 
+	/**
+	 * Retorna todas las tareas para un usuario
+	 * @param id_user
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Task> listAllTasksForOneUser(String id_user) throws SQLException {
 		query = "SELECT * FROM tfg_task WHERE _id_team IN (SELECT _id_team FROM tfg_members_team WHERE _id_user = ?) ORDER BY _creation_date DESC;";
 		ArrayList<Task> result = null;
@@ -229,21 +290,12 @@ public class TaskDAO {
 		return result;
 	}
 	
-	public String selectUsernameByIdUser(String id) throws SQLException {
-		query = "SELECT _username FROM tfg_user WHERE _id_user = ?;";
-		String result;
-		try (PreparedStatement ps = con.prepareStatement(query)) {
-			ps.setString(1, id);
-			try (ResultSet rs = ps.executeQuery()) {
-				result = null;
-				if (rs.next()) {
-					result = rs.getString("_username");
-				}
-			}
-		}
-		return result;
-	}
-	
+	/**
+	 * Retorna el _name de la tarea filtrando por _id_task
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectTaskNameByIdTask(String id) throws SQLException {
 		query = "SELECT _name FROM tfg_task WHERE _id_task = ?;";
 		String result; 

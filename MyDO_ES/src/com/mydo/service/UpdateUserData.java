@@ -21,6 +21,20 @@ public class UpdateUserData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HttpSession httpSession;
 
+	private static String password_actual;
+	
+	private static String id_user;
+	
+	private static String name;
+	private static String lastname;
+	private static String email;
+	private static String phone;
+	private static String pass_update;
+	
+	private static User user;
+	 
+	private static PrintWriter out;
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -30,23 +44,11 @@ public class UpdateUserData extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+			throws ServletException, IOException {	
 
 		httpSession = (HttpSession) request.getSession();
 		if (httpSession == null) {
@@ -54,20 +56,20 @@ public class UpdateUserData extends HttpServlet {
 			System.out.println("La sesión ha sido invalidada en UpdateUserData.jsp");
 		} else {
 
-			String id_user = (String) httpSession.getAttribute("id_user");
-
+			id_user = (String) httpSession.getAttribute("id_user");
+			
 			try {
 
-				String password_actual = request.getParameter("_password_actual");
+				password_actual = request.getParameter("_password_actual");
 				if (!password_actual.equals("")) { // Si no está vacío
 					if (password_actual.equals(UserCtrl.getInstance().selectPasswordById_user(id_user))) {
-						String name = request.getParameter("_name_update");
-						String lastname = request.getParameter("_lastname_update");
-						String email = request.getParameter("_email_update");
-						String phone = request.getParameter("_phone_update");
-						String pass_update = request.getParameter("_password_new");
+						name = request.getParameter("_name_update");
+						lastname = request.getParameter("_lastname_update");
+						email = request.getParameter("_email_update");
+						phone = request.getParameter("_phone_update");
+						pass_update = request.getParameter("_password_new");
 
-						User user = UserCtrl.getInstance().listById(id_user);
+						user = UserCtrl.getInstance().listById(id_user);
 						user.setPassword(pass_update);
 						user.setName(name);
 						user.setLastname(lastname);
@@ -78,16 +80,16 @@ public class UpdateUserData extends HttpServlet {
 						System.out.println("Se ha actualizado con contraseña");
 					} else {
 						response.setContentType("text/html;charset=UTF-8");
-						PrintWriter out = response.getWriter();
+						out = response.getWriter();
 						out.println("<h1 class='h1'>No se ha podido actualizar con contraseña</h1>");
 						System.out.println("No se ha podido actualizar con contraseña");
 					}
 				} else {
-					String name = request.getParameter("_name_update");
-					String lastname = request.getParameter("_lastname_update");
-					String email = request.getParameter("_email_update");
-					String phone = request.getParameter("_phone_update");
-					User user = UserCtrl.getInstance().listById(id_user);
+					name = request.getParameter("_name_update");
+					lastname = request.getParameter("_lastname_update");
+					email = request.getParameter("_email_update");
+					phone = request.getParameter("_phone_update");
+					user = UserCtrl.getInstance().listById(id_user);
 
 					user.setName(name);
 					user.setLastname(lastname);

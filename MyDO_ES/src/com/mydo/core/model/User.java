@@ -22,7 +22,6 @@ public class User {
 	}
 
 	public User(String username, String password, String name, String lastname, String email, String phone) {
-		super();
 		this.id_user = "user_" + UUID.randomUUID().toString();
 		this.admin = 0;
 		this.username = username;
@@ -35,7 +34,6 @@ public class User {
 
 	public User(String id_user, int admin, String username, String password, String name, String lastname, String email,
 			String phone) {
-		super();
 		this.id_user = id_user;
 		this.admin = admin;
 		this.username = username;
@@ -45,7 +43,7 @@ public class User {
 		this.email = email;
 		this.phone = phone;
 	}
-
+	
 	public String getId_user() {
 		return id_user;
 	}
@@ -70,7 +68,7 @@ public class User {
 		this.username = username;
 	}
 
-	public String getPassword() {
+	public String getPassword() throws Exception {
 		return password;
 	}
 

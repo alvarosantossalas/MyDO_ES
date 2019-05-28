@@ -18,36 +18,21 @@ import com.mydo.core.model.User;
 @WebServlet("/CloseSession")
 public class CloseSession extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static HttpSession session;
+	private static User us_logado;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public CloseSession() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// doGet(request, response);
 
 		try {
-			HttpSession session = request.getSession();
-			User us_logado = (User) session.getAttribute("us_logado");
+			session = request.getSession();
+			us_logado = (User) session.getAttribute("us_logado");
 			SessionCtrl.getInstance().closeSession(us_logado.getId_user());
 			session.removeAttribute("us_logado");
 			session.invalidate();

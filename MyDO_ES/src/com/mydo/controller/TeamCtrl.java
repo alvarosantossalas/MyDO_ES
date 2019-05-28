@@ -13,110 +13,164 @@ public class TeamCtrl {
 
 	private static TeamCtrl instance = null;
 	
+	/**
+	 * Retorna una instancia de la clase
+	 * @return
+	 * @throws SQLException
+	 */
 	public static TeamCtrl getInstance() throws SQLException {
 		if (instance == null)
 			instance = new TeamCtrl();
 		return instance;
 	}
 	
-	// insert team object
+	/**
+	 * Inserta un equipo en la base de datos
+	 * @param team
+	 * @throws SQLException
+	 */
 	public void insert(Team team) throws SQLException {
 		TeamDAO.getInstance().insert(team);
 	}
 	
-	// update team object
+	/**
+	 * Actualiza un equipo en la base de datos
+	 * @param team
+	 * @throws SQLException
+	 */
 	public void update(Team team) throws SQLException {
 		TeamDAO.getInstance().update(team);
 	}
 	
-	// remove team object
+	/**
+	 * Se elimina un equipo filtrando por id
+	 * @param id
+	 * @throws SQLException
+	 */
 	public void remove(String id) throws SQLException {
 		TeamDAO.getInstance().remove(id);
 	}
 	
-	// list all the existing team objects
+	/**
+	 * Retorna todos los equipos existentes en la base de datos
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Team> listAll() throws SQLException {
 		return TeamDAO.getInstance().listAll();
 	}
 	
-	// list team object by id
+	/**
+	 * Retorna un equipo de la base de datos filtrando por su id
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public Team listById(String id) throws SQLException {
 		return TeamDAO.getInstance().listById(id);
 	}
 	
-	// select id by name
+	/**
+	 * Retorna el id de un equipo filtrando por su nombre
+	 * @param name
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectIdTeamByName(String name) throws SQLException {
 		return TeamDAO.getInstance().selectIdTeamByName(name);
 	}
 	
-	// select name by id
+	/**
+	 * Retorna el nombre de un equipo filtrando por su id
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectNameTeamById(String id) throws SQLException {
 		return TeamDAO.getInstance().selectNameTeamById(id);
 	}
 	
-	// list all names for team object
+	/**
+	 * Retorna todos los nombres de los equipos existentes
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> findAllTeamNames() throws SQLException {
 		return TeamDAO.getInstance().listAllNames();
 	}
 	
-	// list all names for team objects that have one user in common
+	/**
+	 * Retorna todos los equipos en los que está un usuario
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllTeamsForOneUser(String id) throws SQLException {
 		return TeamDAO.getInstance().listAllTeamsForOneUser(id);
 	}
 	
+	/**
+	 * Retorna todos los usuarios que pertenecen a un equipo
+	 * @param id_team
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllUsersForATeam(String id_team) throws SQLException {
 		return TeamDAO.getInstance().listAllUsersForATeam(id_team);
 	}
 	
+	/**
+	 * Retorna el usuario administrador de un equipo
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectAdminByIdTeam(String id) throws SQLException {
 		return UserDAO.getInstance().selectAdminByIdTeam(id);
 	}
 	
+	/**
+	 * Muestra en HTML los equipos a los que pertenece un usuario
+	 * @param user
+	 * @return
+	 * @throws SQLException
+	 */
 	public String showTeamsForThisUser(User user) throws SQLException {
-		String str = "";
+		StringBuffer sb = new StringBuffer();
+		ArrayList<String> team_list;
 		if (TeamCtrl.getInstance().listAllTeamsForOneUser(user.getId_user()) != null) {
-			ArrayList<String> team_list = listAllTeamsForOneUser(user.getId_user());
+		 	team_list = listAllTeamsForOneUser(user.getId_user());
 			for (int i = 0; i < team_list.size(); i++) {
-				str += "<option value='" + team_list.get(i) + "'>" + team_list.get(i) + "</option>";
+				sb.append("<option value='" + team_list.get(i) + "'>" + team_list.get(i) + "</option>");
 			}
 		} else {
-			str += "<option>No se han encontrado resultados</option>";
+			sb.append("<option>No se han encontrado resultados</option>");
 		}
-		return str;
+		return sb.toString();
 	}
 	
+	/**
+	 * Refleja en HTML cuál de los usuarios de ese equipo es el responsable
+	 * @param id_user
+	 * @param selected_task
+	 * @return
+	 * @throws SQLException
+	 */
 	public String showResponsibleTeamForATask(String id_user, Task selected_task) throws SQLException {
-		String str = "";
+		StringBuffer sb = new StringBuffer();
+		ArrayList<String> team_list;
+		String current_id_team;
 		if (listAllTeamsForOneUser(id_user) != null) {
-			ArrayList<String> team_list = listAllTeamsForOneUser(id_user);
+			team_list = listAllTeamsForOneUser(id_user);
 			for (int i = 0; i < team_list.size(); i++) {
-				String current_id_team = selectIdTeamByName(team_list.get(i));
+				current_id_team = selectIdTeamByName(team_list.get(i));
 				if (!current_id_team.equals(selected_task.getId_team())) {
-					str += "<option value='"+team_list.get(i)+"'>"+team_list.get(i)+"</option>";
+					sb.append("<option value='"+team_list.get(i)+"'>"+team_list.get(i)+"</option>");
 				} else {
-					str += "<option value='"+team_list.get(i)+"' selected>" + team_list.get(i) + "</option>";
+					sb.append("<option value='"+team_list.get(i)+"' selected>" + team_list.get(i) + "</option>");
 				}
 			}
 		}
-		return str;
-	}
-	
-	/*
- * 								if (TeamCtrl.getInstance().listAllTeamsForOneUser(id_user_logado) != null) {
-									ArrayList<String> team_list = TeamCtrl.getInstance().listAllTeamsForOneUser(id_user_logado);
-									for (int i = 0; i < team_list.size(); i++) {
-										// Por cada nombre que recorre sacaremos su id
-										String current_id_team = TeamCtrl.getInstance().selectIdTeamByName(team_list.get(i));
-										// Si el id que recorremos es igual al id que buscamos...
-										if (!current_id_team.equals(selected_task.getId_team())) {
-											out.println("<option value='" + team_list.get(i) + "'>" + team_list.get(i) + "</option>");
-										} else {
-											out.println("<option value='" + team_list.get(i) + "' selected>" + team_list.get(i)
-													+ "</option>");
-										}
-									}
-								}
-	 */
-	
-	
+		return sb.toString();
+	}	
 }

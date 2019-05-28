@@ -1,7 +1,6 @@
 package com.mydo.utilities;
 
 import java.security.MessageDigest;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 import javax.crypto.SecretKey;
@@ -13,9 +12,9 @@ import javax.crypto.Cipher;
 
 public class SecurityPassword {
 
-	public static String encryptPassword(String texto) {
+	public static String encryptPassword(String password) {
 
-		String secretKey = "qualityinfosolutions"; // llave para encriptar datos
+		String secretKey = "mydoapplication";
 		String base64EncryptedString = "";
 
 		try {
@@ -28,23 +27,25 @@ public class SecurityPassword {
 			Cipher cipher = Cipher.getInstance("DESede");
 			cipher.init(Cipher.ENCRYPT_MODE, key);
 
-			byte[] plainTextBytes = texto.getBytes("utf-8");
+			byte[] plainTextBytes = password.getBytes("utf-8");
 			byte[] buf = cipher.doFinal(plainTextBytes);
 			byte[] base64Bytes = Base64.encodeBase64(buf);
 			base64EncryptedString = new String(base64Bytes);
 
 		} catch (Exception ex) {
+			System.out.println("Error en encriptar");
+			ex.printStackTrace();
 		}
 		return base64EncryptedString;
 	}
 
-	public static String decryptPassword(String textoEncriptado) throws Exception {
+	public static String decryptPassword(String encryptedPassword) throws Exception {
 
-		String secretKey = "qualityinfosolutions"; // llave para encriptar datos
+		String secretKey = "mydoapplication";
 		String base64EncryptedString = "";
 
 		try {
-			byte[] message = Base64.decodeBase64(textoEncriptado.getBytes("utf-8"));
+			byte[] message = Base64.decodeBase64(encryptedPassword.getBytes("utf-8"));
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
 			byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
@@ -58,6 +59,8 @@ public class SecurityPassword {
 			base64EncryptedString = new String(plainText, "UTF-8");
 
 		} catch (Exception ex) {
+			System.out.println("Error al desencriptar");
+			ex.printStackTrace();
 		}
 		return base64EncryptedString;
 	}

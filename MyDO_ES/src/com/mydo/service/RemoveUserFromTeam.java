@@ -16,7 +16,10 @@ import com.mydo.controller.UserCtrl;
 @WebServlet("/RemoveUserFromTeam")
 public class RemoveUserFromTeam extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
+	private static String id_user;
+	private static String team_name;
+	private static String id_team;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -38,10 +41,7 @@ public class RemoveUserFromTeam extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		String id_user;
-		String team_name;
-		String id_team;
+
 		
 		try {
 			id_user = request.getParameter("id_user");

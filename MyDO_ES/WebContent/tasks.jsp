@@ -1,3 +1,4 @@
+<%@page import="com.mydo.utilities.structure.Structure" %>
 <%@page import="com.mydo.utilities.structure.Head"%>
 <%@page import="com.mydo.utilities.structure.FooterWithout"%>
 <%@page import="com.mydo.utilities.structure.HeaderWithout"%>
@@ -10,7 +11,7 @@
 <body>
 
 	<%
-		out.println(HeaderWithout.getInstance().returnHeaderWithoutLogin());
+		out.println(Structure.getInstance().returnHeaderWithoutLogin());
 	%>
 
 	<div class="jumbotron text-light"
@@ -109,7 +110,7 @@
 
 	</section>
 	<%
-		out.println(FooterWithout.getInstance().returnFooterWithoutLogin());
+		out.println(Structure.getInstance().returnFooterWithoutLogin());
 	%>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

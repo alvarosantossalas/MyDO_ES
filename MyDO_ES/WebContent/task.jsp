@@ -1,3 +1,4 @@
+<%@page import="com.mydo.utilities.structure.Structure" %>
 <%@page import="com.mydo.utilities.structure.Head"%>
 <%@page import="com.mydo.utilities.structure.FooterWith"%>
 <%@page import="com.mydo.utilities.structure.HeaderWith"%>
@@ -14,7 +15,7 @@
 <html>
 <head>
 <%
-	out.println(Head.getInstance().returnHead());
+	out.println(Structure.getInstance().returnHead());
 %>
 </head>
 <body>
@@ -78,7 +79,7 @@
 					</dd> 
 					<br><br><br><br>
 					<dt class="col-sm-2">En proyecto:</dt>
-					<% out.println(ProjectCtrl.getInstance().showProjectsWhereTaskExistIn(us_logado.getId_user())); %>
+					<% out.println(ProjectCtrl.getInstance().showProjectsWhereTaskExistIn(id_task)); %>
 					<br><br><br>
 				</dl>
 			</div>
@@ -94,7 +95,7 @@
 		<p class="display-4">No importa quien seas, MyDO está diseñado
 			para tí</p>
 	</section>
-	<% out.println(FooterWith.getInstance().returnFooterWithLogin()); %>
+	<% out.println(Structure.getInstance().returnFooterWithLogin()); %>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script

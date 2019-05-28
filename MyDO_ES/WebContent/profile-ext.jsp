@@ -1,4 +1,5 @@
 <%@page import="com.mydo.utilities.structure.Head"%>
+<%@page import="com.mydo.utilities.structure.Structure" %>
 <%@page import="com.mydo.utilities.structure.FooterWith"%>
 <%@page import="com.mydo.utilities.structure.HeaderWith"%>
 <%@page import="com.mydo.utilities.Profile_listProjects"%>
@@ -12,7 +13,7 @@
 <html>
 <head>
 <%
-	out.println(Head.getInstance().returnHead());
+	out.println(Structure.getInstance().returnHead());
 %>
 </head>
 <body>
@@ -114,7 +115,7 @@
 			para tí</p>
 	</section>
 	<%
-		out.println(FooterWith.getInstance().returnFooterWithLogin());
+		out.println(Structure.getInstance().returnFooterWithLogin());
 		} else {
 			session.removeAttribute("us_logado");
 			session.invalidate();

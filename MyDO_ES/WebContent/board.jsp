@@ -1,10 +1,10 @@
 <%@page import="com.mydo.controller.SessionCtrl"%>
+<%@page import="com.mydo.utilities.structure.Structure" %>
 <%@page import="com.mydo.utilities.structure.Head"%>
 <%@page import="com.mydo.utilities.structure.FooterWith"%>
 <%@page import="com.mydo.utilities.structure.HeaderWith"%>
 <%@page import="org.omg.CORBA._IDLTypeStub"%>
 <%@page import="com.mydo.core.model.Project"%>
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@page import="com.mydo.controller.TeamCtrl"%>
 <%@page import="com.mydo.controller.TaskCtrl"%>
 <%@page import="com.mydo.controller.ProjectCtrl"%>
@@ -12,11 +12,12 @@
 <%@page import="com.mydo.core.model.User"%>
 <%@page import="com.mydo.core.model.Task"%>
 <%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <%
-	out.println(Head.getInstance().returnHead());
+	out.println(Structure.getInstance().returnHead());
 %>
 </head>
 <body>
@@ -121,7 +122,7 @@
 			para tí</p>
 	</section>
 	<%
-		out.println(FooterWith.getInstance().returnFooterWithLogin());
+		out.println(Structure.getInstance().returnFooterWithLogin());
 	%>
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModalScrollable" tabindex="-1"
@@ -209,14 +210,14 @@
 								class="form-check-label" for="_project2">Selecciona un
 								proyecto existente</label> <select name="_project_selected"
 								class="form-control">
-								<option selected>Tus proyectos...</option>
+								<option selected>Proyecto</option>
 								<%
 									out.println(ProjectCtrl.getInstance().showProjectsForUser(us_logado.getId_user()));
 								%>
 							</select>
 							<hr>
 							<input class="form-check-input" type="radio" name="_project"
-								id="_project3" value="_no_create_project"> <label
+								id="_project3" value="_no_create_project" checked> <label
 								class="form-check-label" for="_projecy3"><b>Crear
 									esta tarea sin ningún proyecto asociado</b></label>
 						</div>

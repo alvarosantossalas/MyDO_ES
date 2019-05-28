@@ -22,6 +22,15 @@ import javax.servlet.http.Part;
 public class ProcesoArchivo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	private static PrintWriter out;
+	private static String nomb;
+	private static Part arch;
+	private static InputStream is;
+	private static File f;
+	private static FileOutputStream ous;
+	private static int dato;
+	
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -43,16 +52,16 @@ public class ProcesoArchivo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
+		out = response.getWriter();
 		out.println("Bienvenido");
 		
-		String nomb = request.getParameter("nombre");
-		Part arch = request.getPart("archivo");
-		InputStream is = arch.getInputStream();
-		File f = new File("C:/Users/alvaro.santos/git/my_do_es/MyDO_ES/WebContent/user_images/" + nomb);
-		FileOutputStream ous = new FileOutputStream(f);
+		nomb = request.getParameter("nombre");
+		arch = request.getPart("archivo");
+		is = arch.getInputStream();
+		f = new File("C:/Users/alvaro.santos/git/my_do_es/MyDO_ES/WebContent/user_images/" + nomb);
+		ous = new FileOutputStream(f);
 		
-		int dato = is.read();
+		dato = is.read();
 		// Cuando read devuelva -1 es que no hay mas datos que leer
 		while (dato != -1) {
 			ous.write(dato);

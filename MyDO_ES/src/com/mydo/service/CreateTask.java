@@ -28,6 +28,16 @@ public class CreateTask extends HttpServlet {
 	private int estimated_time;
 	private String status;
 	private String team;
+	
+	private static String id_user;
+	private static String id_team;
+	private static String project;
+	
+	private static String name_project;
+	private static Task task;
+	private static Project proj;
+	
+	private static String project_selected;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -38,23 +48,11 @@ public class CreateTask extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 
 		try {
 			// collecting data
@@ -66,20 +64,20 @@ public class CreateTask extends HttpServlet {
 			status = request.getParameter("_status");
 			team = request.getParameter("_team");
 			
-			String id_user = request.getParameter("id_user");
+			id_user = request.getParameter("id_user");
 
 			// select the id_team by the name that the user select in form
-			String id_team = TeamCtrl.getInstance().selectIdTeamByName(team);
+			id_team = TeamCtrl.getInstance().selectIdTeamByName(team);
 			// collect the option that the user choose for projects
-			String project = request.getParameter("_project");
+			project = request.getParameter("_project");
 
 			switch (project) {
 			case "create_new_project":
 				try {
-					String name_project = request.getParameter("_name_project");
-					Task task = new Task(name, subject, description, type, estimated_time, 0, status, id_team);
+					name_project = request.getParameter("_name_project");
+					task = new Task(name, subject, description, type, estimated_time, 0, status, id_team);
 					TaskCtrl.getInstance().insert(task);
-					Project proj = new Project(name_project, subject, id_user);
+					proj = new Project(name_project, subject, id_user);
 					ProjectCtrl.getInstance().insert(proj);
 					TaskCtrl.getInstance().insertTaskAndTeamRelationShip(task.getId_team(), task.getId_task());
 					ProjectCtrl.getInstance().createRelationShip(proj.getId_project(), task.getId_task(), task.getId_team());
@@ -91,9 +89,9 @@ public class CreateTask extends HttpServlet {
 				break;
 			case "select_existing_project":
 				try {
-					String project_selected = request.getParameter("_project_selected");
+					project_selected = request.getParameter("_project_selected");
 					System.out.println("Proyecto seleccionado: " + project_selected);
-					Task task = new Task(name, subject, description, type, estimated_time, 0, status, id_team);
+					task = new Task(name, subject, description, type, estimated_time, 0, status, id_team);
 					TaskCtrl.getInstance().insert(task);
 					ProjectCtrl.getInstance().createRelationShip(project_selected, task.getId_task(), id_team);
 					TaskCtrl.getInstance().insertTaskAndTeamRelationShip(task.getId_team(), task.getId_task());
@@ -104,7 +102,7 @@ public class CreateTask extends HttpServlet {
 				break;
 			case "_no_create_project":
 				try {
-					Task task = new Task(name, subject, description, type, estimated_time, 0, status, id_team);
+					task = new Task(name, subject, description, type, estimated_time, 0, status, id_team);
 					TaskCtrl.getInstance().insert(task);
 					TaskCtrl.getInstance().insertTaskAndTeamRelationShip(task.getId_team(), task.getId_task());
 					

@@ -1,3 +1,5 @@
+<%@page import="com.mydo.controller.SessionCtrl"%>
+<%@page import="com.mydo.utilities.structure.Structure" %>
 <%@page import="com.mydo.utilities.structure.Head"%>
 <%@page import="com.mydo.utilities.structure.FooterWith"%>
 <%@page import="com.mydo.utilities.structure.HeaderWith"%>
@@ -12,7 +14,7 @@
 <html>
 <head>
 <%
-	out.println(Head.getInstance().returnHead());
+	out.println(Structure.getInstance().returnHead());
 %>
 </head>
 <body>
@@ -52,7 +54,7 @@
 									enctype="multipart/form-data">
 									<div class="modal-body text-dark">
 										<div class="form-group">
-											<label for="_username_update">Nombre de usuario</label>
+											<label for="_username_update">Usuario</label>
 											<% out.println(UserCtrl.getInstance().inputTypeTextForUsername(us_logado)); %>
 										</div>
 										<div class="form-group">
@@ -77,7 +79,7 @@
 										<div class="input-group">
 											<div class="custom-file">
 												<input type="file" class="custom-file-input"
-													id="inputGroupFile04"> <label
+													id="inputGroupFile04" name="foto"> <label
 													class="custom-file-label" for="inputGroupFile04">Selecciona
 													tu mejor foto : )</label>
 											</div>
@@ -161,7 +163,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% out.println(Profile_listProjects.getInstance().fillListProjects(us_logado.getId_user())); %>
+					<% 
+					if (Profile_listProjects.getInstance().fillListProjects(us_logado.getId_user()) == null) {
+						out.println("<tr><td colspan='5'><p class='display-4'>No existen proyectos</p></td></tr>");
+					} else {
+						out.println(Profile_listProjects.getInstance().fillListProjects(us_logado.getId_user()));
+					}
+					 %>
 				</tbody>
 			</table>
 		</div>
@@ -174,7 +182,7 @@
 		<p class="display-4">No importa quien seas, MyDO está diseñado
 			para tí</p>
 	</section>
-	<% out.println(FooterWith.getInstance().returnFooterWithLogin()); 
+	<% out.println(Structure.getInstance().returnFooterWithLogin()); 
 	
 		} else {
 			session.invalidate();

@@ -2,7 +2,6 @@ package com.mydo.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -23,10 +22,13 @@ import com.mydo.core.model.User;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static PrintWriter pw;
+	
 	private static String username;
 	private static String password;
 	private static PrintWriter out;
+	
+	private static User us_logado;
 
 	private HttpSession session;
 
@@ -44,9 +46,9 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response, String id_user)
 			throws ServletException, IOException {
-		HttpSession httpSession = request.getSession(true);
-		httpSession.setAttribute("id_user", id_user);
-		PrintWriter pw = response.getWriter();
+		session = request.getSession(true);
+		session.setAttribute("id_user", id_user);
+		pw = response.getWriter();
 		pw.println("Usuario en sessión: " + id_user);
 		pw.close();
 	}
@@ -67,27 +69,19 @@ public class Login extends HttpServlet {
 			try {
 				username = request.getParameter("_username");
 				password = request.getParameter("_password");
-
 				if (username.isEmpty() || password.isEmpty()) {
 					System.out.println("No se ha introducido el username o la contraseña");
 					return;
-				} else {
+				} else { 
 
-					// the user exists and has correctly set their credentials
 					if (UserCtrl.getInstance().canLoginOrNot(username, password)) {
-						// UserCtrl.getInstance().selectIdByUsername(username));
-						// Create session and insert session in history
 						SessionCtrl.getInstance().openSession(new Session(
 								UserCtrl.getInstance().selectIdByUsername(username), new Date().toString()));
-						// rescatamos el objecto usuario
-						User us_logado = UserCtrl.getInstance().listById(UserCtrl.getInstance().selectIdByUsername(username));
-						// Create session
-						HttpSession session = request.getSession();
+						us_logado = UserCtrl.getInstance().listById(UserCtrl.getInstance().selectIdByUsername(username));
+						session = request.getSession();
 						session.setAttribute("us_logado", us_logado);
 						System.out
 								.println("ID USER EN SERVLET: " + us_logado.getId_user());
-						// request.getSession().setAttribute("_name",
-						// UserCtrl.getInstance().selectNameByUsername(username));
 						response.sendRedirect("board.jsp");
 					} else { // User doesnt exist
 						out = response.getWriter();
@@ -104,8 +98,8 @@ public class Login extends HttpServlet {
 								+ "</body>");
 					}
 				}
-			} catch (SQLException e) {
-				System.out.println("Error: " + e);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

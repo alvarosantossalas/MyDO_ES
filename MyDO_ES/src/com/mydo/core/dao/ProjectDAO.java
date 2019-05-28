@@ -11,19 +11,24 @@ import java.util.UUID;
 
 public class ProjectDAO {
 
-	// Variable that will be user throughout the program to manage queries in the
-	// database
 	private static String query;
 
 	private Connection con = null;
 	private static ProjectDAO instance = null;
 
-	// Method that returns the connection to the database
+	/**
+	 * Retorna una conexión con la base de datos
+	 * @throws SQLException
+	 */
 	private ProjectDAO() throws SQLException {
 		con = DBConnection.getConnection();
 	}
 
-	// Create an instance of the class ProjectDao
+	/**
+	 * Retorna una instancia de la clase
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ProjectDAO getInstance() throws SQLException {
 		if (instance == null) {
 			instance = new ProjectDAO();
@@ -31,7 +36,11 @@ public class ProjectDAO {
 		return instance;
 	}
 
-	// Insert project with related Task object in the database
+	/**
+	 * Inserta un projecto en la base de datos
+	 * @param project
+	 * @throws SQLException
+	 */
 	public void insert(Project project) throws SQLException {
 		query = "INSERT INTO tfg_project (_id_project, _name, _status, _subject, _project_manager) VALUES (?,?,?,?,?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -45,7 +54,11 @@ public class ProjectDAO {
 		}
 	}
 
-	// This method list all the existing Project objects in the database
+	/**
+	 * Lista todos los projectos de la base de datos sin ningún filtro
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Project> listAll() throws SQLException {
 		query = "SELECT * FROM tfg_project;";
 		ArrayList<Project> result;
@@ -64,7 +77,12 @@ public class ProjectDAO {
 		return result;
 	}
 
-	// List Project object by id_project
+	/**
+	 * Retorna un proyecto de la base de datos con filtro: id_project
+	 * @param id_project
+	 * @return
+	 * @throws SQLException
+	 */
 	public Project listById(String id_project) throws SQLException {
 		query = "SELECT * FROM tfg_project WHERE _id_project = ?;";
 		Project result;
@@ -81,12 +99,20 @@ public class ProjectDAO {
 		return result;
 	}
 
-	// Remove Project object in the database
+	/**
+	 * Elimina un projecto de la base de datos
+	 * @param project
+	 * @throws SQLException
+	 */
 	public void remove(Project project) throws SQLException {
 		remove(project.getId_project());
 	}
 
-	// Remove Project object in the database by id_project
+	/**
+	 * Elimina un project de la base de datos por id_project
+	 * @param id_project
+	 * @throws SQLException
+	 */
 	public void remove(String id_project) throws SQLException {
 		if ("".equals(id_project)) {
 			return;
@@ -98,7 +124,11 @@ public class ProjectDAO {
 		}
 	}
 
-	// Update Project object in the database
+	/**
+	 * Actualiza un projecto en la base de datos
+	 * @param project
+	 * @throws SQLException
+	 */
 	public void update(Project project) throws SQLException {
 		if ("".equals(project.getId_project())) {
 			return;
@@ -116,7 +146,12 @@ public class ProjectDAO {
 		}
 	}
 
-	// Select id_project by name
+	/**
+	 * Retorna el id de un proyecto con filtro: _name
+	 * @param projectName
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectIdProjectByName(String projectName) throws SQLException {
 		query = "SELECT _id_project FROM tfg_project WHERE _name = ?;";
 		String result;
@@ -131,7 +166,13 @@ public class ProjectDAO {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * Retorna el nombre de un proyecto con filtro: _id_project
+	 * @param id_project
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectNameByIdProject(String id_project) throws SQLException {
 		query = "SELECT _name FROM tfg_project WHERE _id_project = ?;";
 		String result;
@@ -146,10 +187,12 @@ public class ProjectDAO {
 		}
 		return result;
 	}
-	
-	// Select _
-
-	// Return all project names
+    
+	/**
+	 * Retorna todos los nombres de los proyectos que existen en la base de datos
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllNames() throws SQLException {
 		query = "SELECT _name FROM tfg_project;";
 		ArrayList<String> result;
@@ -167,7 +210,13 @@ public class ProjectDAO {
 		return result;
 	}
 
-	// Create a relationship between Task and Project objects
+	/**
+	 * Crea una relación entre una tarea, un equipo y un proyecto
+	 * @param id_project
+	 * @param id_task
+	 * @param id_team
+	 * @throws SQLException
+	 */
 	public void createTasksInProject(String id_project, String id_task, String id_team) throws SQLException {
 		query = "INSERT INTO tfg_tasks_in_projects (_id_tasks_in_projects, _id_project, _id_task, _id_team) VALUES (?,?,?,?);";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -181,11 +230,12 @@ public class ProjectDAO {
 		System.out.println("Relation inserted");
 	}
 
-	// SELECT _name FROM tfg_project WHERE _id_project IN (SELECT _id_project FROM
-	// tfg_tasks_in_projects WHERE _id_team IN (SELECT _id_team FROM
-	// tfg_members_team WHERE _id_user =
-	// 'user_a17e6be1-129d-48dc-8974-c67a489f347f'));
-	// list all projects for one user
+	/**
+	 * Retorna todos los proyectos a los que pertenece un usuario
+	 * @param id_user
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllProjectsForOneUser(String id_user) throws SQLException {
 		query = "SELECT _name FROM tfg_project WHERE _id_project IN (SELECT _id_project FROM tfg_tasks_in_projects WHERE _id_team IN (SELECT _id_team FROM tfg_members_team WHERE _id_user = ?));";
 		ArrayList<String> result = null;
@@ -203,8 +253,13 @@ public class ProjectDAO {
 		}
 		return result;
 	}
-	
-	// Returns an int and is admin if a Project object is created or not
+
+	/**
+	 * Retorna el número de tareas que existen dentro de un proyecto
+	 * @param id_project
+	 * @return
+	 * @throws SQLException
+	 */
 	public int countHowManyTasks(String id_project) throws SQLException {
 		int result = 0;
 		query = "SELECT COUNT('_id_task') FROM tfg_tasks_in_projects WHERE _id_project = '" + id_project + "';";
@@ -215,7 +270,13 @@ public class ProjectDAO {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * Retorna todas las tareas de un proyecto
+	 * @param id_project
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<String> listAllTasksForOneProject(String id_project) throws SQLException {
 		query = "SELECT _id_task FROM tfg_tasks_in_projects WHERE _id_project = ?;";
 		ArrayList<String> result = null;
@@ -233,7 +294,37 @@ public class ProjectDAO {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * Retorna todos los proyectos en los que existe una tarea en concreto
+	 * @param id_task
+	 * @return
+	 * @throws SQLException
+	 */
+	public ArrayList<String> listAllProjectsForOneTask(String id_task) throws SQLException {
+		query = "SELECT _name FROM tfg_project WHERE _id_project IN (SELECT _id_project FROM tfg_tasks_in_projects WHERE _id_task = ?);";
+		ArrayList<String> result = null;
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, id_task);
+			try (ResultSet rs = ps.executeQuery()) {
+				result = null;
+				while (rs.next()) {
+					if (result == null) {
+						result = new ArrayList<>();
+					}
+					result.add(rs.getString("_name"));
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Retorna el project manager de un proyecto
+	 * @param id_project
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectProjectManagerForProjectById(String id_project) throws SQLException {
 		query = "SELECT _project_manager FROM tfg_project WHERE _id_project = ?;";
 		String result = null;
@@ -248,5 +339,5 @@ public class ProjectDAO {
 		}
 		return result;
 	}
-	
+
 }

@@ -1,9 +1,6 @@
 import java.sql.SQLException;
 import java.util.UUID;
 
-import com.mydo.controller.TaskCtrl;
-import com.mydo.core.model.Task;
-
 public class test {
 
 	public static void main(String[] args) throws SQLException {

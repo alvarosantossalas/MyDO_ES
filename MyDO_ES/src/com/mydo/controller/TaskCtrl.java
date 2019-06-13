@@ -1,9 +1,10 @@
 package com.mydo.controller;
 
-import com.mydo.core.model.Task;
-import com.mydo.core.dao.TaskDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.mydo.core.dao.TaskDAO;
+import com.mydo.core.model.Task;
 
 public class TaskCtrl {
 
@@ -231,9 +232,11 @@ public class TaskCtrl {
 	}
 
 	/**
-	 * Retorna todas las tareas en el board del usuario. En HTML
-	 * @param id_user
-	 * @return
+	 * <b>showTaskInBoard()</b>
+	 * Retorna en forma de lista todas las tareas en el tablero de un usuario.
+	 * 
+	 * @param id_user El usuario del cual queremos mostrar todas sus tareas
+	 * @return String Retorna un String que contiene una tabla en HTML con los datos recogidos de la base de datos
 	 * @throws SQLException
 	 */
 	public String showTaskInBoard(String id_user) throws SQLException {

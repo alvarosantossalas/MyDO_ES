@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 import com.mydo.controller.TeamCtrl;
 import com.mydo.utilities.Profile_listProjects;
-import com.mydo.utilities.Profile_listTeams;
 
 public class TestListTeams {
 

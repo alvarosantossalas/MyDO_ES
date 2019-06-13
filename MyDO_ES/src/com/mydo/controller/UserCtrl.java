@@ -1,10 +1,11 @@
 package com.mydo.controller;
 
-import com.mydo.core.model.User;
-import com.mydo.core.model.Team;
-import com.mydo.core.dao.UserDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.mydo.core.dao.UserDAO;
+import com.mydo.core.model.Team;
+import com.mydo.core.model.User;
 
 public class UserCtrl {
 

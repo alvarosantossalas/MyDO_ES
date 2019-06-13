@@ -19,6 +19,8 @@ import com.mydo.core.model.Task;
 @WebServlet("/UpdateTask")
 public class UpdateTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final TaskCtrl taskCtrl = new TaskCtrl();
+	private static final TeamCtrl teamCtrl = new TeamCtrl();
 	PrintWriter out;
 	private String id_task;
     private String subject;   
@@ -63,9 +65,9 @@ public class UpdateTask extends HttpServlet {
 			team = request.getParameter("_team");
 			consumed_time = Integer.parseInt(request.getParameter("_consumed_time"));
 			estimated_time = Integer.parseInt(request.getParameter("_estimated_time"));
-			String id_team = TeamCtrl.getInstance().selectIdTeamByName(team);
+			String id_team = teamCtrl.selectIdTeamByName(team);
 			
-			current_task = TaskCtrl.getInstance().listById(id_task);
+			current_task = taskCtrl.listById(id_task);
 			current_task.setSubject(subject);
 			current_task.setDescription(description);
 			current_task.setType(type);
@@ -74,7 +76,7 @@ public class UpdateTask extends HttpServlet {
 			current_task.setEstimated_time(estimated_time);
 			current_task.setId_team(id_team);
 			
-			TaskCtrl.getInstance().update(current_task);
+			taskCtrl.update(current_task);
 			out = response.getWriter();
 			out.print("<head>"
 					+ "<title>MyDO Application</title>"

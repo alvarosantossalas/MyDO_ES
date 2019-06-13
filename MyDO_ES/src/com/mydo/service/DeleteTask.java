@@ -18,6 +18,7 @@ import com.mydo.controller.TaskCtrl;
 @WebServlet("/DeleteTask")
 public class DeleteTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final TaskCtrl taskCtrl = new TaskCtrl();
 	private PrintWriter out;
 	private static String id_task;
 
@@ -38,7 +39,7 @@ public class DeleteTask extends HttpServlet {
 
 		try {
 			id_task = request.getParameter("id_task");
-			TaskCtrl.getInstance().remove(id_task);
+			taskCtrl.remove(id_task);
 			System.out.println("Se ha eliminado con éxito el id: " + id_task);
 			out = response.getWriter();
 			out.print("<head>" + "<title>MyDO Application</title>"

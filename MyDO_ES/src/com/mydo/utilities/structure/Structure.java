@@ -7,8 +7,9 @@ public class Structure {
 	private static Structure instance = null;
 	private static String title = "MyDO Es";
 	private static String title_in_nav = "LOGO MyDO Application";
-	private static String logo_footer = "<img src='images/MyDo-128.gif'>";
-
+	//private static String logo_footer = "<img src='images/MyDo-128.gif'>";
+	private static String logo_footer = "<p class=h1>MYDO LOGO</p>";
+	
 	/**
 	 * Retorna una instancia de la clase
 	 * @return

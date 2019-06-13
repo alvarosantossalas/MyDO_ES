@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@page import="com.mydo.controller.SessionCtrl"%>
-<%@page import="com.mydo.utilities.structure.Structure" %>
+<%@page import="com.mydo.utilities.structure.Structure"%>
 <%@page import="org.omg.CORBA._IDLTypeStub"%>
 <%@page import="com.mydo.core.model.Project"%>
 <%@page import="com.mydo.controller.TeamCtrl"%>
@@ -144,7 +144,7 @@
 						<div class="form-group col-md-6">
 							<label for="_name">Nombre</label> <input type="text"
 								class="form-control" id="_name" name="_name"
-								placeholder="Nombre" required>
+								placeholder="Nombre" required autocomplete="off">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="_subject">Asunto</label> <input type="text"

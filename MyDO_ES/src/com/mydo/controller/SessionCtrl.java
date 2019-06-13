@@ -1,8 +1,9 @@
 package com.mydo.controller;
 
-import com.mydo.core.model.Session;
-import com.mydo.core.dao.SessionDAO;
 import java.sql.SQLException;
+
+import com.mydo.core.dao.SessionDAO;
+import com.mydo.core.model.Session;
 
 public class SessionCtrl {
 

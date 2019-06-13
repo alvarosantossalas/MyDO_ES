@@ -76,10 +76,9 @@
 			<div class="card-body text-danger">
 				<h5 class="card-title">Vaya...</h5>
 				<p class="card-text">Por una cosa o por otra, alguna vez
-					tendremos que abandonar tareas. Esta será la tarjeta.</p>
+					tendremos que abandonar tareas. Este será su color.</p>
 			</div>
 		</div>
-
 		<div class="card border-info mb-3 tarea_ejemplo"
 			style="max-width: 18rem;">
 			<div class="card-header">Tarea en proyecto</div>
@@ -90,7 +89,6 @@
 			</div>
 		</div>
 		<br>
-
 	</div>
 	<p class="text-center">
 		¿Crees que esta definición de tareas no se corresponde a lo que estás
@@ -102,9 +100,6 @@
 	<section id="info" style="background: url(images/fondo.jpg);">
 		<p class="display-4">No importa quien seas, MyDO está diseñado
 			para ti</p>
-
-
-
 	</section>
 	<%
 		out.println(Structure.getInstance().returnFooterWithoutLogin());

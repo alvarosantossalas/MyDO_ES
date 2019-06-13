@@ -1,7 +1,5 @@
 package com.mydo.core.dao;
 
-import com.mydo.core.model.Task;
-import com.mydo.core.dao.connection.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import com.mydo.core.dao.connection.DBConnection;
+import com.mydo.core.model.Task;
+
+/**
+ * Define la funcionalidad del objecto Task para interactuar con la base de
+ * datos
+ * @author Álvaro Santos
+ * @version 30/05/2019 A
+ */
 public class TaskDAO {
 
 	private static String query;
@@ -17,28 +24,34 @@ public class TaskDAO {
 	private static TaskDAO instance = null;
 
 	/**
-	 * Retorna una conexión con la base de datos
+	 * <b>Constructor</b> Usa la clase DBConnection para recoger la sesión de la
+	 * conexión con la base de datos a través del método getConnection()
+	 * 
 	 * @throws SQLException
 	 */
 	private TaskDAO() throws SQLException {
 		con = DBConnection.getConnection();
-	}
+	} /* close constructor */
 
 	/**
-	 * Retorna una instancia de la clase
-	 * @return
+	 * <b>getInstance()</b> Crea una instancia de la clase para trabajar con ella
+	 * más adelante
+	 * 
+	 * @return una instancia de la clase
 	 * @throws SQLException
 	 */
 	public static TaskDAO getInstance() throws SQLException {
 		if (instance == null) {
 			instance = new TaskDAO();
-		}
+		} /* close if */
 		return instance;
-	}
+	} /* close method */
 
 	/**
-	 * Inserta una tarea en la base de datos
-	 * @param task
+	 * <b>insert()</b>
+	 * Inserta una tarea en la base de datos 
+	 * @param task Una tarea que se ha creado con los valores que ha introducido un
+	 *             usuario mediante un formulario HTML
 	 * @throws SQLException
 	 */
 	public void insert(Task task) throws SQLException {
@@ -56,13 +69,14 @@ public class TaskDAO {
 			ps.setString(10, task.getId_team());
 			ps.executeUpdate();
 			ps.close();
-			// CURDATE()
-		}
-	}
+		} /* close try */
+	} /* close method */
 
 	/**
-	 * Retorna todas las tareas existentes de la base de datos 
-	 * @return
+	 * <b>listAll</b>
+	 * Retorna un ArrayList<task> que contiene todas las tareas existentes en la base de datos
+	 * 
+	 * @return una lista de Tareas
 	 * @throws SQLException
 	 */
 	public ArrayList<Task> listAll() throws SQLException {
@@ -78,15 +92,17 @@ public class TaskDAO {
 						rs.getString("_description"), rs.getString("_type"), rs.getInt("_estimated_time"),
 						rs.getInt("_consumed_time"), rs.getInt("_finalized"), rs.getString("_status"),
 						rs.getString("_id_team")));
-			}
-		}
+			} /* close while */
+		} /* close try */
 		return result;
-	}
+	} /* close method */
 
 	/**
-	 * Retorna una tarea filtrando por _id_task
-	 * @param id_task
-	 * @return
+	 * <b>listById()</b>
+	 * Si el id de la tarea existe en la base de datos, devolverá un objeto Task con los datos de la tarea encontrada en la base de datos
+	 * 
+	 * @param id_task parámetro que se utiliza para filtrar en la tabla
+	 * @return un objecto Tasks con los valores recogidos de la tabla
 	 * @throws SQLException
 	 */
 	public Task listById(String id_task) throws SQLException {
@@ -101,39 +117,45 @@ public class TaskDAO {
 							rs.getString("_description"), rs.getString("_type"), rs.getInt("_estimated_time"),
 							rs.getInt("_consumed_time"), rs.getInt("_finalized"), rs.getString("_status"),
 							rs.getString("_id_team"));
-				}
-			}
-		}
+				} /* close if */
+			} /* close second try */
+		} /* close first try */
 		return result;
-	}
+	} /* close method */
 
 	/**
-	 * Elimina una tarea de la base de datos
-	 * @param task
+	 * <b>remove()</b>
+	 * Llama al método remove() que elimina un objecto Task buscando una tarea por su id
+	 * 
+	 * @param task Tarea que se quiere eliminar
 	 * @throws SQLException
 	 */
 	public void remove(Task task) throws SQLException {
 		remove(task.getId_task());
-	}
+	} /* close method */
 
 	/**
-	 * Elimina una tarea de la base de datos filtrando por _id_task
-	 * @param id_task
+	 * <b>remove()</b>
+	 * Si existe una fila en la base de datos con el id que se ha pasado como parámetro elimina la fila y retorna 1,
+	 * si no existe retorna un 0
+	 * 
+	 * @param id_task Será el id de la tarea que se quiere eliminar
 	 * @throws SQLException
 	 */
 	public void remove(String id_task) throws SQLException {
 		if ("".equals(id_task)) {
 			return;
-		}
+		} /* close if */
 		query = "DELETE FROM tfg_task WHERE _id_task = ?;";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, id_task);
 			ps.executeUpdate();
-		}
-	}
+		} /* close try */
+	} /* close method */
 
 	/**
 	 * Actualiza una tarea en la base de datos
+	 * 
 	 * @param task
 	 * @throws SQLException
 	 */
@@ -141,7 +163,6 @@ public class TaskDAO {
 		if ("".equals(task.getId_task())) {
 			return;
 		}
-
 		query = "UPDATE tfg_task SET _id_task=?, _name=?, _subject=?, _description=?, _type=?, _estimated_time=?, _consumed_time=?, _finalized=?, _status=?, _id_team=? WHERE _id_task=?;";
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, task.getId_task());
@@ -161,7 +182,9 @@ public class TaskDAO {
 	}
 
 	/**
-	 * Retorna un entero dependiendo de la cantidad de tareas que existan con el mismo campo _subject
+	 * Retorna un entero dependiendo de la cantidad de tareas que existan con el
+	 * mismo campo _subject
+	 * 
 	 * @param subject
 	 * @return
 	 * @throws SQLException
@@ -179,6 +202,7 @@ public class TaskDAO {
 
 	/**
 	 * Retorna el _id_task de una tarea filtrando por _name
+	 * 
 	 * @param taskName
 	 * @return
 	 * @throws SQLException
@@ -200,6 +224,7 @@ public class TaskDAO {
 
 	/**
 	 * Retorna todos los projectos relacionados con un equipo en concreto
+	 * 
 	 * @param id_team
 	 * @return
 	 * @throws SQLException
@@ -223,6 +248,7 @@ public class TaskDAO {
 
 	/**
 	 * Lista todos los nombres para un _id_project concreto
+	 * 
 	 * @param id_team
 	 * @return
 	 * @throws SQLException
@@ -251,6 +277,7 @@ public class TaskDAO {
 
 	/**
 	 * Crea una relación entre una tarea y un equipo
+	 * 
 	 * @param id_team
 	 * @param id_task
 	 * @throws SQLException
@@ -265,7 +292,9 @@ public class TaskDAO {
 	}
 
 	/**
-	 * Retorna todas las tareas para un usuario
+	 * <b>listAllTasksForOneUser()</b>
+	 * Retorna una lista con todas las tareas que existen para un usuario
+	 * 
 	 * @param id_user
 	 * @return
 	 * @throws SQLException
@@ -280,25 +309,27 @@ public class TaskDAO {
 				while (rs.next()) {
 					if (result == null) {
 						result = new ArrayList<>();
-					}
+					} // close if
 					result.add(new Task(rs.getString("_id_task"), rs.getString("_name"), rs.getString("_subject"),
-							rs.getString("_description"), rs.getString("_type"), rs.getInt("_estimated_time"), rs.getInt("_consumed_time"),
-							rs.getInt("_finalized"), rs.getString("_status"), rs.getString("_id_team")));
-				}
-			}
-		}
+							rs.getString("_description"), rs.getString("_type"), rs.getInt("_estimated_time"),
+							rs.getInt("_consumed_time"), rs.getInt("_finalized"), rs.getString("_status"),
+							rs.getString("_id_team")));
+				} // close while
+			} // close second try
+		} // close first try
 		return result;
-	}
-	
+	} // close method
+
 	/**
 	 * Retorna el _name de la tarea filtrando por _id_task
+	 * 
 	 * @param id
 	 * @return
 	 * @throws SQLException
 	 */
 	public String selectTaskNameByIdTask(String id) throws SQLException {
 		query = "SELECT _name FROM tfg_task WHERE _id_task = ?;";
-		String result; 
+		String result;
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, id);
 			try (ResultSet rs = ps.executeQuery()) {
@@ -312,12 +343,3 @@ public class TaskDAO {
 	}
 
 }
-
-
-
-
-
-
-
-
-

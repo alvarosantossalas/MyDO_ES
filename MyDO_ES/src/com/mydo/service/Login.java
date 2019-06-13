@@ -22,6 +22,8 @@ import com.mydo.core.model.User;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final UserCtrl userCtrl = new UserCtrl();
+	private static final SessionCtrl sessionCtrl = new SessionCtrl();
 	private static PrintWriter pw;
 	
 	private static String username;
@@ -74,10 +76,10 @@ public class Login extends HttpServlet {
 					return;
 				} else { 
 
-					if (UserCtrl.getInstance().canLoginOrNot(username, password)) {
-						SessionCtrl.getInstance().openSession(new Session(
-								UserCtrl.getInstance().selectIdByUsername(username), new Date().toString()));
-						us_logado = UserCtrl.getInstance().listById(UserCtrl.getInstance().selectIdByUsername(username));
+					if (userCtrl.canLoginOrNot(username, password)) {
+						sessionCtrl.openSession(new Session(
+								userCtrl.selectIdByUsername(username), new Date().toString()));
+						us_logado = userCtrl.listById(UserCtrl.getInstance().selectIdByUsername(username));
 						session = request.getSession();
 						session.setAttribute("us_logado", us_logado);
 						System.out

@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mydo.controller.UserCtrl;
 import com.mydo.core.model.Team;
 import com.mydo.core.model.User;
-import com.mydo.controller.UserCtrl;
 
 /**
  * Servlet implementation class UserRegistration
@@ -19,6 +19,7 @@ import com.mydo.controller.UserCtrl;
 @WebServlet("/UserRegistration")
 public class UserRegistration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final UserCtrl userCtrl = new UserCtrl();
 
 	private static String username;
 	private static String password;
@@ -44,7 +45,7 @@ public class UserRegistration extends HttpServlet {
 
 		if (checkInputs(request)) {
 			try {
-				UserCtrl.getInstance().insertWithTeam(new User(username, password, name, lastname, email, phone),
+				userCtrl.insertWithTeam(new User(username, password, name, lastname, email, phone),
 						new Team(username + "_team", username + "_image", ""));
 				response.sendRedirect("login.jsp");
 			} catch (SQLException e) {

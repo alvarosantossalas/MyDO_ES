@@ -18,6 +18,7 @@ import com.mydo.core.model.User;
 @WebServlet("/CloseSession")
 public class CloseSession extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final SessionCtrl sessionCtrl = new SessionCtrl();
 	private static HttpSession session;
 	private static User us_logado;
 	/**
@@ -33,7 +34,7 @@ public class CloseSession extends HttpServlet {
 		try {
 			session = request.getSession();
 			us_logado = (User) session.getAttribute("us_logado");
-			SessionCtrl.getInstance().closeSession(us_logado.getId_user());
+			sessionCtrl.closeSession(us_logado.getId_user());
 			session.removeAttribute("us_logado");
 			session.invalidate();
 			response.sendRedirect("index.jsp");

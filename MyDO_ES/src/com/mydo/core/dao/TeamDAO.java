@@ -1,12 +1,13 @@
 package com.mydo.core.dao;
 
-import com.mydo.core.model.Team;
-import com.mydo.core.dao.connection.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.mydo.core.dao.connection.DBConnection;
+import com.mydo.core.model.Team;
 
 public class TeamDAO {
 

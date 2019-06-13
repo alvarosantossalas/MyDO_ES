@@ -1,14 +1,14 @@
 package com.mydo.controller;
 
-import com.mydo.core.model.Project;
-import com.mydo.core.dao.ProjectDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.mydo.core.dao.ProjectDAO;
+import com.mydo.core.model.Project;
 
 public class ProjectCtrl {
 
 	private static ProjectCtrl instance = null;
-
 	/**
 	 * Retorna una instancia de la clase
 	 * @return

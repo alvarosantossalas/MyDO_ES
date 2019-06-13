@@ -1,13 +1,13 @@
 package com.mydo.controller;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.mydo.core.dao.TeamDAO;
+import com.mydo.core.dao.UserDAO;
 import com.mydo.core.model.Task;
 import com.mydo.core.model.Team;
 import com.mydo.core.model.User;
-import com.mydo.core.dao.TeamDAO;
-import com.mydo.core.dao.UserDAO;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class TeamCtrl {
 

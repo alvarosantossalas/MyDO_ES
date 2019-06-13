@@ -1,6 +1,7 @@
 package com.mydo.service;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +21,9 @@ public class RemoveUserFromTeam extends HttpServlet {
 	private static String id_user;
 	private static String team_name;
 	private static String id_team;
+	
+	private static final TeamCtrl teamCtrl = new TeamCtrl();
+	private static final UserCtrl userCtrl = new UserCtrl();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -46,12 +50,10 @@ public class RemoveUserFromTeam extends HttpServlet {
 		try {
 			id_user = request.getParameter("id_user");
 			team_name = request.getParameter("team_name");
-			id_team = TeamCtrl.getInstance().selectIdTeamByName(team_name);
-			UserCtrl.getInstance().removeUserFromTeam(id_user, id_team);
+			id_team = teamCtrl.selectIdTeamByName(team_name);
+			userCtrl.removeUserFromTeam(id_user, id_team);
 			System.out.println("Relación eliminada");
 			response.sendRedirect("profile-ext.jsp?id_user_ext="+id_user);
-			
-			
 		} catch (Exception e) {
 			e.getMessage();
 		} 

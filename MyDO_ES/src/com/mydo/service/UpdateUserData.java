@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.mydo.core.model.User;
 import com.mydo.controller.UserCtrl;
+import com.mydo.core.model.User;
 
 /**
  * Servlet implementation class UpdateUserData
@@ -19,6 +19,7 @@ import com.mydo.controller.UserCtrl;
 @WebServlet("/UpdateUserData")
 public class UpdateUserData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final UserCtrl userCtrl = new UserCtrl();
 	private HttpSession httpSession;
 
 	private static String password_actual;
@@ -62,21 +63,21 @@ public class UpdateUserData extends HttpServlet {
 
 				password_actual = request.getParameter("_password_actual");
 				if (!password_actual.equals("")) { // Si no está vacío
-					if (password_actual.equals(UserCtrl.getInstance().selectPasswordById_user(id_user))) {
+					if (password_actual.equals(userCtrl.selectPasswordById_user(id_user))) {
 						name = request.getParameter("_name_update");
 						lastname = request.getParameter("_lastname_update");
 						email = request.getParameter("_email_update");
 						phone = request.getParameter("_phone_update");
 						pass_update = request.getParameter("_password_new");
 
-						user = UserCtrl.getInstance().listById(id_user);
+						user = userCtrl.listById(id_user);
 						user.setPassword(pass_update);
 						user.setName(name);
 						user.setLastname(lastname);
 						user.setEmail(email);
 						user.setPhone(phone);
 
-						UserCtrl.getInstance().update(user);
+						userCtrl.update(user);
 						System.out.println("Se ha actualizado con contraseña");
 					} else {
 						response.setContentType("text/html;charset=UTF-8");
@@ -95,7 +96,7 @@ public class UpdateUserData extends HttpServlet {
 					user.setLastname(lastname);
 					user.setEmail(email);
 					user.setPhone(phone);
-					UserCtrl.getInstance().update(user);
+					userCtrl.update(user);
 					System.out.println("Se ha actualizado sin contraseña");
 				}
 				response.sendRedirect("profile.jsp");
